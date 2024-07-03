@@ -1,0 +1,41 @@
+<!-- <div class="overflow-x-auto flex justify-center"> -->
+<div class="flex justify-center">
+  <div class="w-[90%] mt-8">
+    <table class="table">
+      <!-- head -->
+      <thead>
+        <tr class="prose">
+          <th>ID</th>
+          <th>Username</th>
+          <th>Full Name</th>
+          <!-- <th>Last Name</th> -->
+          <th>Phone Number</th>
+          <th>Join Date</th>
+          <th>Starting Weight</th>
+          <th>Birthday</th>
+          <th>Height</th>
+          <th>Age</th>
+          <th>Sex</th>
+          <th>Athlete</th>        
+      </thead>
+    <tbody>
+        <tr class="hover" *ngFor="let user of users; let i = index">
+            <td>{{ user.id }}</td>
+            <td>{{ user.loginID }}</td>
+            <td>{{ user.firstName }} {{ user.lastName }}</td>
+            <!-- <td>{{ user.lastName }}</td> -->
+            <td>{{ user.phoneNumber }}</td>
+            <td>{{ user.joinDate | date:'yyyy-MM-dd' }}</td>
+            <td>{{ user.startingWeight }}</td>
+            <td>{{ user.birthdayDate | date:'yyyy-MM-dd' }}</td>
+            <td>{{ user.height }}</td>
+            <td>{{ user.age }}</td>
+            <td>{{ user.sex }}</td>
+            <td>{{ user.athlete ? 'Yes' : 'No' }}</td>
+            <td><button class="btn btn-active btn-primary" routerLink="/user-measurment/{{user.id}}">Measurements</button></td>
+            <td><button class="btn btn-active btn-primary"routerLink="/diet-program">Dietary Plan</button></td>
+        </tr>
+    </tbody>
+    </table>
+  </div>
+</div>

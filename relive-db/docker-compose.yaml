@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  mariadb:
+    image: 'bitnami/mariadb:latest'
+    environment:
+      - MARIADB_ROOT_PASSWORD=v0lcaner2
+      - MARIADB_USER=v0lcaner
+      - MARIADB_PASSWORD=v0lcaner2
+      - MARIADB_DATABASE=relive_database
+    volumes:
+      - ./sql:/bitnami/mariadb
+    ports:
+      - "3306:3306"

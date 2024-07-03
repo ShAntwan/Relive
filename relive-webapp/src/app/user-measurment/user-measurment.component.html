@@ -1,0 +1,187 @@
+<div *ngIf="user" class="grid grid-cols-1">
+    <div class="w-full flex justify-center">
+    <div class="avatar p-4 m-4">
+        <div class="w-24 h-24 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
+          <img src="https://cdn.pixabay.com/photo/2017/11/10/05/48/user-2935527_1280.png" />
+        </div>
+    </div>
+    <!-- <div class="card w-96 bg-base-100 shadow-xl">
+        <div class="card-body ">
+          <h2 class="card-title">Card title!</h2>
+          <p>If a dog chews shoes whose shoes does he choose?</p>
+          <div class="card-actions justify-end">
+          </div>
+        </div>
+      </div>   -->
+      <div class="card w-full bg-base-100 shadow-xl grid grid-cols-3">
+        <div class="card-body">
+          <h2 class="card-title"><th>{{user.firstName}} {{user.lastName}}</th></h2>
+          <p>Phone Number: {{ user.phoneNumber }}</p>
+          <p>ID: {{ user.id }}</p>
+          <div class="card-actions justify-end">
+          </div>
+        </div>
+        <div class="card-body">
+            <p>Join Date: {{ user.joinDate.toLocaleString() }}</p>
+            <p>Height: {{ user.height }} </p>
+            <p>Starting Weight: {{ user.startingWeight }} </p>
+            <div class="card-actions justify-end">
+            </div>
+        </div>
+        <div class="card-body">
+          <p>Birthday: {{ user.birthdayDate.toLocaleString() }}</p>
+          <p>Age: {{ user.age }} </p>
+          <p>Sex: {{ user.sex == 'M' ? "Male" : "Female" }} </p>
+          <div class="card-actions justify-end">
+          </div>
+        </div>
+      </div>
+    </div>
+      <div class="flex justify-center">
+      <ul class="timeline timeline-vertical p-5">
+        <li>
+          <div class="timeline-start timeline-box">
+            <div class="card w-96 bg-base-100">
+              <div class="card-body">
+                <h2 class="card-title">Progress Details</h2>
+                <div class="flex w-full mb-2"><h3>Date:</h3><div class="skeleton h-4 w-20 mt-1.5 ml-3"></div></div>
+                <div class="flex w-full gap-2">
+                  <div class="flex flex-col w-full gap-2">
+                    <div class="skeleton h-4 w-full"></div>
+                    <div class="skeleton h-4 w-full"></div>
+                    <div class="skeleton h-4 w-full"></div>
+                    <div class="skeleton h-4 w-full"></div>
+                  </div>
+                  <div class="flex flex-col w-full gap-2">
+                    <div class="skeleton h-4 w-full"></div>
+                    <div class="skeleton h-4 w-full"></div>
+                    <div class="skeleton h-4 w-full"></div>
+                    <div class="skeleton h-4 w-full"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="timeline-middle">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-10 h-10"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" /></svg>
+          </div>
+          <hr/>
+        </li>
+        <li>
+          <hr/>
+          <div class="timeline-middle">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-10 h-10"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" /></svg>
+          </div>
+          <div class="timeline-end timeline-box">
+            <div class="card w-96 bg-base-100">
+              <div class="card-body">
+                <h2 class="card-title">Progress Details</h2>
+                <div class="flex w-full mb-2"><h3>Date:</h3><div class="skeleton h-4 w-20 mt-1.5 ml-3"></div></div>
+                <div class="flex w-full gap-2">
+                  <div class="flex flex-col w-full gap-2">
+                    <div class="skeleton h-4 w-full"></div>
+                    <div class="skeleton h-4 w-full"></div>
+                    <div class="skeleton h-4 w-full"></div>
+                    <div class="skeleton h-4 w-full"></div>
+                  </div>
+                  <div class="flex flex-col w-full gap-2">
+                    <div class="skeleton h-4 w-full"></div>
+                    <div class="skeleton h-4 w-full"></div>
+                    <div class="skeleton h-4 w-full"></div>
+                    <div class="skeleton h-4 w-full"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr/>
+        </li>
+        <li>
+          <hr/>
+          <div class="timeline-start timeline-box">
+            <div class="card w-96 bg-base-100">
+              <div class="card-body">
+                <h2 class="card-title">Progress Details</h2>
+                <div class="flex w-full mb-2"><h3>Date:</h3><div class="skeleton h-4 w-20 mt-1.5 ml-3"></div></div>
+                <div class="flex w-full gap-2">
+                  <div class="flex flex-col w-full gap-2">
+                    <div class="skeleton h-4 w-full"></div>
+                    <div class="skeleton h-4 w-full"></div>
+                    <div class="skeleton h-4 w-full"></div>
+                    <div class="skeleton h-4 w-full"></div>
+                  </div>
+                  <div class="flex flex-col w-full gap-2">
+                    <div class="skeleton h-4 w-full"></div>
+                    <div class="skeleton h-4 w-full"></div>
+                    <div class="skeleton h-4 w-full"></div>
+                    <div class="skeleton h-4 w-full"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="timeline-middle">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-10 h-10"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" /></svg>
+          </div>
+          <hr/>
+        </li>
+        <li>
+          <hr/>
+          <div class="timeline-middle">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-10 h-10"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" /></svg>
+          </div>
+          <div class="timeline-end timeline-box">
+            <div class="card w-96 bg-base-100">
+              <div class="card-body">
+                <h2 class="card-title">Progress Details</h2>
+                <div class="flex w-full mb-2"><h3>Date:</h3><div class="skeleton h-4 w-20 mt-1.5 ml-3"></div></div>
+                <div class="flex w-full gap-2">
+                  <div class="flex flex-col w-full gap-2">
+                    <div class="skeleton h-4 w-full"></div>
+                    <div class="skeleton h-4 w-full"></div>
+                    <div class="skeleton h-4 w-full"></div>
+                    <div class="skeleton h-4 w-full"></div>
+                  </div>
+                  <div class="flex flex-col w-full gap-2">
+                    <div class="skeleton h-4 w-full"></div>
+                    <div class="skeleton h-4 w-full"></div>
+                    <div class="skeleton h-4 w-full"></div>
+                    <div class="skeleton h-4 w-full"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr/>
+        </li>
+        <li>
+          <hr/>
+          <div class="timeline-start timeline-box">
+            <div class="card w-96 bg-base-100">
+              <div class="card-body">
+                <h2 class="card-title">Progress Details</h2>
+                <div class="flex w-full mb-2"><h3>Date:</h3><div class="skeleton h-4 w-20 mt-1.5 ml-3"></div></div>
+                <div class="flex w-full gap-2">
+                  <div class="flex flex-col w-full gap-2">
+                    <div class="skeleton h-4 w-full"></div>
+                    <div class="skeleton h-4 w-full"></div>
+                    <div class="skeleton h-4 w-full"></div>
+                    <div class="skeleton h-4 w-full"></div>
+                  </div>
+                  <div class="flex flex-col w-full gap-2">
+                    <div class="skeleton h-4 w-full"></div>
+                    <div class="skeleton h-4 w-full"></div>
+                    <div class="skeleton h-4 w-full"></div>
+                    <div class="skeleton h-4 w-full"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="timeline-middle">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-10 h-10"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" /></svg>
+          </div>
+        </li>
+      </ul>
+    </div>
+</div>

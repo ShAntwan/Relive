@@ -1,0 +1,43 @@
+.bodyclass {
+  margin: 0;
+  padding-top: 50px;
+  display: flex;
+  justify-content: center;
+  /* align-items: center; */
+  height: 130vh;
+  background-color: black; /* Set background color to black */
+}
+
+.container {
+  text-align: center;
+}
+
+.form-container {
+  /* background-color: white; */
+  padding: 2px;
+  border-radius: 2px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-top: 2px;
+}
+
+#newuserimg img {
+  border-radius: 50%;
+}
+
+.input svg {
+  fill: #aaa;
+}
+
+.input input {
+  padding: 2px;
+  border-radius: 2px;
+  border: 1px solid #ccc;
+  width: calc(100% - 2px);
+}
+
+.select {
+  padding: 2px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  background-color: rgba(0, 0, 0, 0.262);
+}

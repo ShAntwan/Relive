@@ -1,0 +1,92 @@
+<div *ngIf="food">
+    <div role="alert" class="alert">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-info shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        <h2>Replacing food item: <span class="font-semibold">{{food.name}}</span> </h2>
+        <div><span>id: </span> {{food.id}}</div>
+      </div>
+    
+    <div>
+      <!-- <input id="food-name" [(ngModel)]="food.name" placeholder="Food name"> -->
+      <!-- <select id="food-name" [(ngModel)]="id" class="select select-accent w-full max-w-xs">
+        <option disabled selected>{{food.name}}</option>
+        <option *ngFor="let item of foods">{{item.name}}</option>
+      </select> -->
+      <div class="form-control grid grid-cols-1 justify-items-center p-3" [formGroup]="foodControlDetails" (ngSubmit)="onSubmit()">
+        <div class="form-control w-full max-w-xs">
+            <label class="label">
+                <span class="label-text font-semibold text-xl hover:text-sky-400">Food Name:</span>
+            </label>
+            <select id="food-name" class="select select-accent max-w-xs hover:text-sky-400" formControlName="Name">
+                <option [ngValue]="food" disabled selected>{{food.name}}</option>
+                <option *ngFor="let item of foods" [ngValue]="item">
+                    {{item.name}}
+                </option>
+            </select>
+        </div>
+        <div class="form-control w-full max-w-xs">
+            <label class="label">
+                <span class="label-text font-semibold text-xl hover:text-sky-400">Category</span>
+            </label>
+            <select id="food-name" class="select select-accent max-w-xs hover:text-sky-400" [(ngModel)]="categories" formControlName="Category">
+                <option disabled selected>{{categories[food.category].name}}</option>
+                <option *ngFor="let item of categories" [ngValue]="item">
+                    {{item.name}}
+                </option>
+            </select>
+        </div>
+        <div class="form-control w-full max-w-xs">
+            <label class="label">
+                <div class="label-text font-semibold text-xl hover:text-sky-400">Proteins:</div>
+            </label>
+            <input type="text" [(ngModel)]="food.proteins" placeholder="100" class="input input-accent w-full max-w-xs hover:text-sky-400" formControlName="Proteins"/>
+        </div>
+        <div class="form-control w-full max-w-xs">
+            <label class="label">
+                <div class="label-text font-semibold text-xl hover:text-sky-400">Fats:</div>
+            </label>
+            <input type="text" [(ngModel)]="food.fats" placeholder="100" class="input input-accent w-full max-w-xs hover:text-sky-400" formControlName="Fats"/>
+        </div>
+        <div class="form-control w-full max-w-xs">
+            <label class="label">
+                <div class="label-text font-semibold text-xl hover:text-sky-400">Carbohydrates:</div>
+            </label>
+            <input type="text" [(ngModel)]="food.carbohydrates" placeholder="100" class="input input-accent w-full max-w-xs hover:text-sky-400" formControlName="Carbohydrates"/>
+        </div>
+        <div class="form-control w-full max-w-xs">
+            <label class="label">
+                <div class="label-text font-semibold text-xl hover:text-sky-400">Sugars:</div>
+            </label>
+            <input type="text" [(ngModel)]="food.sugars" placeholder="100" class="input input-accent w-full max-w-xs hover:text-sky-400" formControlName="Sugars"/>
+        </div>
+        <label class="label">
+            <div class="label-text text-xs hover:text-sky-400">please input weights in mg</div>
+        </label>
+        <div class="join grid grid-cols-2 w-full max-w-xs py-3">
+            <button class="btn btn-error w-11/12 justify-self-start" (click)="onSubmit()">Cancel</button>
+            <button class="btn btn-success w-11/12 justify-self-end" (click)="goBack()">Confirm</button>
+          </div>
+        <!-- <div class="py-4 text-xs text-base-content/70">
+            choose your wight for this product.
+        </div>
+        <input type="range" min="0" max="1000" value="0" class="range range-xs max-w-xs" formControlName="foodWeight" step="10">
+        <div class="flex justify-between px-2 py-2 text-xs max-w-xs">
+            <div *ngFor="let wieght of wieghts">
+                <span>{{wieght}}</span>
+            </div>
+        </div> -->
+    <!-- </div>
+      <form class="form-control" [formGroup]="foodControlDetails">
+        <div class="form-control max-w-xs" for="food-name">
+            <span class="label label-text">Food name:</span>
+        </div>
+        <select id="food-name" class="select select-accent" formControlName="foodName">
+            <option [ngValue]="food" disabled selected>{{food.name}}</option>
+            <option *ngFor="let item of foods" [ngValue]="item">
+                {{item.name}}
+            </option>
+        </select>
+        
+    </form>
+    </div> -->
+  </div>
+  
