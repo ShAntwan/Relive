@@ -13,6 +13,7 @@ import { UsersDetailsComponent } from './users-details/users-details.component';
 import { UsersComponent } from './users/users.component';
 import { DietProgramComponent } from './diet-program/diet-program.component';
 import { UserMeasurmentComponent } from './user-measurment/user-measurment.component';
+import { provideHttpClient, withFetch } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,9 @@ import { UserMeasurmentComponent } from './user-measurment/user-measurment.compo
     // FoodsComponent,
     // FoodDetailComponent
   ],
-  providers: [],
+  providers: [
+    provideHttpClient(withFetch()),
+  ],  
   bootstrap: [AppComponent]
 })
 export class AppModule { }

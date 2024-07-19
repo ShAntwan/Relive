@@ -3,15 +3,16 @@ import { Food } from './food';
 import { FOODS } from './mock-data';
 import { Observable, of } from 'rxjs';
 import { MessageService } from './message.service';
-// import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FoodService {
+  apiUrl = 'localhost:8080/getFoodItems';
 
   constructor(
-    // private http: HttpClient,
+    private http: HttpClient,
     private messageService: MessageService) { }
 
   private foodsUrl = 'api/foods';
@@ -31,6 +32,11 @@ export class FoodService {
     const food = FOODS.find(f => f.id === id)!;
     this.messageService.add(`FoodService: fetched food id=${id}`);
     return of(food);
+  }
+
+  async getFoodsAPI(): Promise<Food[]> {
+    const data = await fetch(this.apiUrl)
+    return await data.json()
   }
 
 }

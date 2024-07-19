@@ -1,6 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Injectable, OnInit } from '@angular/core';
 import { Food } from '../food';
 import { FoodService } from '../food.service';
+// import { ConfigService } from '../app.component';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-foods',
@@ -12,13 +15,25 @@ export class FoodsComponent implements OnInit {
   // foods = FOODS
   foods: Food[] = [];
 
-  constructor(private foodService: FoodService) {}
+  constructor(private foodService: FoodService, private http: HttpClient) {}
   
   ngOnInit(): void {
-    this.getFoods();
+    // this.getFoods();
+    this.getFoodsAPI()
   }
   
   getFoods(): void {
     this.foodService.getFoods().subscribe(foods => this.foods = foods)
   }
+
+  getFoodsAPI(): void {
+    console.log('promise', this.foodService.getFoodsAPI())
+  }
 }
+
+// @Injectable({providedIn: 'root'})
+// export class ConfigService {
+//   constructor(private http: HttpClient) {
+//     // This service can now make HTTP requests via `this.http`.
+//   }
+// }

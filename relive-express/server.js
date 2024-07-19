@@ -5,21 +5,11 @@ const DBName = 'relive_database';
 
 // create connection
 const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'v0lcaner',
-    password: 'v0lcaner2',
-    database: DBName
+  host: 'localhost',
+  user: 'v0lcaner',
+  password: 'v0lcaner2',
+  database: DBName
 });
-
-// Connect
-// db.connect();
-db.connect(function(err) {
-    if (err) {
-      console.error('error connecting: ' + err.stack);
-      return;
-    }
-    console.log('connected as id ' + db.threadId);
-  });
 
 const app = express();
 
