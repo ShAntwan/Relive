@@ -12,8 +12,14 @@
         <option *ngFor="let item of foods">{{item.name}}</option>
       </select> -->
       <div class="form-control grid grid-cols-1 justify-items-center p-3" [formGroup]="foodControlDetails" (ngSubmit)="onSubmit()">
-        <div class="form-control w-full max-w-xs">
+        <div class="form-control w-full max-w-xs hidden" hidden>
             <label class="label">
+                <div class="label-text font-semibold text-xl hover:text-sky-400">FoodID:</div>
+            </label>
+            <input type="text" [(ngModel)]="food.FoodID" placeholder="-1" class="input input-accent w-full max-w-xs hover:text-sky-400" formControlName="FoodID"/>
+        </div>
+        <div class="form-control w-full max-w-xs">
+            <!-- <label class="label">
                 <span class="label-text font-semibold text-xl hover:text-sky-400">Food Name:</span>
             </label>
             <select id="food-name" class="select select-accent max-w-xs hover:text-sky-400" formControlName="Name">
@@ -21,10 +27,14 @@
                 <option *ngFor="let item of foods" [ngValue]="item">
                     {{item.FoodName}}
                 </option>
-            </select>
+            </select> -->
+            <label class="label">
+                <div class="label-text font-semibold text-xl hover:text-sky-400">FoodName:</div>
+            </label>
+            <input type="text" [(ngModel)]="food.FoodName" placeholder="Food Name" class="input input-accent w-full max-w-xs hover:text-sky-400" formControlName="FoodName"/>
         </div>
         <div class="form-control w-full max-w-xs">
-            <label class="label">
+            <!-- <label class="label">
                 <span class="label-text font-semibold text-xl hover:text-sky-400">Category</span>
             </label>
             <select id="food-name" class="select select-accent max-w-xs hover:text-sky-400" [(ngModel)]="categories" formControlName="Category">
@@ -32,38 +42,48 @@
                 <option *ngFor="let item of categories" [ngValue]="item">
                     {{item.name}}
                 </option>
-            </select>
+            </select> -->
+            <label class="label">
+                <div class="label-text font-semibold text-xl hover:text-sky-400">Category:</div>
+            </label>
+            <input type="text" [(ngModel)]="food.Category" placeholder="Category" class="input input-accent w-full max-w-xs hover:text-sky-400" formControlName="Category"/>
+        </div>
+        <div class="form-control w-full max-w-xs">
+            <label class="label">
+                <div class="label-text font-semibold text-xl hover:text-sky-400">Calories:</div>
+            </label>
+            <input type="text" [(ngModel)]="food.Calories" placeholder="0" class="input input-accent w-full max-w-xs hover:text-sky-400" formControlName="Calories"/>
         </div>
         <div class="form-control w-full max-w-xs">
             <label class="label">
                 <div class="label-text font-semibold text-xl hover:text-sky-400">Proteins:</div>
             </label>
-            <input type="text" [(ngModel)]="food.Proteins" placeholder="100" class="input input-accent w-full max-w-xs hover:text-sky-400" formControlName="Proteins"/>
+            <input type="text" [(ngModel)]="food.Proteins" placeholder="0" class="input input-accent w-full max-w-xs hover:text-sky-400" formControlName="Proteins"/>
         </div>
         <div class="form-control w-full max-w-xs">
             <label class="label">
                 <div class="label-text font-semibold text-xl hover:text-sky-400">Fats:</div>
             </label>
-            <input type="text" [(ngModel)]="food.Fats" placeholder="100" class="input input-accent w-full max-w-xs hover:text-sky-400" formControlName="Fats"/>
+            <input type="text" [(ngModel)]="food.Fats" placeholder="0" class="input input-accent w-full max-w-xs hover:text-sky-400" formControlName="Fats"/>
         </div>
         <div class="form-control w-full max-w-xs">
             <label class="label">
                 <div class="label-text font-semibold text-xl hover:text-sky-400">Carbohydrates:</div>
             </label>
-            <input type="text" [(ngModel)]="food.Carbohydrates" placeholder="100" class="input input-accent w-full max-w-xs hover:text-sky-400" formControlName="Carbohydrates"/>
+            <input type="text" [(ngModel)]="food.Carbohydrates" placeholder="0" class="input input-accent w-full max-w-xs hover:text-sky-400" formControlName="Carbohydrates"/>
         </div>
         <div class="form-control w-full max-w-xs">
             <label class="label">
                 <div class="label-text font-semibold text-xl hover:text-sky-400">Sugars:</div>
             </label>
-            <input type="text" [(ngModel)]="food.Sugars" placeholder="100" class="input input-accent w-full max-w-xs hover:text-sky-400" formControlName="Sugars"/>
+            <input type="text" [(ngModel)]="food.Sugars" placeholder="0" class="input input-accent w-full max-w-xs hover:text-sky-400" formControlName="Sugars"/>
         </div>
         <label class="label">
             <div class="label-text text-xs hover:text-sky-400">please input weights in mg</div>
         </label>
         <div class="join grid grid-cols-2 w-full max-w-xs py-3">
-            <button class="btn btn-error w-11/12 justify-self-start" (click)="onSubmit()">Cancel</button>
-            <button class="btn btn-success w-11/12 justify-self-end" (click)="goBack()">Confirm</button>
+            <button class="btn btn-error w-11/12 justify-self-start" (click)="goBack()">Cancel</button>
+            <button class="btn btn-success w-11/12 justify-self-end" (click)="onSubmit()">Confirm</button>
           </div>
         <!-- <div class="py-4 text-xs text-base-content/70">
             choose your wight for this product.

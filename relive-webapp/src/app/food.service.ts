@@ -19,38 +19,39 @@ export class FoodService {
     private messageService: MessageService) { }
 
   private foodsUrl = 'api/foods';
-  private log(message: string) {
-    this.messageService.add(`FoodService: ${message}`);
-  }
+  // private log(message: string) {
+    // this.messageService.add(`FoodService: ${message}`);
+  // }
 
-  getFoods(): Observable<Food[]> {
-    const foods = of(FOODS);
-    this.messageService.add('FoodService: fetched foods');
-    return foods;
-  }
+  // getFoods(): Observable<Food[]> {
+  //   const foods = of(FOODS);
+  //   this.messageService.add('FoodService: fetched foods');
+  //   return foods;
+  // }
 
-  getFood(FoodID: number): Observable<Food> {
-    // For now, assume that a food with the specified `id` always exists.
-    // Error handling will be added in the next step of the tutorial.
-    const food = FOODS.find(f => f.FoodID === FoodID)!;
-    this.messageService.add(`FoodService: fetched food id=${FoodID}`);
-    return of(food);
-  }
+  // getFood(FoodID: number): Observable<Food> {
+  //   // For now, assume that a food with the specified `id` always exists.
+  //   // Error handling will be added in the next step of the tutorial.
+  //   const food = FOODS.find(f => f.FoodID === FoodID)!;
+  //   this.messageService.add(`FoodService: fetched food id=${FoodID}`);
+  //   return of(food);
+  // }
 
   async getFoodsAPI(): Promise<Food[]> {
+    // gets all food items
     const data = await fetch(this.baseURL+this.getAll)
     return await data.json()
   }
 
   async getFoodAPI(FoodID: number): Promise<Food> {
+    // gets a single food item
     const data = await fetch(this.baseURL+this.getSpecific+String(FoodID))
     return await data.json()
   }
 
   updateFoodItem(foodItem: Food): Observable<Object> {
-    const options = { params: new HttpParams().set('FoodID', foodItem.FoodID) }
-    return this.http.post(this.baseURL+this.updateFood, options)
-    // return result
+    // maker sure the return type from the server is JSON
+    return this.http.post(this.baseURL+this.updateFood, foodItem)
   }
 
 }

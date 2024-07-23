@@ -48,9 +48,10 @@ export class FoodDetailComponent {
 
   onSubmit() {
     // TODO: Use EventEmitter with form value
-    console.warn(this.foodControlDetails.value);
+    // console.warn(this.foodControlDetails.value);
     // const id = Number(this.route.snapshot.paramMap.get('id'));
     // this.foodService.getFood(this.foodControlDetails.value.FoodName.id).subscribe(food => this.food = this.foodControlDetails.value.Name.name)
+    console.log("submit food item")
     const foodItem: Food = {
       FoodID: this.foodControlDetails.value.FoodID,
       FoodName: this.foodControlDetails.value.FoodName,
@@ -84,18 +85,18 @@ export class FoodDetailComponent {
   ngOnInit(): void {
     // this.getFood();
     this.getFoodAPI();
-    this.getFoods();
+    // this.getFoods();
     this.getCategories();
   }
 
-  getFood(): void {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.foodService.getFood(id).subscribe(food => this.food = food)
-  }
+  // getFood(): void {
+  //   const id = Number(this.route.snapshot.paramMap.get('id'));
+  //   this.foodService.getFood(id).subscribe(food => this.food = food)
+  // }
   
-  getFoods(): void {
-    this.foodService.getFoods().subscribe(foods => this.foods = foods)
-  }
+  // getFoods(): void {
+  //   this.foodService.getFoods().subscribe(foods => this.foods = foods)
+  // }
 
   getCategories(): void {
     this.categoryService.getCategories().subscribe(categories => this.categories = categories)
@@ -107,8 +108,10 @@ export class FoodDetailComponent {
 
   getFoodAPI(): void {
     // console.log('promise', this.foodService.getFoodsAPI())
+    console.log("this:", this)
     const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.foodService.getFoodAPI(id).then((data: any) => { this.food = data }).then(()=>{console.log("inner food:", this.food)})
+    // console.log("id:", id, Number(this.route.snapshot.paramMap.get('id')), this.route.snapshot.params['id']) 
+    this.foodService.getFoodAPI(id).then((data: any) => { console.log("data: ", data[0]); this.food = data[0] }).then(()=>{console.log("inner food:", this.food)})
     // console.log("foods:", this.foods)
   }
 }

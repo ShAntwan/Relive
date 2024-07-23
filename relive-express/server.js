@@ -272,13 +272,14 @@ app.post('/updatefooditem', (req, res) => {
   let sql = "UPDATE FoodItems SET FoodName = '" + req.body.FoodName + "', Category = '" + req.body.Category + "', Calories = " + req.body.Calories + 
   ", Proteins = " + req.body.Proteins + ", Fats = " + req.body.Fats + ", Carbohydrates = " + req.body.Carbohydrates + ", Sugars = " + req.body.Sugars + 
   ", ImagePath = '" + req.body.ImagePath + "' WHERE FoodID = " + req.body.FoodID + ";"
-  console.log(sql);
-  res.send(sql);
-  // db.query(sql, (err, result) => {
-  //   if(err) throw err;
-  //   console.log(result);
-  //   res.send('row added to FoodItems Table: ' + JSON.stringify(req.body));
-  // })
+  // console.log(sql);
+  // res.send(sql);
+  console.log("updateFoodItem: ", req)
+  db.query(sql, (err, result) => {
+    if(err) throw err;
+    console.log(result);
+    res.send(result);
+  })
 })
 
 app.get('/dropFoodItemsTable', (req, res) => {

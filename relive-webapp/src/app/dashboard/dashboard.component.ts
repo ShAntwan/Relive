@@ -14,11 +14,18 @@ export class DashboardComponent implements OnInit {
   constructor(private foodService: FoodService) {}
   
   ngOnInit(): void {
-    this.getFoods();
+    // this.getFoods();
+    this.getFoodsAPI();
   }
   
-  getFoods(): void {
-    this.foodService.getFoods().subscribe(foods => this.foods = foods.slice(1, 5))
+  getFoodsAPI(): void {
+    // console.log('promise', this.foodService.getFoodsAPI())
+    this.foodService.getFoodsAPI().then((data: any) => { this.foods = data.slice(1, 5) }).then(()=>{console.log("inner foods:", this.foods)})
+    // console.log("foods:", this.foods)
   }
+
+  // getFoods(): void {
+  //   this.foodService.getFoods().subscribe(foods => this.foods = foods.slice(1, 5))
+  // }
 
 }

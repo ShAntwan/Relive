@@ -22,9 +22,9 @@ export class FoodsComponent implements OnInit {
     this.getFoodsAPI()
   }
   
-  getFoods(): void {
-    this.foodService.getFoods().subscribe(foods => this.foods = foods)
-  }
+  // getFoods(): void {
+  //   this.foodService.getFoods().subscribe(foods => this.foods = foods)
+  // }
 
   getFoodsAPI(): void {
     // console.log('promise', this.foodService.getFoodsAPI())

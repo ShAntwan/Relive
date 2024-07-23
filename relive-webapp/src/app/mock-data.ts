@@ -17,16 +17,16 @@ import { dietProgram } from './diet-program';
 //     { FoodID: 20, FoodName: 'Tuna', Category: 5, Proteins: 10, carbohydrates: 10, fats: 10, sugars: 10, src: "Milk.jpg" }
 // ];
 export const FOODS: Food[] = [
-    { FoodID: 1, FoodName: "Milk", Calories: 20, Category: 1, Proteins: 10, Carbohydrates: 0, Fats: 20, Sugars: 10, ImagePath: "Milk.jpg" },
-    { FoodID: 12, FoodName: 'Cereal', Calories: 150, Category: 3, Proteins: 5, Carbohydrates: 30, Fats: 5, Sugars: 15, ImagePath: "Cereal.jpeg" },
-    { FoodID: 13, FoodName: 'Black Coffee', Calories: 2, Category: 7, Proteins: 0, Carbohydrates: 0, Fats: 0, Sugars: 0, ImagePath: "Black-Coffee.jpeg" },
-    { FoodID: 14, FoodName: 'Whole Wheat Pita Bread', Calories: 120, Category: 3, Proteins: 4, Carbohydrates: 25, Fats: 1.5, Sugars: 1, ImagePath: "Whole-wheat-pita-bread.jpg" },
-    { FoodID: 15, FoodName: 'Cucumber', Calories: 10, Category: 2, Proteins: 1, Carbohydrates: 2, Fats: 0.1, Sugars: 1, ImagePath: "Cucumber.jpg" },
-    { FoodID: 16, FoodName: 'Tomatoes', Calories: 15, Category: 4, Proteins: 1, Carbohydrates: 3, Fats: 0.2, Sugars: 2, ImagePath: "Tomatoes.jpg" },
-    { FoodID: 17, FoodName: 'Red Meat', Calories: 250, Category: 5, Proteins: 25, Carbohydrates: 0, Fats: 15, Sugars: 0, ImagePath: "Red-Meat.jpg" },
-    { FoodID: 18, FoodName: 'Chicken Breast', Calories: 165, Category: 5, Proteins: 31, Carbohydrates: 0, Fats: 3.6, Sugars: 0, ImagePath: "Chicken-Breast.jpg" },
-    { FoodID: 19, FoodName: 'Rice', Calories: 130, Category: 3, Proteins: 2.7, Carbohydrates: 28, Fats: 0.3, Sugars: 0.1, ImagePath: "Rice.jpg" },
-    { FoodID: 20, FoodName: 'Tuna', Calories: 180, Category: 5, Proteins: 39, Carbohydrates: 0, Fats: 1, Sugars: 0, ImagePath: "Tuna.jpg" }
+    { FoodID: 1, FoodName: "Milk", Calories: 20, Category: "1", Proteins: 10, Carbohydrates: 0, Fats: 20, Sugars: 10, ImagePath: "Milk.jpg" },
+    { FoodID: 12, FoodName: 'Cereal', Calories: 150, Category: "3", Proteins: 5, Carbohydrates: 30, Fats: 5, Sugars: 15, ImagePath: "Cereal.jpeg" },
+    { FoodID: 13, FoodName: 'Black Coffee', Calories: 2, Category: "7", Proteins: 0, Carbohydrates: 0, Fats: 0, Sugars: 0, ImagePath: "Black-Coffee.jpeg" },
+    { FoodID: 14, FoodName: 'Whole Wheat Pita Bread', Calories: 120, Category: "3", Proteins: 4, Carbohydrates: 25, Fats: 1.5, Sugars: 1, ImagePath: "Whole-wheat-pita-bread.jpg" },
+    { FoodID: 15, FoodName: 'Cucumber', Calories: 10, Category: "2", Proteins: 1, Carbohydrates: 2, Fats: 0.1, Sugars: 1, ImagePath: "Cucumber.jpg" },
+    { FoodID: 16, FoodName: 'Tomatoes', Calories: 15, Category: "4", Proteins: 1, Carbohydrates: 3, Fats: 0.2, Sugars: 2, ImagePath: "Tomatoes.jpg" },
+    { FoodID: 17, FoodName: 'Red Meat', Calories: 250, Category: "5", Proteins: 25, Carbohydrates: 0, Fats: 15, Sugars: 0, ImagePath: "Red-Meat.jpg" },
+    { FoodID: 18, FoodName: 'Chicken Breast', Calories: 165, Category: "5", Proteins: 31, Carbohydrates: 0, Fats: 3.6, Sugars: 0, ImagePath: "Chicken-Breast.jpg" },
+    { FoodID: 19, FoodName: 'Rice', Calories: 130, Category: "3", Proteins: 2.7, Carbohydrates: 28, Fats: 0.3, Sugars: 0.1, ImagePath: "Rice.jpg" },
+    { FoodID: 20, FoodName: 'Tuna', Calories: 180, Category: "5", Proteins: 39, Carbohydrates: 0, Fats: 1, Sugars: 0, ImagePath: "Tuna.jpg" }
 ];
 
 

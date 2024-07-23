@@ -1,7 +1,7 @@
 export interface Food {
     FoodID: number;
     FoodName: string;
-    Category: number;
+    Category: string;
     Calories: number;
     Proteins: number;
     Fats: number;
