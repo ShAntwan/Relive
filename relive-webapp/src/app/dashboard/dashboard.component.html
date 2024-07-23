@@ -7,22 +7,22 @@
 <div class="flex justify-center justify-items-center">
     <div class="grid grid-cols-2 justify-items-center w-[50%] mt-10">
         <div class="card mt-3 mb-3 h-96 w-96 bg-base-300" *ngFor="let food of foods">
-            <figure><img class="w-full" src="../assets/{{food.src}}" alt="Album"/></figure>
+            <figure><img class="w-full" src="../assets/{{food.ImagePath}}" alt="Album"/></figure>
             <div class="card-body">
-                <h2 class="card-title">{{food.name}}</h2>
+                <h2 class="card-title">{{food.FoodName}}</h2>
                 <!-- <p>id: {{food.id}}</p> -->
                 <div class="flex w-full">
                     <div class="flex flex-col mx-1">
-                        <div class="badge badge-accent my-1">Carbohydrates: {{food.carbohydrates}}mg</div>
-                        <div class="badge badge-accent my-1">Proteins: {{food.proteins}}mg</div>
+                        <div class="badge badge-accent my-1">Carbohydrates: {{food.Carbohydrates}}mg</div>
+                        <div class="badge badge-accent my-1">Proteins: {{food.Proteins}}mg</div>
                     </div>
                     <div class="flex flex-col mx-1">
-                        <div class="badge badge-accent my-1">Fats: {{food.fats}}mg</div>
-                        <div class="badge badge-accent my-1">Sugars: {{food.sugars}}mg</div>
+                        <div class="badge badge-accent my-1">Fats: {{food.Fats}}mg</div>
+                        <div class="badge badge-accent my-1">Sugars: {{food.Sugars}}mg</div>
                     </div>
                 </div>
                 <div class="card-actions justify-between">
-                <button class="btn btn-error" routerLink="/detail/{{food.id}}">Replace</button>
+                <button class="btn btn-error" routerLink="/detail/{{food.FoodID}}">Replace</button>
                 <button class="btn btn-success">Confirm</button>
                 </div>
             </div>

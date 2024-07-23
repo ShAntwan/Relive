@@ -1,6 +1,7 @@
 const express = require("express");
 const mysql = require("mysql");
 const bodyParser = require('body-parser');
+var cors = require('cors')
 const DBName = 'relive_database';
 
 // create connection
@@ -15,6 +16,8 @@ const app = express();
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
+app.use(cors())
+
 
 app.get('/', (req, res) => {
   res.send('Hello World!!!!')
@@ -237,9 +240,22 @@ app.get('/getFoodItems', (req, res) => {
   db.query(sql, (err, result) => {
     if(err) throw err;
     console.log(result);
-    res.send('FoodItems Table: ' + JSON.stringify(result));
+    res.send(result);
+    // res.send('FoodItems Table: ' + JSON.stringify(result));
   })
 })
+
+app.get('/getFoodItem/:id', (req, res) => {
+  const id = req.params.id
+  let sql = 'SELECT * FROM FoodItems WHERE FoodID = '+id+';'
+  db.query(sql, (err, result) => {
+    if(err) throw err;
+    console.log(result);
+    res.send(result);
+    // res.send('FoodItems Table: ' + JSON.stringify(result));
+  })
+})
+
 
 app.get('/addfooditem', (req, res) => {
   let sql = "INSERT INTO FoodItems (FoodID, FoodName, Category, Calories, Proteins, Fats, Carbohydrates, Sugars, ImagePath) Values" + 
@@ -252,15 +268,17 @@ app.get('/addfooditem', (req, res) => {
   })
 })
 
-app.get('/updatefooditem', (req, res) => {
+app.post('/updatefooditem', (req, res) => {
   let sql = "UPDATE FoodItems SET FoodName = '" + req.body.FoodName + "', Category = '" + req.body.Category + "', Calories = " + req.body.Calories + 
   ", Proteins = " + req.body.Proteins + ", Fats = " + req.body.Fats + ", Carbohydrates = " + req.body.Carbohydrates + ", Sugars = " + req.body.Sugars + 
   ", ImagePath = '" + req.body.ImagePath + "' WHERE FoodID = " + req.body.FoodID + ";"
-  db.query(sql, (err, result) => {
-    if(err) throw err;
-    console.log(result);
-    res.send('row added to FoodItems Table: ' + JSON.stringify(req.body));
-  })
+  console.log(sql);
+  res.send(sql);
+  // db.query(sql, (err, result) => {
+  //   if(err) throw err;
+  //   console.log(result);
+  //   res.send('row added to FoodItems Table: ' + JSON.stringify(req.body));
+  // })
 })
 
 app.get('/dropFoodItemsTable', (req, res) => {

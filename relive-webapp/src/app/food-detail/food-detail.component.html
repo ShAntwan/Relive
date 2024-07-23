@@ -1,8 +1,8 @@
 <div *ngIf="food">
     <div role="alert" class="alert">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-info shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-        <h2>Replacing food item: <span class="font-semibold">{{food.name}}</span> </h2>
-        <div><span>id: </span> {{food.id}}</div>
+        <h2>Replacing food item: <span class="font-semibold">{{food.FoodName}}</span> </h2>
+        <div><span>id: </span> {{food.FoodID}}</div>
       </div>
     
     <div>
@@ -17,9 +17,9 @@
                 <span class="label-text font-semibold text-xl hover:text-sky-400">Food Name:</span>
             </label>
             <select id="food-name" class="select select-accent max-w-xs hover:text-sky-400" formControlName="Name">
-                <option [ngValue]="food" disabled selected>{{food.name}}</option>
+                <option [ngValue]="food" disabled selected>{{food.FoodName}}</option>
                 <option *ngFor="let item of foods" [ngValue]="item">
-                    {{item.name}}
+                    {{item.FoodName}}
                 </option>
             </select>
         </div>
@@ -28,7 +28,7 @@
                 <span class="label-text font-semibold text-xl hover:text-sky-400">Category</span>
             </label>
             <select id="food-name" class="select select-accent max-w-xs hover:text-sky-400" [(ngModel)]="categories" formControlName="Category">
-                <option disabled selected>{{categories[food.category].name}}</option>
+                <option disabled selected>{{categories[food.Category].name}}</option>
                 <option *ngFor="let item of categories" [ngValue]="item">
                     {{item.name}}
                 </option>
@@ -38,25 +38,25 @@
             <label class="label">
                 <div class="label-text font-semibold text-xl hover:text-sky-400">Proteins:</div>
             </label>
-            <input type="text" [(ngModel)]="food.proteins" placeholder="100" class="input input-accent w-full max-w-xs hover:text-sky-400" formControlName="Proteins"/>
+            <input type="text" [(ngModel)]="food.Proteins" placeholder="100" class="input input-accent w-full max-w-xs hover:text-sky-400" formControlName="Proteins"/>
         </div>
         <div class="form-control w-full max-w-xs">
             <label class="label">
                 <div class="label-text font-semibold text-xl hover:text-sky-400">Fats:</div>
             </label>
-            <input type="text" [(ngModel)]="food.fats" placeholder="100" class="input input-accent w-full max-w-xs hover:text-sky-400" formControlName="Fats"/>
+            <input type="text" [(ngModel)]="food.Fats" placeholder="100" class="input input-accent w-full max-w-xs hover:text-sky-400" formControlName="Fats"/>
         </div>
         <div class="form-control w-full max-w-xs">
             <label class="label">
                 <div class="label-text font-semibold text-xl hover:text-sky-400">Carbohydrates:</div>
             </label>
-            <input type="text" [(ngModel)]="food.carbohydrates" placeholder="100" class="input input-accent w-full max-w-xs hover:text-sky-400" formControlName="Carbohydrates"/>
+            <input type="text" [(ngModel)]="food.Carbohydrates" placeholder="100" class="input input-accent w-full max-w-xs hover:text-sky-400" formControlName="Carbohydrates"/>
         </div>
         <div class="form-control w-full max-w-xs">
             <label class="label">
                 <div class="label-text font-semibold text-xl hover:text-sky-400">Sugars:</div>
             </label>
-            <input type="text" [(ngModel)]="food.sugars" placeholder="100" class="input input-accent w-full max-w-xs hover:text-sky-400" formControlName="Sugars"/>
+            <input type="text" [(ngModel)]="food.Sugars" placeholder="100" class="input input-accent w-full max-w-xs hover:text-sky-400" formControlName="Sugars"/>
         </div>
         <label class="label">
             <div class="label-text text-xs hover:text-sky-400">please input weights in mg</div>

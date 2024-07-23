@@ -1,10 +1,11 @@
 export interface Food {
-    id: number;
-    name: string;
-    category: number;
-    src: string;
-    proteins: number;
-    fats: number;
-    carbohydrates: number;
-    sugars: number;
+    FoodID: number;
+    FoodName: string;
+    Category: number;
+    Calories: number;
+    Proteins: number;
+    Fats: number;
+    Carbohydrates: number;
+    Sugars: number;
+    ImagePath: string;
   }

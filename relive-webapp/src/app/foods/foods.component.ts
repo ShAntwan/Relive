@@ -27,7 +27,9 @@ export class FoodsComponent implements OnInit {
   }
 
   getFoodsAPI(): void {
-    console.log('promise', this.foodService.getFoodsAPI())
+    // console.log('promise', this.foodService.getFoodsAPI())
+    this.foodService.getFoodsAPI().then((data: any) => { this.foods = data }).then(()=>{console.log("inner foods:", this.foods)})
+    // console.log("foods:", this.foods)
   }
 }
 
