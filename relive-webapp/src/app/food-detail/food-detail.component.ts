@@ -1,9 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { Food } from '../food';
+import { Food } from '../interfaces/food';
 import { Category } from '../categories';
-import { FoodService } from '../food.service';
+import { FoodService } from '../services/food.service';
 import { CategoryService } from '../category.service';
 import { FormControl, FormGroup } from '@angular/forms';
 

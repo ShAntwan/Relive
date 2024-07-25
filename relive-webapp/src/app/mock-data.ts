@@ -1,7 +1,7 @@
-import { Food } from './food';
+import { Food } from './interfaces/food';
 import { Category } from './categories';
-import { User } from './users-details';
-import { dietProgram } from './diet-program';
+import { User } from './interfaces/users-details';
+import { dietProgram } from './interfaces/diet-program';
 
 
 // export const FOODS: Food[] = [

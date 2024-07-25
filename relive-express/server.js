@@ -3,6 +3,8 @@ const mysql = require("mysql");
 const bodyParser = require('body-parser');
 var cors = require('cors')
 const DBName = 'relive_database';
+const { spawn } = require('child_process')
+
 
 // create connection
 const db = mysql.createConnection({
@@ -509,20 +511,81 @@ app.get('/deleteProgramAssignments', (req, res) => {
   })
 })
 
+//************************ Basics ***********************//
 
 
+app.listen("8080", () => {
+  console.log("Server started on port 8080");
+});
 
-
-
+//************************ Tests ***********************//
 
 app.post('/testpost', (req, res) => {
   let data = req.body;
   res.send('Data Received: ' + JSON.stringify(data), req, res);
 })
 
-app.listen("8080", () => {
-    console.log("Server started on port 8080");
-});
+app.get('/testPythonChildProcess', (req, res) => {
+  // res.send('Hello World!')
+  const python = spawn ('python',['test.py'])
+  let data2 = ''
+  python.stdout.on('data',function(data){
+    console.log('Pipe data: ' + data.toString());
+    data2 += data.toString()
+  })
+  python.on('close',function(code){
+    res.send("Hello World!! - "+ data2)
+  })
+  python.on('error', (err) => {
+    console.error('Failed to start subprocess.', err);
+  });
+})
+
+app.get('/exportLoginDetails', (req, res) => {
+  let sql = "SELECT * FROM LoginDetails;"
+  let temp_res = ''
+  db.query(sql, (err, result) => {
+    if(err) throw err;
+    console.log(result);
+    // res.send('LoginDetails Table: ' + JSON.stringify(result));
+    // temp_res += JSON.stringify(result)
+    // Query the database
+// connection.query('SELECT * FROM your_table', (error, results) => {
+  if (err) {
+    console.error('Error executing query:', err);
+    return;
+  }
+
+  // Convert the query results to JSON
+  const data = JSON.stringify(result);
+
+  // Spawn a Python process
+  const pythonProcess = spawn('python', ['loginanalysis.py']);
+
+  // Send the data to the Python script
+  pythonProcess.stdin.write(data);
+  pythonProcess.stdin.end();
+
+  // Handle data returned from the Python script
+  pythonProcess.stdout.on('data', (data) => {
+    console.log('Data from Python:', data.toString());
+    res.send(data.toString());
+  });
+
+  // Handle errors from the Python script
+  pythonProcess.stderr.on('data', (data) => {
+    console.error('Error from Python:', data.toString());
+    res.send('Error from Python script');
+  });
+
+  // Handle process exit
+  pythonProcess.on('close', (code) => {
+    console.log(`Python process exited with code ${code}`);
+  });
+// });
+  })
+  
+})
 
 // app.post('/addfooditem', (req, res) => {
 //   let sql = "INSERT INTO FoodItems (FoodID, FoodName, Category, Calories, Proteins, Fats, Carbohydrates, Sugars, ImagePath) Values" + 
