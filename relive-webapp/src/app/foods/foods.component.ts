@@ -1,6 +1,6 @@
 import { Component, Injectable, OnInit } from '@angular/core';
-import { Food } from '../food';
-import { FoodService } from '../food.service';
+import { Food } from '../interfaces/food';
+import { FoodService } from '../services/food.service';
 // import { ConfigService } from '../app.component';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';

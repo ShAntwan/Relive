@@ -1,0 +1,39 @@
+  
+  .bodyclass {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .form-control {
+    text-align: center;
+  }
+  
+  .menu {
+
+    border-radius: 8px;
+    width: 400px; /* Adjust the width as needed */
+    padding: 20px;
+   
+  }
+  
+  .menu-title {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .menu li {
+    list-style: none;
+    margin: 20px 0;
+  }
+  
+  .menu li a {
+    text-decoration: none;
+    display: block;
+    padding: 10px;
+    border-radius: 4px;
+
+  }
+  

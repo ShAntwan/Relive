@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { User } from '../users-details';
+import { User } from '../interfaces/users-details';
 import { ActivatedRoute } from '@angular/router';
-import { UserDetailsServiceService } from '../user-details-service.service';
+import { UserDetailsServiceService } from '../services/user-details-service.service';
 
 @Component({
   selector: 'app-user-measurment',
