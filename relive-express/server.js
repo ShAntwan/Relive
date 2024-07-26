@@ -227,8 +227,8 @@ app.get('/deleteMeasurementDetails', (req, res) => {
 
 app.get('/createfooditemstable', (req, res) => {
   let sql = "CREATE TABLE IF NOT EXISTS FoodItems (autonumID int(32) UNSIGNED NOT NULL AUTO_INCREMENT, FoodID int(32) UNSIGNED NOT NULL, " + 
-  "FoodName VARCHAR(50) NOT NULL, Category VARCHAR(50), Calories int(8), Proteins int(8), Fats int(8), Carbohydrates int(8), " + 
-  "Sugars int(8), ImagePath VARCHAR(255), " +
+  "FoodName VARCHAR(50) NOT NULL, FoodNameDisp VARCHAR(50) NOT NULL, Category VARCHAR(50), Calories int(8), Proteins int(8), Fats int(8), Carbohydrates int(8), " + 
+  "Sugars int(8), Sodium int(8), ImagePath VARCHAR(255), " +
   "PRIMARY KEY (FoodID), KEY (autonumID)) ENGINE = InnoDB;";
   db.query(sql, (err, result) => {
       if(err) throw err;
@@ -259,10 +259,10 @@ app.get('/getFoodItem/:id', (req, res) => {
 })
 
 
-app.get('/addfooditem', (req, res) => {
-  let sql = "INSERT INTO FoodItems (FoodID, FoodName, Category, Calories, Proteins, Fats, Carbohydrates, Sugars, ImagePath) Values" + 
-  "(" + req.body.FoodID + ", '" + req.body.FoodName + "', '" + req.body.Category + "', " + req.body.Calories + ", " + req.body.Proteins + ", " + req.body.Fats + ", " 
-  + req.body.Carbohydrates + ", " + req.body.Sugars + ", '" + req.body.ImagePath + "' )"
+app.post('/addfooditem', (req, res) => {
+  let sql = "INSERT INTO FoodItems (FoodID, FoodName, FoodNameDisp, Category, Calories, Proteins, Fats, Carbohydrates, Sugars, Sodium, ImagePath) Values" + 
+  "(" + req.body.FoodID + ", '" + req.body.FoodName + "', '" + req.body.FoodNameDisp + "', '" + req.body.Category + "', " + req.body.Calories + ", " + req.body.Proteins + ", " + req.body.Fats + ", " 
+  + req.body.Carbohydrates + ", " + req.body.Sugars + ", " + req.body.Sodium + ", '" + req.body.ImagePath + "' )"
   db.query(sql, (err, result) => {
     if(err) throw err;
     console.log(result);
@@ -271,9 +271,9 @@ app.get('/addfooditem', (req, res) => {
 })
 
 app.post('/updatefooditem', (req, res) => {
-  let sql = "UPDATE FoodItems SET FoodName = '" + req.body.FoodName + "', Category = '" + req.body.Category + "', Calories = " + req.body.Calories + 
+  let sql = "UPDATE FoodItems SET FoodName = '" + req.body.FoodName + "', FoodNameDisp = '" + req.body.FoodNameDisp + "', Category = '" + req.body.Category + "', Calories = " + req.body.Calories + 
   ", Proteins = " + req.body.Proteins + ", Fats = " + req.body.Fats + ", Carbohydrates = " + req.body.Carbohydrates + ", Sugars = " + req.body.Sugars + 
-  ", ImagePath = '" + req.body.ImagePath + "' WHERE FoodID = " + req.body.FoodID + ";"
+  + ", Sodium = " + req.body.Sodium + ", ImagePath = '" + req.body.ImagePath + "' WHERE FoodID = " + req.body.FoodID + ";"
   // console.log(sql);
   // res.send(sql);
   console.log("updateFoodItem: ", req)
@@ -521,8 +521,14 @@ app.listen("8080", () => {
 //************************ Tests ***********************//
 
 app.post('/testpost', (req, res) => {
+  let sql = "INSERT INTO FoodItems (FoodID, FoodName, FoodNameDisp, Category, Calories, Proteins, Fats, Carbohydrates, Sugars, Sodium, ImagePath) Values(0, 'דייסת קוואקר, 'דייסת קוואקר', 'undefined', 91, 4, 1, 16, 1, 7, 'מנה בינונית' )"
   let data = req.body;
-  res.send('Data Received: ' + JSON.stringify(data), req, res);
+  db.query(sql, (err, result) => {
+    if(err) throw err;
+    console.log(result);
+    res.send('testpassed: ' + JSON.stringify(result));
+  })
+  // res.send('Data Received: ' + JSON.stringify(data), req, res);
 })
 
 app.get('/testPythonChildProcess', (req, res) => {

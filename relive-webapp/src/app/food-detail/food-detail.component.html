@@ -34,6 +34,12 @@
             <input type="text" [(ngModel)]="food.FoodName" placeholder="Food Name" class="input input-accent w-full max-w-xs hover:text-sky-400" formControlName="FoodName"/>
         </div>
         <div class="form-control w-full max-w-xs">
+            <label class="label">
+                <div class="label-text font-semibold text-xl hover:text-sky-400">Food Name Display:</div>
+            </label>
+            <input type="text" [(ngModel)]="food.FoodNameDisp" placeholder="Food Name Display" class="input input-accent w-full max-w-xs hover:text-sky-400" formControlName="FoodNameDisp"/>
+        </div>
+        <div class="form-control w-full max-w-xs">
             <!-- <label class="label">
                 <span class="label-text font-semibold text-xl hover:text-sky-400">Category</span>
             </label>
@@ -77,6 +83,12 @@
                 <div class="label-text font-semibold text-xl hover:text-sky-400">Sugars:</div>
             </label>
             <input type="text" [(ngModel)]="food.Sugars" placeholder="0" class="input input-accent w-full max-w-xs hover:text-sky-400" formControlName="Sugars"/>
+        </div>
+        <div class="form-control w-full max-w-xs">
+            <label class="label">
+                <div class="label-text font-semibold text-xl hover:text-sky-400">Sodium:</div>
+            </label>
+            <input type="text" [(ngModel)]="food.Sodium" placeholder="0" class="input input-accent w-full max-w-xs hover:text-sky-400" formControlName="Sodium"/>
         </div>
         <label class="label">
             <div class="label-text text-xs hover:text-sky-400">please input weights in mg</div>

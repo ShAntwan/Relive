@@ -23,12 +23,14 @@ export class FoodDetailComponent {
   foodControlDetails = new FormGroup({
     FoodID: new FormControl(),
     FoodName: new FormControl(),
+    FoodNameDisp: new FormControl(),
     Calories: new FormControl(),
     Category: new FormControl(),
     Proteins: new FormControl(),
     Fats: new FormControl(),
     Carbohydrates: new FormControl(),
-    Sugars: new FormControl()
+    Sugars: new FormControl(),
+    Sodium: new FormControl()
   });
   
 // Function to map FormGroup values to Food interface
@@ -55,12 +57,14 @@ export class FoodDetailComponent {
     const foodItem: Food = {
       FoodID: this.foodControlDetails.value.FoodID,
       FoodName: this.foodControlDetails.value.FoodName,
+      FoodNameDisp: this.foodControlDetails.value.FoodNameDisp,
       Calories: this.foodControlDetails.value.Calories,
       Category: this.foodControlDetails.value.Category,
       Proteins: this.foodControlDetails.value.Proteins,
       Fats: this.foodControlDetails.value.Fats,
       Carbohydrates: this.foodControlDetails.value.Carbohydrates,
       Sugars: this.foodControlDetails.value.Sugars,
+      Sodium: this.foodControlDetails.value.Sodium,
       ImagePath: '' // Assuming ImagePath will be set separately based on application logic
     };
     console.log("dafood", foodItem)

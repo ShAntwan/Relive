@@ -2,4 +2,3 @@ newDockerDBAndExpress/
 relive-db/sql/
 relive-db/sql/data/
 filesToIgnore/
-relive-express/dataImportFiles/
