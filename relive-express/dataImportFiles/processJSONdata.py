@@ -2,27 +2,22 @@ import os
 import json
 import requests
 
-basePath = '/home/v0lcaner/Documents/ImportantDocuments/Education/Semester12/Relive-ProJect/proj/Relive_anew/filesToIgnore/exportData/'
+basePath = r'C:\Users\Antwan\Documents\important documents\important documents\Semester 12\ProgrammingForML - 095219\exportData\\'
 baseURL = 'http://localhost:8080/'
 
 def addFoodItems():
     addFoodItemURL = 'addfooditem'
+    createFoodItemsTable = 'createfooditemstable'
+    dropFoodItemsTable = 'dropFoodItemsTable'
+    # delete and create the table in order to instert food data into it
+    print("Resetting Food Items Table...", end=' ')
+    requests.get(url=baseURL+dropFoodItemsTable) 
+    requests.get(url=baseURL+createFoodItemsTable) 
+    jsonIDtoFoodID = {}
+    print("Done!\nImporting Food Items...", end=" ")
     with open(basePath+'foods.json', 'r', encoding='utf-8') as file:
         foodData = json.load(file)
         for index, item in enumerate(foodData):
-            # requestData = { 
-            #     "FoodID": index, 
-            #     "FoodName": item['name'],
-            #     "FoodNameDisp": item['displayName'],
-            #     "Category": '',
-            #     "Calories": 0,
-            #     "Proteins": 0,
-            #     "Fats": 0,
-            #     "Carbohydrates": 0,
-            #     "Sugars": 0,
-            #     "Sodium": 0,
-            #     "ImagePath": ''
-            # }
             requestData = { 
                 "FoodID": index, 
                 "FoodName": str(item['name']).replace("'","\\'"),
@@ -34,29 +29,45 @@ def addFoodItems():
                 "Carbohydrates": item['carbs'] if 'carbs' in item else 0,
                 "Sugars": item['sugar'] if 'sugar' in item else 0,
                 "Sodium": item['sodium'] if 'sodium' in item else 0,
-                "ImagePath": str(item['note']).replace("'","\\'") if 'note' in item else ''
-            }  
-            # print(index, '\n', requestData)
-            r = requests.post(url=baseURL+addFoodItemURL, data=requestData) 
-            pastebin_url = r.text
-            print("The pastebin URL is:%s" % pastebin_url)           
+                "ImagePath": str(item['note']).replace("'","\\'").replace("%", "PERCENT") if 'note' in item else ''
+            }
+            requests.post(url=baseURL+addFoodItemURL, data=requestData) 
+            jsonIDtoFoodID[item["id"]] = index
+            # pastebin_url = r.text
+            # print("The pastebin URL is:%s" % pastebin_url)
+    print("Done!")
+    return jsonIDtoFoodID
+
+
+def addPlanToUser(userID, planID):
     pass
 
 
+
 def main():
-    # addFoodItems()
     allfiles = os.listdir(basePath)
-    print("files", allfiles)
+    print("Files to Import:\n", allfiles)
+    jsonIDFoodIDDict = addFoodItems()
+    # print(jsonIDFoodIDDict)
     for fileName in allfiles:
-        print("fileName", fileName)
         if "food" in fileName:
-            continue  
+            continue
+        print("Importing File:'" + str(fileName) + "'...", end=' ')
         with open(basePath+fileName, 'r', encoding='utf-8') as file:
             data = json.load(file)
-            # print("filename", file, fileName, "food" in fileName, end='\n\n')
-            # print(data)
+            ### THE ENTIRE PROCESS!
+            # use indexes to keep track of IDs
+            # create customer info object, add to table. 
+            # create first measurement of customer, use index as ID
+            # create Diet Plan (a process)
+            ## add a row to DietaryPrograms, keep ProgramID
+            ## link it to customer with CustomerPrograms, use 'date' as StartDate, ignore totals, online is unused
+            ## 
+
+        print("Done!")
     # json.load()
-    
+    print("\nAll files imported successfully!!")
+
 
 if __name__ == '__main__':
     main()

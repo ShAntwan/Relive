@@ -9,7 +9,8 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
   providedIn: 'root'
 })
 export class FoodService {
-  getAll = 'getFoodItems';
+  getAll = 'getFoodItems/';
+  getAllItems = "getAllFoodItems/"
   getSpecific = 'getFoodItem/';
   updateFood = 'updatefooditem/'
 
@@ -48,6 +49,11 @@ export class FoodService {
     const data = await fetch(baseURL+this.getSpecific+String(FoodID))
     return await data.json()
   }
+
+  // getFoodsAPIhttpGet(): Observable<Food[]> {
+  //   // return this.http.get<Food[]>(baseURL+this.getAll)
+  //   return this.http.get<Food[]>(baseURL+this.getAllItems)
+  // }
 
   updateFoodItem(foodItem: Food): Observable<Object> {
     // maker sure the return type from the server is JSON
