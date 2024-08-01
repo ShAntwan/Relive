@@ -2,8 +2,10 @@ import os
 import json
 import requests
 
-basePath = r'C:\Users\Antwan\Documents\important documents\important documents\Semester 12\ProgrammingForML - 095219\exportData\\'
+# basePath = r'C:\Users\Antwan\Documents\important documents\important documents\Semester 12\ProgrammingForML - 095219\exportData\\'
+basePath = '/home/v0lcaner/Documents/ImportantDocuments/Education/Semester12/Relive-ProJect/proj/Relive_anew/filesToIgnore/exportData/'
 baseURL = 'http://localhost:8080/'
+
 
 def addFoodItems():
     addFoodItemURL = 'addfooditem'
@@ -39,11 +41,6 @@ def addFoodItems():
     return jsonIDtoFoodID
 
 
-def addPlanToUser(userID, planID):
-    pass
-
-
-
 def main():
     allfiles = os.listdir(basePath)
     print("Files to Import:\n", allfiles)
@@ -53,6 +50,7 @@ def main():
         if "food" in fileName:
             continue
         print("Importing File:'" + str(fileName) + "'...", end=' ')
+        userIndex = 0
         with open(basePath+fileName, 'r', encoding='utf-8') as file:
             data = json.load(file)
             ### THE ENTIRE PROCESS!
@@ -62,7 +60,10 @@ def main():
             # create Diet Plan (a process)
             ## add a row to DietaryPrograms, keep ProgramID
             ## link it to customer with CustomerPrograms, use 'date' as StartDate, ignore totals, online is unused
-            ## 
+            ## seperate options into meals, create meal for each
+            ## link meals to program
+            ### create mealfoods for each meal.
+            ### use id to jsodIDFoodIDDict
 
         print("Done!")
     # json.load()
