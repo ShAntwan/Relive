@@ -445,8 +445,8 @@ app.get('/createCustomerProgramsTable', (req, res) => {
 
 //insert 
 app.get('/createCustomerProgram', (req, res) => {
-  let sql = "INSERT INTO CustomerPrograms (CustomerProgramID, CustomerID, ProgramID, ProgramStart, ProgramEnd, Notes) VALUES (" + req.body.CustomerProgramID + ", " +
-  req.body.CustomerID + ", " + req.body.ProgramID + ", '" + new Date(req.body.ProgramStart) + "', '" + new Date(req.body.ProgramEnd) + "', '" + req.body.Notes + "')"
+  let sql = "INSERT INTO CustomerPrograms (CustomerProgramID, CustomerID, ProgramID, ProgramStart, Notes) VALUES (" + req.body.CustomerProgramID + ", " +
+  req.body.CustomerID + ", " + req.body.ProgramID + ", '" + req.body.ProgramStart + "', '" + req.body.Notes + "')"
   db.query(sql, (err, result) => {
     if(err) throw err;
     console.log(result);

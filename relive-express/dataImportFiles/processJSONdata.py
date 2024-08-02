@@ -3,13 +3,13 @@ import json
 import requests
 from datetime import datetime
 
-# basePath = r'C:\Users\Antwan\Documents\important documents\important documents\Semester 12\ProgrammingForML - 095219\exportData\\'
-basePath = '/home/v0lcaner/Documents/ImportantDocuments/Education/Semester12/Relive-ProJect/proj/Relive_anew/filesToIgnore/exportData/'
+basePath = r'C:\Users\Antwan\Documents\important documents\important documents\Semester 12\ProgrammingForML - 095219\exportData\\'
+# basePath = '/home/v0lcaner/Documents/ImportantDocuments/Education/Semester12/Relive-ProJect/proj/Relive_anew/filesToIgnore/exportData/'
 baseURL = 'http://localhost:8080/'
-
+addFoodItemURL = 'addfooditem'
 
 def addFoodItems():
-    addFoodItemURL = 'addfooditem'
+    
     createFoodItemsTable = 'createfooditemstable'
     dropFoodItemsTable = 'dropFoodItemsTable'
     # delete and create the table in order to instert food data into it
@@ -18,6 +18,7 @@ def addFoodItems():
     # requests.get(url=baseURL+dropFoodItemsTable)
     # requests.get(url=baseURL+createFoodItemsTable) 
     jsonIDtoFoodID = {}
+    maxIndex = 0
     print("Done!\nImporting Food Items...", end=" ")
     with open(basePath+'foods.json', 'r', encoding='utf-8') as file:
         foodData = json.load(file)
@@ -37,10 +38,11 @@ def addFoodItems():
             }
             requests.post(url=baseURL+addFoodItemURL, data=requestData) 
             jsonIDtoFoodID[item["id"]] = index
+            maxIndex = index
             # pastebin_url = r.text
             # print("The pastebin URL is:%s" % pastebin_url)
     print("Done!")
-    return jsonIDtoFoodID
+    return jsonIDtoFoodID, maxIndex
 
 def safe_convert_to_datetime(seconds, type):
     try:
@@ -70,10 +72,12 @@ def addNewCustomer(loginObj, customerObj):
 def main():
     allfiles = os.listdir(basePath)
     print("Files to Import:\n", allfiles)
-    jsonIDFoodIDDict = addFoodItems()
+    jsonIDFoodIDDict, maxFoodIndex = addFoodItems()
     customerIndex = 0 # used for customerID and loginID
     measureIndex = 0
     programIndex = 0
+    customerProgramIndex = 0
+    programMealIndex = 0
     mealIndex = 0
     mealFoodIndex = 0
     # print(jsonIDFoodIDDict)
@@ -199,40 +203,85 @@ def main():
                         requests.get(url=baseURL+addNewMeasurementURL, data=measurementDetail)
                         measureIndex += 1
                 if 'DIET_PLAN' in customerItem:
-                    dietPlan = customerItem['DIET_PLAN']
-                    dietProgramDetail = {
-                        'ProgramID': programIndex,
-                        'ProgramName': "תובנית " + str(programIndex),
-                        'TasteProfile': None,
-                        'Description': dietPlan['notes'] if 'notes' in dietPlan else "-1",
-                    }
-                    requests.get(url=baseURL+'createDietProgram', data=dietProgramDetail)
-                    print(len(dietPlan), end=' ')
-                    if 'meals' in dietPlan:
-                        mealsData = dietPlan['meals']
-                        print("mealdata", mealsData)
-                        for mealItem in mealsData:
-                            mealDetail = {
-                                'MealID': mealIndex,
-                                'MealDay': 1,
-                                'MealStartPeriod': str(mealItem['hourFrom'])+":00:00" if 'hourFrom' in mealItem else "7:00:00", 
-                                'MealEndPeriod': str(mealItem['hourTo'])+":00:00" if 'hourTo' in mealItem else "21:00:00", 
-                            }
-                            requests.get(url=baseURL+'createMeal', data=mealDetail)
+                    dietPlans = customerItem['DIET_PLAN']
+                    for dietPlan in dietPlans:
+                        dietProgramDetail = {
+                            'ProgramID': programIndex,
+                            'ProgramName': "תובנית " + str(programIndex),
+                            'TasteProfile': "none",
+                            'Description': dietPlan['notes'].replace('"','\\"').replace("'","\\'") if 'notes' in dietPlan else "-1",
+                        }
+                        requests.get(url=baseURL+'createDietProgram', data=dietProgramDetail)
 
-                            if 'options' in mealItem:
-                                foodItems = mealItem['options']
-                                for foodItem in foodItems:
-                                    mealFoodDetail = {
-                                        'MealFoodItemID': mealFoodIndex,
-                                        'MealID': mealIndex,
-                                        'FoodID': jsonIDFoodIDDict[foodItem['id']],
-                                        'FoodPortion': 100,
-                                    }
-                                    requests.get(url=baseURL+'createMealFoodItem', data=mealFoodDetail)
-                                    mealFoodIndex += 1
-                            mealIndex += 1
-                    programIndex += 1
+                        programStart = safe_convert_to_datetime(abs(dietPlan['date']['seconds']), "datetime")
+                        customerProgramDetail = {
+                            'CustomerProgramID': customerProgramIndex,
+                            'CustomerID': customerIndex,
+                            'ProgramID': programIndex,
+                            'ProgramStart': programStart,
+                            'ProgramEnd': None,
+                            'Notes': "none",
+                        }
+                        requests.get(url=baseURL+'createCustomerProgram', data=customerProgramDetail)
+                        
+                        # print(len(dietPlan), end=' ')
+                        if 'meals' in dietPlan:
+                            mealsData = dietPlan['meals']
+                            # print("mealdata", mealsData)
+                            for mealItem in mealsData:
+                                mealDetail = {
+                                    'MealID': mealIndex,
+                                    'MealDay': 1,
+                                    'MealStartPeriod': str(mealItem['hourFrom'])+":00:00" if 'hourFrom' in mealItem else "7:00:00", 
+                                    'MealEndPeriod': str(mealItem['hourTo'])+":00:00" if 'hourTo' in mealItem else "21:00:00", 
+                                }
+                                requests.get(url=baseURL+'createMeal', data=mealDetail)
+
+                                # ProgramMeals
+                                programMealDetail = {
+                                    'ProgramMealID': programMealIndex,
+                                    'ProgramID': programIndex,
+                                    'MealID': mealIndex,
+                                }
+                                requests.get(url=baseURL+'createProgramMeal', data=programMealDetail)
+
+                                ## ERROR HERE \/ mealfooditems empty
+                                
+                                if 'items' in mealItem:
+                                    outerFoodItems = mealItem['items']
+                                    for outerfoodItem in outerFoodItems:
+                                        if 'options' in outerfoodItem:
+                                            foodItems = outerfoodItem['options']
+                                            for foodItem in foodItems:
+                                                if foodItem['id'] not in jsonIDFoodIDDict:
+                                                    maxFoodIndex += 1
+                                                    foodDetail = { 
+                                                        "FoodID": maxFoodIndex, 
+                                                        "FoodName": str(foodItem['name']).replace("'","\\'"),
+                                                        "FoodNameDisp": str(foodItem['displayName']).replace("'","\\'"),
+                                                        "Category": str(foodItem['category']).replace("'","\\'") if 'category' in foodItem else '',
+                                                        "Calories": foodItem['calories'] if 'calories' in foodItem else 0,
+                                                        "Proteins": foodItem['protein'] if 'protein' in foodItem else 0,
+                                                        "Fats": foodItem['fats'] if 'fats' in foodItem else 0,
+                                                        "Carbohydrates": foodItem['carbs'] if 'carbs' in foodItem else 0,
+                                                        "Sugars": foodItem['sugar'] if 'sugar' in foodItem else 0,
+                                                        "Sodium": foodItem['sodium'] if 'sodium' in foodItem else 0,
+                                                        "ImagePath": str(foodItem['note']).replace("'","\\'").replace("%", "PERCENT") if 'note' in foodItem else ''
+                                                    }
+                                                    requests.post(url=baseURL+addFoodItemURL, data=foodDetail) 
+                                                    jsonIDFoodIDDict[foodItem['id']] = maxFoodIndex
+                                                mealFoodDetail = {
+                                                    'MealFoodItemID': mealFoodIndex,
+                                                    'MealID': mealIndex,
+                                                    'FoodID': jsonIDFoodIDDict[foodItem['id']],
+                                                    'FoodPortion': 100,
+                                                }
+                                                requests.get(url=baseURL+'createMealFoodItem', data=mealFoodDetail)
+                                                mealFoodIndex += 1
+                                programMealIndex += 1
+                                mealIndex += 1
+                        customerProgramIndex += 1
+                        programIndex += 1
 
                 customerIndex += 1
 
