@@ -3,8 +3,8 @@ import json
 import requests
 from datetime import datetime
 
-basePath = r'C:\Users\Antwan\Documents\important documents\important documents\Semester 12\ProgrammingForML - 095219\exportData\\'
-# basePath = '/home/v0lcaner/Documents/ImportantDocuments/Education/Semester12/Relive-ProJect/proj/Relive_anew/filesToIgnore/exportData/'
+# basePath = r'C:\Users\Antwan\Documents\important documents\important documents\Semester 12\ProgrammingForML - 095219\exportData\\'
+basePath = '/home/v0lcaner/Documents/ImportantDocuments/Education/Semester12/Relive-ProJect/proj/Relive_anew/filesToIgnore/exportData/'
 baseURL = 'http://localhost:8080/'
 addFoodItemURL = 'addfooditem'
 
@@ -229,11 +229,19 @@ def main():
                             mealsData = dietPlan['meals']
                             # print("mealdata", mealsData)
                             for mealItem in mealsData:
+                                timeFrom = "7:00:00"
+                                timeTo = "21:00:00"
+                                if 'hourFrom' in mealItem:
+                                    if abs(mealItem['hourFrom']) <= 24:
+                                        timeFrom = str(abs(mealItem['hourFrom']))+":00:00"
+                                if 'hourTo' in mealItem:
+                                    if abs(mealItem['hourTo']) <= 24:
+                                        timeTo = str(abs(mealItem['hourTo']))+":00:00"
                                 mealDetail = {
                                     'MealID': mealIndex,
                                     'MealDay': 1,
-                                    'MealStartPeriod': str(mealItem['hourFrom'])+":00:00" if 'hourFrom' in mealItem else "7:00:00", 
-                                    'MealEndPeriod': str(mealItem['hourTo'])+":00:00" if 'hourTo' in mealItem else "21:00:00", 
+                                    'MealStartPeriod': timeFrom, #str(mealItem['hourFrom'])+":00:00" if 'hourFrom' in mealItem else "7:00:00", 
+                                    'MealEndPeriod': timeTo, #str(mealItem['hourTo'])+":00:00" if 'hourTo' in mealItem else "21:00:00", 
                                 }
                                 requests.get(url=baseURL+'createMeal', data=mealDetail)
 
