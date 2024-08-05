@@ -57,6 +57,9 @@ def createAllTables():
     requests.get(url=baseURL+createMeasurementDetails)
     requests.get(url=baseURL+createCustomerPrograms)
     requests.get(url=baseURL+createCustomerMealHistory)
+    
+    print("Successfully Created All Tables")
+
 
 
 
@@ -77,11 +80,13 @@ def dropAllTables():
     requests.get(url=baseURL+dropMeals)
     requests.get(url=baseURL+dropFoodItemsTable)
 
+    print("Successfully Dropped All Tables")
+
 
 def main():
     createAllTables()
     dropAllTables()
-    
+    createAllTables()
     # #FKEY to non-base tables:
     
     # #MeasurementDetails
@@ -121,7 +126,7 @@ def main():
     # requests.get(url=baseURL+createFoodItemsTable)
     # requests.get(url=baseURL+dropFoodItemsTable)
 
-    print("allTablesDropped")
+    print("Great Success!!")
 
 
 

@@ -30,7 +30,6 @@ app.get('/', (req, res) => {
 })
 
 // each table gets its own section
-// FKEY needs proper implementaion
 
 //************************ LoginDetails ***********************//
 //create table
@@ -43,7 +42,7 @@ app.get('/createLoginDetailsTable', (req, res) => {
       res.send('LoginDetails table exists...');
     } else {
       let sql2 = "CREATE TABLE IF NOT EXISTS LoginDetails (autonumID int(32) UNSIGNED NOT NULL AUTO_INCREMENT, LoginID int(32) UNSIGNED NOT NULL, " + 
-      "Username VARCHAR(50) NOT NULL, Password VARCHAR(250) NOT NULL, PRIMARY KEY (LoginID), KEY (autonumID)) ENGINE = InnoDB;";
+      "PhoneNumber VARCHAR(15) NOT NULL, CardID VARCHAR(15) NOT NULL, PRIMARY KEY (LoginID), KEY (autonumID)) ENGINE = InnoDB;";
       db.query(sql2, (err1, result1) => {
           if(err1) throw err1;
           console.log(result1);
@@ -55,7 +54,8 @@ app.get('/createLoginDetailsTable', (req, res) => {
 
 //insert
 app.get('/addNewLoginDetail', (req, res) => {
-  let sql = "INSERT INTO LoginDetails (LoginID, Username, Password) VALUES (" + req.body.LoginID + ", '" + req.body.Username + "', '" + req.body.Password + "')"
+  console.log(req.body)
+  let sql = "INSERT INTO LoginDetails (LoginID, PhoneNumber, CardID) VALUES (" + req.body.LoginID + ", '" + req.body.PhoneNumber  + "', '" + req.body.CardID + "')"
   db.query(sql, (err, result) => {
     if(err) throw err;
     console.log(result);
@@ -63,13 +63,33 @@ app.get('/addNewLoginDetail', (req, res) => {
   })
 })
 
+// this version doesnt rely on sending the getting a correct ID
+// app.get('/addNewLoginDetail', (req, res) => {
+//   let sqlCount = "SELECT * FROM LoginDetails"
+//   db.query(sqlCount, (err, result) => {
+//     if(err) throw err;
+//     console.log(result.length);
+//     LoginID = result.length+1
+//     if (req.body.Phonenumber == undefined)
+//       res.send({error: "invalid parameters"});
+//     else {
+//       let sql = "INSERT INTO LoginDetails (LoginID, Phonenumber) VALUES (" + LoginID + ", '" + req.body.Phonenumber + "')"
+//       db.query(sql, (err, result) => {
+//         if(err) throw err;
+//         console.log(result);
+//         res.send(req.body);
+//       })
+//     }
+//   })
+// })
+
 //select all
 app.get('/getLoginDetails', (req, res) => {
   let sql = "SELECT * FROM LoginDetails;"
   db.query(sql, (err, result) => {
     if(err) throw err;
     console.log(result);
-    res.send('LoginDetails Table: ' + JSON.stringify(result));
+    res.send(result);
   })
 })
 
@@ -89,7 +109,7 @@ app.get('/findLoginDetail', (req, res) => {
   db.query(sql, (err, result) => {
     if(err) throw err;
     console.log(result);
-    res.send('row found in LoginDetails Table: ' + JSON.stringify(result));
+    res.send(result);
   })
 })
 
@@ -99,7 +119,7 @@ app.get('/deleteLoginDetail', (req, res) => {
   db.query(sql, (err, result) => {
     if(err) throw err;
     console.log(result);
-    res.send('deleted row in LoginDetails Table: ' + JSON.stringify(result));
+    res.send(result);
   })
 })
 
@@ -107,8 +127,8 @@ app.get('/deleteLoginDetail', (req, res) => {
 //creat table
 app.get('/createCustomerDetailsTable', (req, res) => {
     let sql = "CREATE TABLE IF NOT EXISTS CustomerDetails (autonumID int(32) UNSIGNED NOT NULL AUTO_INCREMENT, CustomerID int(32) UNSIGNED NOT NULL, " + 
-    "LoginID int(32) UNSIGNED NOT NULL, FirstName VARCHAR(50) NOT NULL, LastName VARCHAR(50) NOT NULL, PhoneNumber VARCHAR(15), " + 
-    "JoinDate DATETIME, BirthdayDate DATE, Age int(8), Sex VARCHAR(10), Athlete BOOL, DefaultLang VARCHAR(5), " +
+    "LoginID int(32) UNSIGNED NOT NULL, FirstName VARCHAR(50) NOT NULL, LastName VARCHAR(50) NOT NULL, " + 
+    "JoinDate DATETIME, BirthdayDate DATE, Sex VARCHAR(10), Athlete BOOL, DefaultLang VARCHAR(5), " +
     "PRIMARY KEY (CustomerID), KEY (autonumID), FOREIGN KEY (LoginID) REFERENCES LoginDetails(LoginID)) ENGINE = InnoDB;";
     db.query(sql, (err, result) => {
         if(err) throw err;
@@ -119,10 +139,10 @@ app.get('/createCustomerDetailsTable', (req, res) => {
 
 //insert
 app.get('/addNewCustomer', (req, res) => {
-  let sql = "INSERT INTO CustomerDetails (CustomerID, LoginID, FirstName, LastName, PhoneNumber, JoinDate, " +
-  "BirthdayDate, Sex, Athlete, DefaultLang) VALUES (" + req.body.ID + ", " +
+  let sql = "INSERT INTO CustomerDetails (CustomerID, LoginID, FirstName, LastName, JoinDate, " +
+  "BirthdayDate, Sex, Athlete, DefaultLang) VALUES (" + req.body.CustomerID + ", " +
   req.body.LoginID + ", '" + req.body.FirstName + "', '" + req.body.LastName + "','" + 
-  req.body.PhoneNumber + "','" + new Date(req.body.JoinDate) + "', '" + new Date(req.body.BirthdayDate) + "' ,'" + 
+  req.body.JoinDate + "', '" + req.body.BirthdayDate + "' ,'" + 
   req.body.Sex + "', " + req.body.Athlete +  ", '" + req.body.DefaultLang + "')"
   db.query(sql, (err, result) => {
     if(err) throw err;
@@ -157,7 +177,7 @@ app.get('/findCustomerDetail', (req, res) => {
   db.query(sql, (err, result) => {
     if(err) throw err;
     console.log(result);
-    res.send('row found in CustomerDetails Table: ' + JSON.stringify(result));
+    res.send(result);
   })
 })
 
@@ -167,7 +187,7 @@ app.get('/deleteCustomerDetail', (req, res) => {
   db.query(sql, (err, result) => {
     if(err) throw err;
     console.log(result);
-    res.send('deleted row in CustomerDetails Table: ' + JSON.stringify(result));
+    res.send(result);
   })
 })
 
@@ -178,7 +198,7 @@ app.get('/createMeasurementDetailsTable', (req, res) => {
   let sql = "CREATE TABLE IF NOT EXISTS MeasurementDetails (autonumID int(32) UNSIGNED NOT NULL AUTO_INCREMENT, MeasureID int(32) UNSIGNED NOT NULL, " + 
   "CustomerID int(32) UNSIGNED NOT NULL, MeasureDate DATETIME NOT NULL, TotalWeight int(16), Height int(16), " + 
   "BMI float(5, 2), BMR int(16), FatPercentage float(5, 2), AbdominalFatPercentage float(5, 2), Muscles float(5, 2), Bones float(5, 2), Liquids float(5, 2), " +
-  "HipCircumference float(5, 2), HandCircumference float(5, 2), ThighCircumference float(5, 2), BellyCircumference float(5, 2), " +
+  "HipCircumference float(5, 2), HandCircumference float(5, 2), ThighCircumference float(5, 2), ChestCircumference float(5, 2), " +
   "PRIMARY KEY (MeasureID), KEY (autonumID), FOREIGN KEY (CustomerID) REFERENCES CustomerDetails(CustomerID)) ENGINE = InnoDB;";
   db.query(sql, (err, result) => {
       if(err) throw err;
@@ -189,14 +209,14 @@ app.get('/createMeasurementDetailsTable', (req, res) => {
 
 //insert 
 app.get('/addNewMeasurementDetail', (req, res) => {
-  let sql = "INSERT INTO MeasurementDetails (MeasureID, CustomerID, MeasureDate, FatPercentage, AbdominalFatPercentage, Muscles,"+
-  " Bones, BMI, BMR, Liquids, TotalWeight, WaistCircumference, HandCircumference, BellyCircumference) VALUES (" + req.body.MeasureID + ", " +
-  req.body.CustomerID + ", " + new Date(req.body.MeasureDate) + ", " + req.body.FatPercentage + ", " + req.body.AbdominalFatPercentage + ", " + 
-  req.body.Muscles + ", " + req.body.Bones + ", " + req.body.BMI + ", " + req.body.BMR + ", " + req.body.Liquids + ", " + req.body.TotalWeight + ", " + 
-  req.body.WaistCircumference + ", " + req.body.HandCircumference + ", " + req.body.ThighCircumference + ", " + req.body.BellyCircumference + ")"
+  let sql = "INSERT INTO MeasurementDetails (MeasureID, CustomerID, MeasureDate, TotalWeight, Height, BMI, BMR, "+
+  "AbdominalFatPercentage, FatPercentage, Muscles, Bones, Liquids, HipCircumference, HandCircumference, ThighCircumference, ChestCircumference) VALUES (" + req.body.MeasureID + ", " +
+  req.body.CustomerID + ", '" + req.body.MeasureDate + "', " + req.body.TotalWeight + ", " + req.body.Height + ", " + req.body.BMI + ", " + req.body.BMR + ", " + req.body.AbdominalFatPercentage + ", " + 
+  req.body.FatPercentage + ", " + req.body.Muscles + ", " + req.body.Bones + ", " + req.body.Liquids + ", " + 
+  req.body.HipCircumference + ", " + req.body.HandCircumference + ", " + req.body.ThighCircumference + ", " + req.body.ChestCircumference + ")"
   db.query(sql, (err, result) => {
     if(err) throw err;
-    console.log(result);
+    // console.log("NewMeasurement" + String(result));
     res.send('row added to MeasurementDetails Table: ' + JSON.stringify(req.body));
   })
 })
@@ -207,7 +227,7 @@ app.get('/getMeasurementDetails', (req, res) => {
   db.query(sql, (err, result) => {
     if(err) throw err;
     console.log(result);
-    res.send('MeasurementDetails Table: ' + JSON.stringify(result));
+    res.send(result);
   })
 })
 //drop table
@@ -226,7 +246,7 @@ app.get('/findMeasurementDetail', (req, res) => {
   db.query(sql, (err, result) => {
     if(err) throw err;
     console.log(result);
-    res.send('row found in MeasurementDetails Table: ' + JSON.stringify(result));
+    res.send(result);
   })
 })
 //delete row
@@ -235,7 +255,7 @@ app.get('/deleteMeasurementDetails', (req, res) => {
   db.query(sql, (err, result) => {
     if(err) throw err;
     console.log(result);
-    res.send('deleted row in MeasurementDetails Table: ' + JSON.stringify(result));
+    res.send(result);
   })
 })
 
@@ -328,7 +348,7 @@ app.get('/deleteFoodItems', (req, res) => {
   db.query(sql, (err, result) => {
     if(err) throw err;
     console.log(result);
-    res.send('deleted row in FoodItems Table: ' + JSON.stringify(result));
+    res.send(result);
   })
 })
 
@@ -352,7 +372,7 @@ app.get('/getDietPrograms', (req, res) => {
   db.query(sql, (err, result) => {
     if(err) throw err;
     console.log(result);
-    res.send('DietaryPrograms Table: ' + JSON.stringify(result));
+    res.send(result);
   })
 })
 
@@ -383,7 +403,7 @@ app.get('/findDietProgram', (req, res) => {
   db.query(sql, (err, result) => {
     if(err) throw err;
     console.log(result);
-    res.send('row found in DietaryPrograms Table: ' + JSON.stringify(result));
+    res.send(result);
   })
 })
 
@@ -404,7 +424,7 @@ app.get('/deleteDietaryProgram', (req, res) => {
   db.query(sql, (err, result) => {
     if(err) throw err;
     console.log(result);
-    res.send('deleted row in DietaryPrograms Table: ' + JSON.stringify(result));
+    res.send(result);
   })
 })
 
@@ -425,8 +445,8 @@ app.get('/createCustomerProgramsTable', (req, res) => {
 
 //insert 
 app.get('/createCustomerProgram', (req, res) => {
-  let sql = "INSERT INTO CustomerPrograms (CustomerProgramID, CustomerID, ProgramID, ProgramStart, ProgramEnd, Notes) VALUES (" + req.body.CustomerProgramID + ", " +
-  req.body.CustomerID + ", " + req.body.ProgramID + ", '" + new Date(req.body.ProgramStart) + "', '" + new Date(req.body.ProgramEnd) + "', '" + req.body.Notes + "')"
+  let sql = "INSERT INTO CustomerPrograms (CustomerProgramID, CustomerID, ProgramID, ProgramStart, Notes) VALUES (" + req.body.CustomerProgramID + ", " +
+  req.body.CustomerID + ", " + req.body.ProgramID + ", '" + req.body.ProgramStart + "', '" + req.body.Notes + "')"
   db.query(sql, (err, result) => {
     if(err) throw err;
     console.log(result);
@@ -440,7 +460,7 @@ app.get('/getCustomerPrograms', (req, res) => {
   db.query(sql, (err, result) => {
     if(err) throw err;
     console.log(result);
-    res.send('CustomerPrograms Table: ' + JSON.stringify(result));
+    res.send(result);
   })
 })
 
@@ -460,7 +480,7 @@ app.get('/findCustomerProgram', (req, res) => {
   db.query(sql, (err, result) => {
     if(err) throw err;
     console.log(result);
-    res.send('row found in CustomerPrograms Table: ' + JSON.stringify(result));
+    res.send(result);
   })
 })
 
@@ -482,7 +502,7 @@ app.get('/deleteCustomerProgram', (req, res) => {
   db.query(sql, (err, result) => {
     if(err) throw err;
     console.log(result);
-    res.send('deleted row in CustomerPrograms Table: ' + JSON.stringify(result));
+    res.send(result);
   })
 })
 
@@ -503,7 +523,7 @@ app.get('/createMealsTable', (req, res) => {
 //insert
 app.get('/createMeal', (req, res) => {
   let sql = "INSERT INTO Meals (MealID, MealDay, MealStartPeriod, MealEndPeriod) VALUES (" + req.body.MealID + ", " + 
-  req.body.MealDay + ", '" + new Date(req.body.MealStartPeriod) + "', '" + new Date(req.body.MealEndPeriod) + "')"
+  req.body.MealDay + ", '" + req.body.MealStartPeriod + "', '" + req.body.MealEndPeriod + "')"
   db.query(sql, (err, result) => {
     if(err) throw err;
     console.log(result);
@@ -517,7 +537,7 @@ app.get('/getMeals', (req, res) => {
   db.query(sql, (err, result) => {
     if(err) throw err;
     console.log(result);
-    res.send('Meals Table: ' + JSON.stringify(result));
+    res.send(result);
   })
 })
 
@@ -537,7 +557,7 @@ app.get('/findMeal', (req, res) => {
   db.query(sql, (err, result) => {
     if(err) throw err;
     console.log(result);
-    res.send('row found in MealItems Table: ' + JSON.stringify(result));
+    res.send(result);
   })
 })
 
@@ -559,7 +579,7 @@ app.get('/deleteMealItem', (req, res) => {
   db.query(sql, (err, result) => {
     if(err) throw err;
     console.log(result);
-    res.send('deleted row in MealItems Table: ' + JSON.stringify(result));
+    res.send(result);
   })
 })
 
@@ -593,7 +613,7 @@ app.get('/getProgramMeals', (req, res) => {
   db.query(sql, (err, result) => {
     if(err) throw err;
     console.log(result);
-    res.send('ProgramMeals Table: ' + JSON.stringify(result));
+    res.send(result);
   })
 })
 
@@ -613,7 +633,7 @@ app.get('/findProgramMeal', (req, res) => {
   db.query(sql, (err, result) => {
     if(err) throw err;
     console.log(result);
-    res.send('row found in ProgramMeals Table: ' + JSON.stringify(result));
+    res.send(result);
   })
 })
 
@@ -634,7 +654,7 @@ app.get('/deleteProgramMeal', (req, res) => {
   db.query(sql, (err, result) => {
     if(err) throw err;
     console.log(result);
-    res.send('deleted row in ProgramMeals Table: ' + JSON.stringify(result));
+    res.send(result);
   })
 })
 
@@ -655,8 +675,8 @@ app.get('/createMealFoodItemsTable', (req, res) => {
 
 //insert
 app.get('/createMealFoodItem', (req, res) => {
-  let sql = "INSERT INTO MealFoodItems (MealFoodItemID, MealID, FoodID, Portion) VALUES (" + req.body.MealFoodItemID + ", " +
-  req.body.MealID + ", " + req.body.FoodID + ", "+ req.body.Portion + ")"
+  let sql = "INSERT INTO MealFoodItems (MealFoodItemID, MealID, FoodID, FoodPortion) VALUES (" + req.body.MealFoodItemID + ", " +
+  req.body.MealID + ", " + req.body.FoodID + ", "+ req.body.FoodPortion + ")"
   db.query(sql, (err, result) => {
     if(err) throw err;
     console.log(result);
@@ -670,7 +690,7 @@ app.get('/getMealFoodItems', (req, res) => {
   db.query(sql, (err, result) => {
     if(err) throw err;
     console.log(result);
-    res.send('MealFoodItems Table: ' + JSON.stringify(result));
+    res.send(result);
   })
 })
 
@@ -690,7 +710,7 @@ app.get('/findMealFoodItem', (req, res) => {
   db.query(sql, (err, result) => {
     if(err) throw err;
     console.log(result);
-    res.send('row found in MealFoodItems Table: ' + JSON.stringify(result));
+    res.send(result);
   })
 })
 
@@ -711,7 +731,7 @@ app.get('/deleteMealFoodItem', (req, res) => {
   db.query(sql, (err, result) => {
     if(err) throw err;
     console.log(result);
-    res.send('deleted row in MealFoodItems Table: ' + JSON.stringify(result));
+    res.send(result);
   })
 })
 
