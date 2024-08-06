@@ -5,18 +5,32 @@ from datetime import datetime
 
 # basePath = r'C:\Users\Antwan\Documents\important documents\important documents\Semester 12\ProgrammingForML - 095219\exportData\\'
 basePath = '/home/v0lcaner/Documents/ImportantDocuments/Education/Semester12/Relive-ProJect/proj/Relive_anew/filesToIgnore/exportData/'
-baseURL = 'http://localhost:8080/'
-addFoodItemURL = 'addfooditem'
+baseURL = 'http://localhost:8080/api/'
+
+#### URLs
+# LoginDetails
+addLoginDetailURL = "LoginDetails/addNew"
+# CustomerDetails
+addCustomerURL = "CustomerDetails/addNew"
+# MeasurementDetails
+addNewMeasurementURL = 'MeasurementDetails/addNew'
+# DietaryPrograms
+addDietProgramURL = 'DietPrograms/addNew'
+# CustomerPrograms
+addCustomerProgram = 'CustomerPrograms/addNew'
+# ProgramMeals
+addProgramMeal = 'ProgramMeals/addNew'
+# Meals
+addNewMealURL = 'Meals/addNew'
+# MealFoodItems
+addMealFoodItems = 'MealFoodItems/addNew'
+# FoodItems
+addFoodItemURL = 'FoodItems/addNew'
+createFoodItemsTable = 'FoodItems/createTable'
+dropFoodItemsTable = 'FoodItems/dropTable'
+
 
 def addFoodItems():
-    
-    createFoodItemsTable = 'createfooditemstable'
-    dropFoodItemsTable = 'dropFoodItemsTable'
-    # delete and create the table in order to instert food data into it
-    # print("Resetting Food Items Table...", end=' ')
-    # requests.get(url=baseURL+createFoodItemsTable) 
-    # requests.get(url=baseURL+dropFoodItemsTable)
-    # requests.get(url=baseURL+createFoodItemsTable) 
     jsonIDtoFoodID = {}
     maxIndex = 0
     print("Done!\nImporting Food Items...", end=" ")
@@ -63,8 +77,6 @@ def safe_convert_to_datetime(seconds, type):
 #     return 
 
 def addNewCustomer(loginObj, customerObj):
-    addLoginDetailURL = "addNewLoginDetail"
-    addCustomerURL = "addNewCustomer"
     requests.get(url=baseURL+addLoginDetailURL, data=loginObj)
     requests.get(url=baseURL+addCustomerURL, data=customerObj)
 
@@ -198,8 +210,6 @@ def main():
                             'ChestCircumference': measureItem['chestCirc'] if 'chestCirc' in measureItem else -1,
                         }
                         # add it to DB
-                        addNewMeasurementURL = 'addNewMeasurementDetail'
-                        # console.log("NewMeasurement")
                         requests.get(url=baseURL+addNewMeasurementURL, data=measurementDetail)
                         measureIndex += 1
                 if 'DIET_PLAN' in customerItem:
@@ -211,7 +221,7 @@ def main():
                             'TasteProfile': "none",
                             'Description': dietPlan['notes'].replace('"','\\"').replace("'","\\'") if 'notes' in dietPlan else "-1",
                         }
-                        requests.get(url=baseURL+'createDietProgram', data=dietProgramDetail)
+                        requests.get(url=baseURL+addDietProgramURL, data=dietProgramDetail)
 
                         programStart = safe_convert_to_datetime(abs(dietPlan['date']['seconds']), "datetime")
                         customerProgramDetail = {
@@ -222,7 +232,7 @@ def main():
                             'ProgramEnd': None,
                             'Notes': "none",
                         }
-                        requests.get(url=baseURL+'createCustomerProgram', data=customerProgramDetail)
+                        requests.get(url=baseURL+addCustomerProgram, data=customerProgramDetail)
                         
                         # print(len(dietPlan), end=' ')
                         if 'meals' in dietPlan:
@@ -243,7 +253,7 @@ def main():
                                     'MealStartPeriod': timeFrom, #str(mealItem['hourFrom'])+":00:00" if 'hourFrom' in mealItem else "7:00:00", 
                                     'MealEndPeriod': timeTo, #str(mealItem['hourTo'])+":00:00" if 'hourTo' in mealItem else "21:00:00", 
                                 }
-                                requests.get(url=baseURL+'createMeal', data=mealDetail)
+                                requests.get(url=baseURL+addNewMealURL, data=mealDetail)
 
                                 # ProgramMeals
                                 programMealDetail = {
@@ -251,7 +261,7 @@ def main():
                                     'ProgramID': programIndex,
                                     'MealID': mealIndex,
                                 }
-                                requests.get(url=baseURL+'createProgramMeal', data=programMealDetail)
+                                requests.get(url=baseURL+addProgramMeal, data=programMealDetail)
 
                                 ## ERROR HERE \/ mealfooditems empty
                                 
@@ -284,7 +294,7 @@ def main():
                                                     'FoodID': jsonIDFoodIDDict[foodItem['id']],
                                                     'FoodPortion': 100,
                                                 }
-                                                requests.get(url=baseURL+'createMealFoodItem', data=mealFoodDetail)
+                                                requests.get(url=baseURL+addMealFoodItems, data=mealFoodDetail)
                                                 mealFoodIndex += 1
                                 programMealIndex += 1
                                 mealIndex += 1

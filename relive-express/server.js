@@ -53,7 +53,7 @@ app.get('/api/LoginDetails/createTable', (req, res) => {
 })
 
 //insert
-app.get('/api/LoginDetails/add', (req, res) => {
+app.get('/api/LoginDetails/addNew', (req, res) => {
   console.log(req.body)
   let sql = "INSERT INTO LoginDetails (LoginID, PhoneNumber, CardID) VALUES (" + req.body.LoginID + ", '" + req.body.PhoneNumber  + "', '" + req.body.CardID + "')"
   db.query(sql, (err, result) => {
