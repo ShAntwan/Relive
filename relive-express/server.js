@@ -33,7 +33,7 @@ app.get('/', (req, res) => {
 
 //************************ LoginDetails ***********************//
 //create table
-app.get('/createLoginDetailsTable', (req, res) => {
+app.get('/api/LoginDetails/createTable', (req, res) => {
   let sql1 = "SHOW TABLES LIKE 'LoginDetails';"
   db.query(sql1, (err, result) => {
     if(err) throw err;
@@ -53,7 +53,7 @@ app.get('/createLoginDetailsTable', (req, res) => {
 })
 
 //insert
-app.get('/addNewLoginDetail', (req, res) => {
+app.get('/api/LoginDetails/add', (req, res) => {
   console.log(req.body)
   let sql = "INSERT INTO LoginDetails (LoginID, PhoneNumber, CardID) VALUES (" + req.body.LoginID + ", '" + req.body.PhoneNumber  + "', '" + req.body.CardID + "')"
   db.query(sql, (err, result) => {
@@ -84,7 +84,7 @@ app.get('/addNewLoginDetail', (req, res) => {
 // })
 
 //select all
-app.get('/getLoginDetails', (req, res) => {
+app.get('/api/LoginDetails/getAll', (req, res) => {
   let sql = "SELECT * FROM LoginDetails;"
   db.query(sql, (err, result) => {
     if(err) throw err;
@@ -94,7 +94,7 @@ app.get('/getLoginDetails', (req, res) => {
 })
 
 //drop table
-app.get('/dropLoginDetailsTable', (req, res) => {
+app.get('/api/LoginDetails/dropTable', (req, res) => {
   let sql = "DROP TABLE LoginDetails"
   db.query(sql, (err, result) => {
     if(err) throw err;
@@ -104,7 +104,7 @@ app.get('/dropLoginDetailsTable', (req, res) => {
 })
 
 //find row
-app.get('/findLoginDetail', (req, res) => {
+app.get('/api/LoginDetails/find', (req, res) => {
   let sql = "SELECT * FROM LoginDetails WHERE LoginID = " + req.body.LoginID + ";"
   db.query(sql, (err, result) => {
     if(err) throw err;
@@ -114,7 +114,7 @@ app.get('/findLoginDetail', (req, res) => {
 })
 
 //delete row
-app.get('/deleteLoginDetail', (req, res) => {
+app.get('/api/LoginDetails/delete', (req, res) => {
   let sql = "DELETE FROM LoginDetails WHERE LoginID = " + req.body.LoginID + ";"
   db.query(sql, (err, result) => {
     if(err) throw err;
@@ -125,7 +125,7 @@ app.get('/deleteLoginDetail', (req, res) => {
 
 //************************ CustomerDetails ***********************//
 //creat table
-app.get('/createCustomerDetailsTable', (req, res) => {
+app.get('/api/CustomerDetails/createTable', (req, res) => {
     let sql = "CREATE TABLE IF NOT EXISTS CustomerDetails (autonumID int(32) UNSIGNED NOT NULL AUTO_INCREMENT, CustomerID int(32) UNSIGNED NOT NULL, " + 
     "LoginID int(32) UNSIGNED NOT NULL, FirstName VARCHAR(50) NOT NULL, LastName VARCHAR(50) NOT NULL, " + 
     "JoinDate DATETIME, BirthdayDate DATE, Sex VARCHAR(10), Athlete BOOL, DefaultLang VARCHAR(5), " +
@@ -138,7 +138,7 @@ app.get('/createCustomerDetailsTable', (req, res) => {
 })
 
 //insert
-app.get('/addNewCustomer', (req, res) => {
+app.get('/api/CustomerDetails/addNew', (req, res) => {
   let sql = "INSERT INTO CustomerDetails (CustomerID, LoginID, FirstName, LastName, JoinDate, " +
   "BirthdayDate, Sex, Athlete, DefaultLang) VALUES (" + req.body.CustomerID + ", " +
   req.body.LoginID + ", '" + req.body.FirstName + "', '" + req.body.LastName + "','" + 
@@ -152,7 +152,7 @@ app.get('/addNewCustomer', (req, res) => {
 })
 
 //select all
-app.get('/getCustomerDetails', (req, res) => {
+app.get('/api/CustomerDetails/getAll', (req, res) => {
   let sql = "SELECT * FROM CustomerDetails;"
   db.query(sql, (err, result) => {
     if(err) throw err;
@@ -162,7 +162,7 @@ app.get('/getCustomerDetails', (req, res) => {
 })
 
 //drop table
-app.get('/dropCustomerDetailsTable', (req, res) => {
+app.get('/api/CustomerDetails/dropTable', (req, res) => {
   let sql = "DROP TABLE CustomerDetails"
   db.query(sql, (err, result) => {
     if(err) throw err;
@@ -172,7 +172,7 @@ app.get('/dropCustomerDetailsTable', (req, res) => {
 })
 
 //find row
-app.get('/findCustomerDetail', (req, res) => {
+app.get('/api/CustomerDetails/find', (req, res) => {
   let sql = "SELECT * FROM CustomerDetails WHERE CustomerID = " + req.body.CustomerID + ";"
   db.query(sql, (err, result) => {
     if(err) throw err;
@@ -182,7 +182,7 @@ app.get('/findCustomerDetail', (req, res) => {
 })
 
 //delete row
-app.get('/deleteCustomerDetail', (req, res) => {
+app.get('/api/CustomerDetails/delete', (req, res) => {
   let sql = "DELETE FROM CustomerDetails WHERE CustomerID = " + req.body.CustomerID + ";"
   db.query(sql, (err, result) => {
     if(err) throw err;
@@ -194,7 +194,7 @@ app.get('/deleteCustomerDetail', (req, res) => {
 
 //************************ MeasurementDetails ***********************//
 //create table
-app.get('/createMeasurementDetailsTable', (req, res) => {
+app.get('/api/MeasurementDetails/createTable', (req, res) => {
   let sql = "CREATE TABLE IF NOT EXISTS MeasurementDetails (autonumID int(32) UNSIGNED NOT NULL AUTO_INCREMENT, MeasureID int(32) UNSIGNED NOT NULL, " + 
   "CustomerID int(32) UNSIGNED NOT NULL, MeasureDate DATETIME NOT NULL, TotalWeight int(16), Height int(16), " + 
   "BMI float(5, 2), BMR int(16), FatPercentage float(5, 2), AbdominalFatPercentage float(5, 2), Muscles float(5, 2), Bones float(5, 2), Liquids float(5, 2), " +
@@ -208,7 +208,7 @@ app.get('/createMeasurementDetailsTable', (req, res) => {
 })
 
 //insert 
-app.get('/addNewMeasurementDetail', (req, res) => {
+app.get('/api/MeasurementDetails/addNew', (req, res) => {
   let sql = "INSERT INTO MeasurementDetails (MeasureID, CustomerID, MeasureDate, TotalWeight, Height, BMI, BMR, "+
   "AbdominalFatPercentage, FatPercentage, Muscles, Bones, Liquids, HipCircumference, HandCircumference, ThighCircumference, ChestCircumference) VALUES (" + req.body.MeasureID + ", " +
   req.body.CustomerID + ", '" + req.body.MeasureDate + "', " + req.body.TotalWeight + ", " + req.body.Height + ", " + req.body.BMI + ", " + req.body.BMR + ", " + req.body.AbdominalFatPercentage + ", " + 
@@ -222,7 +222,7 @@ app.get('/addNewMeasurementDetail', (req, res) => {
 })
 
 //select all
-app.get('/getMeasurementDetails', (req, res) => {
+app.get('/api/MeasurementDetails/getAll', (req, res) => {
   let sql = "SELECT * FROM MeasurementDetails;"
   db.query(sql, (err, result) => {
     if(err) throw err;
@@ -231,7 +231,7 @@ app.get('/getMeasurementDetails', (req, res) => {
   })
 })
 //drop table
-app.get('/dropMeasurementDetailsTable', (req, res) => {
+app.get('/api/MeasurementDetails/dropTable', (req, res) => {
   let sql = "DROP TABLE MeasurementDetails"
   db.query(sql, (err, result) => {
     if(err) throw err;
@@ -241,7 +241,7 @@ app.get('/dropMeasurementDetailsTable', (req, res) => {
 })
 
 //find row
-app.get('/findMeasurementDetail', (req, res) => {
+app.get('/api/MeasurementDetails/find', (req, res) => {
   let sql = "SELECT * FROM MeasurementDetails WHERE MeasureID = " + req.body.MeasureID + ";"
   db.query(sql, (err, result) => {
     if(err) throw err;
@@ -250,7 +250,7 @@ app.get('/findMeasurementDetail', (req, res) => {
   })
 })
 //delete row
-app.get('/deleteMeasurementDetails', (req, res) => {
+app.get('/api/MeasurementDetails/delete', (req, res) => {
   let sql = "DELETE FROM MeasurementDetails WHERE MeasureID = " + req.body.MeasureID + ";"
   db.query(sql, (err, result) => {
     if(err) throw err;
@@ -261,7 +261,7 @@ app.get('/deleteMeasurementDetails', (req, res) => {
 
 //************************ FoodItems ***********************//
 
-app.get('/createFoodItemsTable', (req, res) => {
+app.get('/api/FoodItems/createTable', (req, res) => {
   let sql = "CREATE TABLE IF NOT EXISTS FoodItems (autonumID int(32) UNSIGNED NOT NULL AUTO_INCREMENT, FoodID int(32) UNSIGNED NOT NULL, " + 
   "FoodName VARCHAR(50) NOT NULL, FoodNameDisp VARCHAR(50) NOT NULL, Category VARCHAR(50), Calories int(8), Proteins int(8), Fats int(8), Carbohydrates int(8), " + 
   "Sugars int(8), Sodium int(8), ImagePath VARCHAR(500), " +
@@ -273,7 +273,7 @@ app.get('/createFoodItemsTable', (req, res) => {
   })
 })
 
-app.get('/getFoodItems', (req, res) => {
+app.get('/api/FoodItems/getAll', (req, res) => {
   let sql = "SELECT * FROM FoodItems;"
   db.query(sql, (err, result) => {
     if(err) throw err;
@@ -294,7 +294,7 @@ app.get('/getFoodItems', (req, res) => {
 //   })
 // })
 
-app.get('/getFoodItem/:id', (req, res) => {
+app.get('/api/FoodItems/get/:id', (req, res) => {
   const id = req.params.id
   let sql = 'SELECT * FROM FoodItems WHERE FoodID = '+id+';'
   db.query(sql, (err, result) => {
@@ -306,7 +306,7 @@ app.get('/getFoodItem/:id', (req, res) => {
 })
 
 
-app.post('/addFoodItem', (req, res) => {
+app.post('/api/FoodItems/addNew', (req, res) => {
   let sql = "INSERT INTO FoodItems (FoodID, FoodName, FoodNameDisp, Category, Calories, Proteins, Fats, Carbohydrates, Sugars, Sodium, ImagePath) Values" + 
   "(" + req.body.FoodID + ", '" + req.body.FoodName + "', '" + req.body.FoodNameDisp + "', '" + req.body.Category + "', " + req.body.Calories + ", " + req.body.Proteins + ", " + req.body.Fats + ", " 
   + req.body.Carbohydrates + ", " + req.body.Sugars + ", " + req.body.Sodium + ", '" + req.body.ImagePath + "' )"
@@ -317,13 +317,13 @@ app.post('/addFoodItem', (req, res) => {
   })
 })
 
-app.post('/updateFoodItem', (req, res) => {
+app.post('/api/FoodItems/update', (req, res) => {
   let sql = "UPDATE FoodItems SET FoodName = '" + req.body.FoodName + "', FoodNameDisp = '" + req.body.FoodNameDisp + 
   "', Category = '" + req.body.Category + "', Calories = " + req.body.Calories + ", Proteins = " + req.body.Proteins + 
   ", Fats = " + req.body.Fats + ", Carbohydrates = " + req.body.Carbohydrates + ", Sugars = " + req.body.Sugars + 
   ", Sodium = " + req.body.Sodium + ", ImagePath = '" + req.body.ImagePath + 
   "' WHERE FoodID = " + req.body.FoodID + ";"
-  console.log(req.body.Sodium, req.body.Sugars, sql);
+  // console.log(req.body.Sodium, req.body.Sugars, sql);
   // res.send(sql);
   // console.log("updateFoodItem: ", req)
   db.query(sql, (err, result) => {
@@ -333,7 +333,7 @@ app.post('/updateFoodItem', (req, res) => {
   })
 })
 
-app.get('/dropFoodItemsTable', (req, res) => {
+app.get('/api/FoodItems/dropTable', (req, res) => {
   let sql = "DROP TABLE FoodItems"
   db.query(sql, (err, result) => {
     if(err) throw err;
@@ -343,7 +343,7 @@ app.get('/dropFoodItemsTable', (req, res) => {
 })
 
 //delete row
-app.get('/deleteFoodItems', (req, res) => {
+app.get('/api/FoodItems/delete', (req, res) => {
   let sql = "DELETE FROM FoodItems WHERE FoodID = " + req.body.FoodID + ";"
   db.query(sql, (err, result) => {
     if(err) throw err;
@@ -355,7 +355,7 @@ app.get('/deleteFoodItems', (req, res) => {
 //************************ DietaryPrograms ***********************//
 
 //create diet programs table
-app.get('/createDietaryProgramsTable', (req, res) => {
+app.get('/api/DietaryPrograms/createTable', (req, res) => {
   let sql = "CREATE TABLE IF NOT EXISTS DietaryPrograms (autonumID int(32) UNSIGNED NOT NULL AUTO_INCREMENT, ProgramID int(32) UNSIGNED NOT NULL, " + 
   "ProgramName VARCHAR(50) NOT NULL, TasteProfile VARCHAR(1000), Description VARCHAR(1000), " + 
   "PRIMARY KEY (ProgramID), KEY (autonumID)) ENGINE = InnoDB;";
@@ -367,7 +367,7 @@ app.get('/createDietaryProgramsTable', (req, res) => {
 })
 
 // get all rows of table
-app.get('/getDietPrograms', (req, res) => {
+app.get('/api/DietPrograms/getAll', (req, res) => {
   let sql = "SELECT * FROM DietaryPrograms;"
   db.query(sql, (err, result) => {
     if(err) throw err;
@@ -377,7 +377,7 @@ app.get('/getDietPrograms', (req, res) => {
 })
 
 //drop table
-app.get('/dropDietaryProgramsTable', (req, res) => {
+app.get('/api/DietaryPrograms/dropTable', (req, res) => {
   let sql = "DROP TABLE DietaryPrograms"
   db.query(sql, (err, result) => {
     if(err) throw err;
@@ -387,7 +387,7 @@ app.get('/dropDietaryProgramsTable', (req, res) => {
 })
 
 // add row to DietPrograms
-app.get('/createDietProgram', (req, res) => {
+app.get('/api/DietProgram/addNew', (req, res) => {
   let sql = "INSERT INTO DietaryPrograms (ProgramID, ProgramName, TasteProfile, Description) Values" + 
   "(" + req.body.ProgramID + ", '" + req.body.ProgramName + "', '" + req.body.TasteProfile + "', '" + req.body.Description + "')"
   db.query(sql, (err, result) => {
@@ -398,7 +398,7 @@ app.get('/createDietProgram', (req, res) => {
 })
 
 // find row in DietPrograms
-app.get('/findDietProgram', (req, res) => {
+app.get('/api/DietProgram/find', (req, res) => {
   let sql = "SELECT * FROM DietaryPrograms WHERE ProgramID = " + req.body.AssignmentID + ";"
   db.query(sql, (err, result) => {
     if(err) throw err;
@@ -408,7 +408,7 @@ app.get('/findDietProgram', (req, res) => {
 })
 
 // update row in DietPrograms
-app.get('/updateDietProgram', (req, res) => {
+app.get('/api/DietProgram/update', (req, res) => {
   let sql = "UPDATE DietaryPrograms SET ProgramName = '" + req.body.ProgramName + "', TasteProfile = '" + req.body.TasteProfile + 
   "', Description = '" + req.body.Description + "' WHERE ProgramID = " + req.body.ProgramID + ";"
   db.query(sql, (err, result) => {
@@ -419,7 +419,7 @@ app.get('/updateDietProgram', (req, res) => {
 })
 
 //delete row
-app.get('/deleteDietaryProgram', (req, res) => {
+app.get('/api/DietaryProgram/delete', (req, res) => {
   let sql = "DELETE FROM DietaryPrograms WHERE ProgramID = " + req.body.ProgramID + ";"
   db.query(sql, (err, result) => {
     if(err) throw err;
@@ -431,7 +431,7 @@ app.get('/deleteDietaryProgram', (req, res) => {
 //************************ CustomerPrograms ***********************//
 
 //create table
-app.get('/createCustomerProgramsTable', (req, res) => {
+app.get('/api/CustomerPrograms/createTable', (req, res) => {
   let sql ="CREATE TABLE IF NOT EXISTS CustomerPrograms (autonumID int(32) UNSIGNED NOT NULL AUTO_INCREMENT, CustomerProgramID int(32) UNSIGNED NOT NULL, " + 
   "CustomerID int(32) UNSIGNED NOT NULL, ProgramID int(32) UNSIGNED NOT NULL, ProgramStart DATETIME NOT NULL, ProgramEnd DATETIME, Notes VARCHAR(1000), " + 
   "PRIMARY KEY (CustomerProgramID), KEY (autonumID), FOREIGN KEY (CustomerID) REFERENCES CustomerDetails(CustomerID), " +
@@ -444,7 +444,7 @@ app.get('/createCustomerProgramsTable', (req, res) => {
 })
 
 //insert 
-app.get('/createCustomerProgram', (req, res) => {
+app.get('/api/CustomerProgram/addNew', (req, res) => {
   let sql = "INSERT INTO CustomerPrograms (CustomerProgramID, CustomerID, ProgramID, ProgramStart, Notes) VALUES (" + req.body.CustomerProgramID + ", " +
   req.body.CustomerID + ", " + req.body.ProgramID + ", '" + req.body.ProgramStart + "', '" + req.body.Notes + "')"
   db.query(sql, (err, result) => {
@@ -455,7 +455,7 @@ app.get('/createCustomerProgram', (req, res) => {
 })
 
 //select all
-app.get('/getCustomerPrograms', (req, res) => {
+app.get('/api/CustomerPrograms/getAll', (req, res) => {
   let sql = "SELECT * FROM CustomerPrograms;"
   db.query(sql, (err, result) => {
     if(err) throw err;
@@ -465,7 +465,7 @@ app.get('/getCustomerPrograms', (req, res) => {
 })
 
 //drop table
-app.get('/dropCustomerProgramsTable', (req, res) => {
+app.get('/api/CustomerPrograms/dropTable', (req, res) => {
   let sql = "DROP TABLE CustomerPrograms"
   db.query(sql, (err, result) => {
     if(err) throw err;
@@ -475,7 +475,7 @@ app.get('/dropCustomerProgramsTable', (req, res) => {
 })
 
 //find row
-app.get('/findCustomerProgram', (req, res) => {
+app.get('/api/CustomerProgram/find', (req, res) => {
   let sql = "SELECT * FROM CustomerPrograms WHERE CustomerProgramID = " + req.body.CustomerProgramID + ";"
   db.query(sql, (err, result) => {
     if(err) throw err;
@@ -485,7 +485,7 @@ app.get('/findCustomerProgram', (req, res) => {
 })
 
 // update row
-app.get('/updateCustomerProgram', (req, res) => {
+app.get('/api/CustomerProgram/update', (req, res) => {
   let sql = "UPDATE CustomerPrograms SET CustomerID = " + req.body.CustomerID + ", ProgramID = " + req.body.ProgramID + 
   ", ProgramStart = '" + new Date(req.body.ProgramStart) + ", ProgramEnd = '" + new Date(req.body.ProgramEnd) + 
   ", Notes = '" + req.body.Notes + "' WHERE CustomerProgramID = " + req.body.CustomerProgramID + ";"
@@ -497,7 +497,7 @@ app.get('/updateCustomerProgram', (req, res) => {
 })
 
 //delete row
-app.get('/deleteCustomerProgram', (req, res) => {
+app.get('/api/CustomerProgram/delete', (req, res) => {
   let sql = "DELETE FROM CustomerPrograms WHERE CustomerProgramID = " + req.body.CustomerProgramID + ";"
   db.query(sql, (err, result) => {
     if(err) throw err;
@@ -509,7 +509,7 @@ app.get('/deleteCustomerProgram', (req, res) => {
 
 //************************ Meals ***********************//
 //create table
-app.get('/createMealsTable', (req, res) => {
+app.get('/api/Meals/createTable', (req, res) => {
   let sql ="CREATE TABLE IF NOT EXISTS Meals (autonumID int(32) UNSIGNED NOT NULL AUTO_INCREMENT, MealID int(32) UNSIGNED NOT NULL, " + 
   "MealDay int(8) NOT NULL, MealStartPeriod time NOT NULL, MealEndPeriod time, " + 
   "PRIMARY KEY (MealID), KEY (autonumID)) ENGINE = InnoDB;";
@@ -521,7 +521,7 @@ app.get('/createMealsTable', (req, res) => {
 })
 
 //insert
-app.get('/createMeal', (req, res) => {
+app.get('/api/Meals/addNew', (req, res) => {
   let sql = "INSERT INTO Meals (MealID, MealDay, MealStartPeriod, MealEndPeriod) VALUES (" + req.body.MealID + ", " + 
   req.body.MealDay + ", '" + req.body.MealStartPeriod + "', '" + req.body.MealEndPeriod + "')"
   db.query(sql, (err, result) => {
@@ -532,7 +532,7 @@ app.get('/createMeal', (req, res) => {
 })
 
 //select all
-app.get('/getMeals', (req, res) => {
+app.get('/api/Meals/getAll', (req, res) => {
   let sql = "SELECT * FROM Meals;"
   db.query(sql, (err, result) => {
     if(err) throw err;
@@ -542,7 +542,7 @@ app.get('/getMeals', (req, res) => {
 })
 
 //drop table
-app.get('/dropMealsTable', (req, res) => {
+app.get('/api/Meals/dropTable', (req, res) => {
   let sql = "DROP TABLE Meals"
   db.query(sql, (err, result) => {
     if(err) throw err;
@@ -552,7 +552,7 @@ app.get('/dropMealsTable', (req, res) => {
 })
 
 //find row
-app.get('/findMeal', (req, res) => {
+app.get('/api/Meals/find', (req, res) => {
   let sql = "SELECT * FROM Meals WHERE MealID = " + req.body.MealID + ";"
   db.query(sql, (err, result) => {
     if(err) throw err;
@@ -562,7 +562,7 @@ app.get('/findMeal', (req, res) => {
 })
 
 // update row
-app.get('/updateMeal', (req, res) => {
+app.get('/api/Meals/update', (req, res) => {
   let sql = "UPDATE Meals SET MealDay = " + req.body.MealDay + 
   ", MealStartPeriod = '" + new Date(req.body.MealStartPeriod) + ", MealEndPeriod = '" + new Date(req.body.MealEndPeriod) + 
   ", Notes = '" + req.body.Notes + "' WHERE MealID = " + req.body.MealID + ";"
@@ -574,7 +574,7 @@ app.get('/updateMeal', (req, res) => {
 })
 
 //delete row
-app.get('/deleteMealItem', (req, res) => {
+app.get('/api/Meals/delete', (req, res) => {
   let sql = "DELETE FROM MealItems WHERE MealItemID = " + req.body.MealItemID + ";"
   db.query(sql, (err, result) => {
     if(err) throw err;
@@ -585,7 +585,7 @@ app.get('/deleteMealItem', (req, res) => {
 
 //************************ ProgramMeals ***********************//
 //create table
-app.get('/createProgramMealsTable', (req, res) => {
+app.get('api/ProgramMeals/createTable', (req, res) => {
   let sql ="CREATE TABLE IF NOT EXISTS ProgramMeals (autonumID int(32) UNSIGNED NOT NULL AUTO_INCREMENT, ProgramMealID int(32) UNSIGNED NOT NULL, " + 
   "ProgramID int(32) UNSIGNED NOT NULL, MealID int(32) UNSIGNED NOT NULL, PRIMARY KEY (ProgramMealID), " + 
   "KEY (autonumID), FOREIGN KEY (ProgramID) REFERENCES DietaryPrograms(ProgramID), FOREIGN KEY (MealID) REFERENCES Meals(MealID)) ENGINE = InnoDB;";
@@ -597,7 +597,7 @@ app.get('/createProgramMealsTable', (req, res) => {
 })
 
 //insert
-app.get('/createProgramMeal', (req, res) => {
+app.get('/api/ProgramMeals/addNew', (req, res) => {
   let sql = "INSERT INTO ProgramMeals (ProgramMealID, ProgramID, MealID) VALUES (" + req.body.ProgramMealID + ", " +
   req.body.ProgramID + ", " + req.body.MealID + ")"
   db.query(sql, (err, result) => {
@@ -608,7 +608,7 @@ app.get('/createProgramMeal', (req, res) => {
 })
 
 //select all
-app.get('/getProgramMeals', (req, res) => {
+app.get('/api/ProgramMeals/getAll', (req, res) => {
   let sql = "SELECT * FROM ProgramMeals;"
   db.query(sql, (err, result) => {
     if(err) throw err;
@@ -618,7 +618,7 @@ app.get('/getProgramMeals', (req, res) => {
 })
 
 //drop table
-app.get('/dropProgramMealsTable', (req, res) => {
+app.get('/api/ProgramMeals/dropTable', (req, res) => {
   let sql = "DROP TABLE ProgramMeals"
   db.query(sql, (err, result) => {
     if(err) throw err;
@@ -628,7 +628,7 @@ app.get('/dropProgramMealsTable', (req, res) => {
 })
 
 //find row
-app.get('/findProgramMeal', (req, res) => {
+app.get('/api/ProgramMeals/find', (req, res) => {
   let sql = "SELECT * FROM ProgramMeals WHERE ProgramMealID = " + req.body.ProgramMealID + ";"
   db.query(sql, (err, result) => {
     if(err) throw err;
@@ -638,7 +638,7 @@ app.get('/findProgramMeal', (req, res) => {
 })
 
 // update row
-app.get('/updateProgramMeal', (req, res) => {
+app.get('/api/ProgramMeals/update', (req, res) => {
   let sql = "UPDATE ProgramMeals SET ProgramID = " + req.body.ProgramID + ", MealID = " + req.body.MealID + 
   " WHERE ProgramMealID = " + req.body.ProgramMealID + ";"
   db.query(sql, (err, result) => {
@@ -649,7 +649,7 @@ app.get('/updateProgramMeal', (req, res) => {
 })
 
 //delete row
-app.get('/deleteProgramMeal', (req, res) => {
+app.get('/api/ProgramMeals/delete', (req, res) => {
   let sql = "DELETE FROM ProgramMeals WHERE ProgramMealID = " + req.body.ProgramMealID + ";"
   db.query(sql, (err, result) => {
     if(err) throw err;
@@ -661,7 +661,7 @@ app.get('/deleteProgramMeal', (req, res) => {
 
 //************************ MealFoodItems ***********************//
 //create table
-app.get('/createMealFoodItemsTable', (req, res) => {
+app.get('/api/MealFoodItems/createTable', (req, res) => {
   let sql ="CREATE TABLE IF NOT EXISTS MealFoodItems (autonumID int(32) UNSIGNED NOT NULL AUTO_INCREMENT, MealFoodItemID int(32) UNSIGNED NOT NULL, " + 
   "MealID int(32) UNSIGNED NOT NULL, FoodID int(32) UNSIGNED NOT NULL, FoodPortion int(8), " + 
   "PRIMARY KEY (MealFoodItemID), KEY (autonumID), FOREIGN KEY (MealID) REFERENCES Meals(MealID), " +
@@ -674,7 +674,7 @@ app.get('/createMealFoodItemsTable', (req, res) => {
 })
 
 //insert
-app.get('/createMealFoodItem', (req, res) => {
+app.get('/api/MealFoodItems/addNew', (req, res) => {
   let sql = "INSERT INTO MealFoodItems (MealFoodItemID, MealID, FoodID, FoodPortion) VALUES (" + req.body.MealFoodItemID + ", " +
   req.body.MealID + ", " + req.body.FoodID + ", "+ req.body.FoodPortion + ")"
   db.query(sql, (err, result) => {
@@ -685,7 +685,7 @@ app.get('/createMealFoodItem', (req, res) => {
 })
 
 //select all
-app.get('/getMealFoodItems', (req, res) => {
+app.get('/api/MealFoodItems/getAll', (req, res) => {
   let sql = "SELECT * FROM MealFoodItems;"
   db.query(sql, (err, result) => {
     if(err) throw err;
@@ -695,7 +695,7 @@ app.get('/getMealFoodItems', (req, res) => {
 })
 
 //drop table
-app.get('/dropMealFoodItemsTable', (req, res) => {
+app.get('/api/MealFoodItems/dropTable', (req, res) => {
   let sql = "DROP TABLE MealFoodItems"
   db.query(sql, (err, result) => {
     if(err) throw err;
@@ -705,7 +705,7 @@ app.get('/dropMealFoodItemsTable', (req, res) => {
 })
 
 //find row
-app.get('/findMealFoodItem', (req, res) => {
+app.get('/api/MealFoodItems/find', (req, res) => {
   let sql = "SELECT * FROM MealFoodItems WHERE MealFoodItemID = " + req.body.MealFoodItemID + ";"
   db.query(sql, (err, result) => {
     if(err) throw err;
@@ -715,7 +715,7 @@ app.get('/findMealFoodItem', (req, res) => {
 })
 
 // update row
-app.get('/updateMealFoodItem', (req, res) => {
+app.get('/api/MealFoodItems/update', (req, res) => {
   let sql = "UPDATE MealFoodItems SET MealID = " + req.body.MealID + ", FoodID = " + req.body.FoodID + ", FoodPortion = " + req.body.FoodPortion + 
   " WHERE MealFoodItemID = " + req.body.MealFoodItemID + ";"
   db.query(sql, (err, result) => {
@@ -726,7 +726,7 @@ app.get('/updateMealFoodItem', (req, res) => {
 })
 
 //delete row
-app.get('/deleteMealFoodItem', (req, res) => {
+app.get('/api/MealFoodItems/delete', (req, res) => {
   let sql = "DELETE FROM MealFoodItems WHERE MealFoodItemID = " + req.body.MealFoodItemID + ";"
   db.query(sql, (err, result) => {
     if(err) throw err;
@@ -737,7 +737,7 @@ app.get('/deleteMealFoodItem', (req, res) => {
 
 //************************ CustomerMealHistory ***********************//
 //create table
-app.get('/createCustomerMealHistoryTable', (req, res) => {
+app.get('/api/CustomerMealHistory/createTable', (req, res) => {
   let sql ="CREATE TABLE IF NOT EXISTS CustomerMealHistory (autonumID int(32) UNSIGNED NOT NULL AUTO_INCREMENT, CustomerMealLogID int(32) UNSIGNED NOT NULL, " + 
   "CustomerID int(32) UNSIGNED NOT NULL, MealID int(32) UNSIGNED NOT NULL, TimeLogged datetime NOT NULL, CustomerNote varchar(500), " + 
   "PRIMARY KEY (CustomerMealLogID), KEY (autonumID), FOREIGN KEY (MealID) REFERENCES Meals(MealID), " +
@@ -751,7 +751,7 @@ app.get('/createCustomerMealHistoryTable', (req, res) => {
 
 //get all
 //drop table
-app.get('/dropCustomerMealHistoryTable', (req, res) => {
+app.get('/api/CustomerMealHistory/dropTable', (req, res) => {
   let sql = "DROP TABLE CustomerMealHistory"
   db.query(sql, (err, result) => {
     if(err) throw err;
@@ -761,7 +761,7 @@ app.get('/dropCustomerMealHistoryTable', (req, res) => {
 })
 
 //add row
-app.get('/createCustomerMealHistory', (req, res) => {
+app.get('/api/CustomerMealHistory/addNew', (req, res) => {
   let sql = "INSERT INTO CustomerMealHistory (CustomerMealLogID, CustomerID, MealID, TimeLogged, CustomerNote) VALUES (" + req.body.CustomerMealLogID + ", " +
   req.body.CustomerID + ", " + req.body.MealID + ", " + new Date(req.body.TimeLogged) + ", '" + req.body.CustomerNote +  "')"
   db.query(sql, (err, result) => {
@@ -784,7 +784,7 @@ app.listen("8080", () => {
 
 //************************ Tests ***********************//
 
-app.get('/showTables', (req, res) => {
+app.get('/api/showTables', (req, res) => {
   let sql = "SHOW TABLES"
   db.query(sql, (err, result) => {
     if(err) throw err;
@@ -793,7 +793,7 @@ app.get('/showTables', (req, res) => {
   })
 })
 
-app.get('/getDropAllTablesScript', (req, res) => {
+app.get('/api/getDropAllTablesScript', (req, res) => {
   let sql = "SELECT GROUP_CONCAT('DROP TABLE IF EXISTS ', table_name, ';') FROM information_schema.tables WHERE table_schema = 'relive_database';"
   db.query(sql, (err, result) => {
     if(err) throw err;
@@ -802,7 +802,7 @@ app.get('/getDropAllTablesScript', (req, res) => {
   })
 })
 
-app.get('/dropAllTables', (req, res) => {
+app.get('/api/dropAllTables', (req, res) => {
   let sql = "DROP TABLE IF EXISTS test;"
   db.query(sql, (err, result) => {
     if(err) throw err;
@@ -811,7 +811,7 @@ app.get('/dropAllTables', (req, res) => {
   })
 })
 
-app.get('/testPythonChildProcess', (req, res) => {
+app.get('/api/testPythonChildProcess', (req, res) => {
   // res.send('Hello World!')
   const python = spawn ('python',['test.py'])
   let data2 = ''
@@ -827,7 +827,7 @@ app.get('/testPythonChildProcess', (req, res) => {
   });
 })
 
-app.get('/exportLoginDetails', (req, res) => {
+app.get('/api/exportLoginDetails', (req, res) => {
   let sql = "SELECT * FROM LoginDetails;"
   let temp_res = ''
   db.query(sql, (err, result) => {
