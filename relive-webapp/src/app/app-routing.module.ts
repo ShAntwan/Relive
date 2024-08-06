@@ -7,7 +7,7 @@ import { UsersDetailsComponent } from './users-details/users-details.component';
 import { UsersComponent } from './users/users.component';
 import { DietProgramComponent } from './diet-program/diet-program.component';
 import { SystemRecommendationComponent } from './system-recommendation/system-recommendation.component';
-import { NewUserComponent } from './new-user/new-user.component';
+import { NewUserComponent } from './manager-components/new-user/new-user.component';
 import { UserMeasurmentComponent } from './user-measurment/user-measurment.component';
 import { LastDietPlanComponent } from './last-diet-plan/last-diet-plan.component';
 import { ManagerFoodEditingComponent } from './manager-components/manager-food-editing/manager-food-editing.component';
