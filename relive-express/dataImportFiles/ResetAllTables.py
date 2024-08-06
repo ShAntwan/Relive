@@ -4,41 +4,41 @@ import requests
 
 # basePath = r'C:\Users\Antwan\Documents\important documents\important documents\Semester 12\ProgrammingForML - 095219\exportData\\'
 basePath = '/home/v0lcaner/Documents/ImportantDocuments/Education/Semester12/Relive-ProJect/proj/Relive_anew/filesToIgnore/exportData/'
-baseURL = 'http://localhost:8080/'
+baseURL = 'http://localhost:8080/api/'
 
 # api urls
 #FKEY to base
-createMealFoodItems = "createMealFoodItemsTable"
-dropMealFoodItems = "dropMealFoodItemsTable"
+createMealFoodItems = "MealFoodItems/createTable"
+dropMealFoodItems = "MealFoodItemsdropTable"
 
-createProgramMeals = "createProgramMealsTable"
-dropProgramMeals = "dropProgramMealsTable"
+createProgramMeals = "ProgramMeals/createTable"
+dropProgramMeals = "ProgramMeals/dropTable"
 
-createCustomerDetails = "createCustomerDetailsTable"
-dropCustomerDetails = "dropCustomerDetailsTable"
+createCustomerDetails = "CustomerDetails/createTable"
+dropCustomerDetails = "CustomerDetails/dropTable"
 
 #FKEY to non-base
-createMeasurementDetails = "createMeasurementDetailsTable"
-dropMeasurementDetails = "dropMeasurementDetailsTable"
+createMeasurementDetails = "MeasurementDetails/createTable"
+dropMeasurementDetails = "MeasurementDetails/dropTable"
 
-createCustomerPrograms = "createCustomerProgramsTable"
-dropCustomerPrograms = "dropCustomerProgramsTable"
+createCustomerPrograms = "CustomerPrograms/createTable"
+dropCustomerPrograms = "CustomerPrograms/dropTable"
 
-createCustomerMealHistory = "createCustomerMealHistoryTable"
-dropCustomerMealHistory = "dropCustomerMealHistoryTable"
+createCustomerMealHistory = "CustomerMealHistory/createTable"
+dropCustomerMealHistory = "CustomerMealHistory/dropTable"
 
 #non Fkey
-createLoginDetails = "createLoginDetailsTable"
-dropLoginDetails = "dropLoginDetailsTable"
+createLoginDetails = "LoginDetails/createTable"
+dropLoginDetails = "LoginDetails/dropTable"
 
-createDietaryPrograms = "createDietaryProgramsTable"
-dropDietaryPrograms = "dropDietaryProgramsTable"
+createDietaryPrograms = "DietaryPrograms/createTable"
+dropDietaryPrograms = "DietaryPrograms/dropTable"
 
-createMeals = "createMealsTable"
-dropMeals = "dropMealsTable"
+createMeals = "Meals/createTable"
+dropMeals = "Meals/dropTable"
 
-createFoodItemsTable = "createFoodItemsTable"
-dropFoodItemsTable = "dropFoodItemsTable"
+createFoodItemsTable = "FoodItems/createTable"
+dropFoodItemsTable = "FoodItems/dropTable"
 
 
 def createAllTables():
