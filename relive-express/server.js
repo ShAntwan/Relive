@@ -161,6 +161,17 @@ app.get('/api/CustomerDetails/getAll', (req, res) => {
   })
 })
 
+//select by customer
+app.get('/api/CustomerDetails/get/:id', (req, res) => {
+  const id = req.params.id
+  let sql = "SELECT * FROM CustomerDetails WHERE CustomerID = " + id + ";"
+  db.query(sql, (err, result) => {
+    if(err) throw err;
+    console.log(result);
+    res.send(result);
+  })
+})
+
 //drop table
 app.get('/api/CustomerDetails/dropTable', (req, res) => {
   let sql = "DROP TABLE CustomerDetails"
@@ -297,6 +308,7 @@ app.get('/api/FoodItems/getAll', (req, res) => {
 app.get('/api/FoodItems/get/:id', (req, res) => {
   const id = req.params.id
   let sql = 'SELECT * FROM FoodItems WHERE FoodID = '+id+';'
+  console.log("get specific", this.id, this.sql)
   db.query(sql, (err, result) => {
     if(err) throw err;
     console.log(result);
@@ -749,7 +761,27 @@ app.get('/api/CustomerMealHistory/createTable', (req, res) => {
   })
 })
 
-//get all
+//select all
+app.get('/api/CustomerMealHistory/getAll', (req, res) => {
+  let sql = "SELECT * FROM CustomerMealHistory;"
+  db.query(sql, (err, result) => {
+    if(err) throw err;
+    console.log(result);
+    res.send(result);
+  })
+})
+
+//select by customer
+app.get('/api/CustomerMealHistory/getCustomer/:id', (req, res) => {
+  const id = req.params.id
+  let sql = "SELECT * FROM CustomerMealHistory WHERE CustomerID = " + id + ";"
+  db.query(sql, (err, result) => {
+    if(err) throw err;
+    console.log(result);
+    res.send(result);
+  })
+})
+
 //drop table
 app.get('/api/CustomerMealHistory/dropTable', (req, res) => {
   let sql = "DROP TABLE CustomerMealHistory"
@@ -762,8 +794,9 @@ app.get('/api/CustomerMealHistory/dropTable', (req, res) => {
 
 //add row
 app.get('/api/CustomerMealHistory/addNew', (req, res) => {
+  // res.send(req.body)
   let sql = "INSERT INTO CustomerMealHistory (CustomerMealLogID, CustomerID, MealID, TimeLogged, CustomerNote) VALUES (" + req.body.CustomerMealLogID + ", " +
-  req.body.CustomerID + ", " + req.body.MealID + ", " + new Date(req.body.TimeLogged) + ", '" + req.body.CustomerNote +  "')"
+  req.body.CustomerID + ", " + req.body.MealID + ", '" + req.body.TimeLogged + "', '" + req.body.CustomerNote +  "')"
   db.query(sql, (err, result) => {
     if(err) throw err;
     console.log(result);

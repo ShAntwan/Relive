@@ -11,8 +11,8 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 export class FoodService {
   getAll = 'FoodItems/getAll/';
   // getAllItems = "FoodItems/getAll/"
-  getSpecific = 'getFoodItem/get/';
-  updateFood = 'FoodItem/update/'
+  getSpecific = 'FoodItems/get/';
+  updateFood = 'FoodItems/update/'
 
   constructor(
     private http: HttpClient,
