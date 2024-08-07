@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { User } from '../interfaces/users-details';
 import { ActivatedRoute } from '@angular/router';
 import { UserDetailsServiceService } from '../services/user-details-service.service';
+import { Location } from '@angular/common';
+import { AppComponent } from '../app.component';
 
 @Component({
   selector: 'app-user-measurment',
@@ -14,10 +16,17 @@ export class UserMeasurmentComponent {
   constructor(
     private route: ActivatedRoute,
     private userService: UserDetailsServiceService,
+    private location: Location,
+    private appComponent: AppComponent
   ) {}
 
   ngOnInit(): void {
     this.getUser();
+    this.appComponent.setBackVisibility(true)
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 
   getUser(): void {

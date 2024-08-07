@@ -1,5 +1,5 @@
-<div *ngIf="user" class="grid grid-cols-1">
-    <div class="w-full flex justify-center">
+<div *ngIf="user" class="grid grid-cols-1 w-full mt-2">
+    <div class="w-[95%] flex justify-center">
     <div class="avatar p-4 m-4">
         <div class="w-24 h-24 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
           <img src="https://cdn.pixabay.com/photo/2017/11/10/05/48/user-2935527_1280.png" />
@@ -13,28 +13,27 @@
           </div>
         </div>
       </div>   -->
-      <div class="card w-full bg-base-100 shadow-xl grid grid-cols-3">
-        <div class="card-body">
+      <div class="card w-full bg-base-100 shadow-xl flex flex-row">
+        <div class="card-body grow">
           <h2 class="card-title"><th>{{user.firstName}} {{user.lastName}}</th></h2>
           <p>Phone Number: {{ user.phoneNumber }}</p>
           <p>ID: {{ user.id }}</p>
-          <div class="card-actions justify-end">
-          </div>
         </div>
-        <div class="card-body">
+        <div class="card-body grow">
             <p>Join Date: {{ user.joinDate.toLocaleString() }}</p>
             <p>Height: {{ user.height }} </p>
             <p>Starting Weight: {{ user.startingWeight }} </p>
-            <div class="card-actions justify-end">
-            </div>
         </div>
-        <div class="card-body">
+        <div class="card-body grow">
           <p>Birthday: {{ user.birthdayDate.toLocaleString() }}</p>
           <p>Age: {{ user.age }} </p>
-          <p>Sex: {{ user.sex == 'M' ? "Male" : "Female" }} </p>
-          <div class="card-actions justify-end">
-          </div>
+          <p>Sex: {{ user.sex }} </p>
         </div>
+        <!-- <div class="card-body shrink">
+          <div class="card-actions justify-end">
+            <button class="btn btn-secondary" (click)="goBack()">back</button>
+          </div>
+        </div> -->
       </div>
     </div>
       <div class="flex justify-center">

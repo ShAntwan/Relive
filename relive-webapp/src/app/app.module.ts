@@ -9,7 +9,7 @@ import { MessagesComponent } from './messages/messages.component';
 import { DashboardComponent } from './deprecated-components/dashboard/dashboard.component';
 
 import { AppRoutingModule } from './app-routing.module';
-import { UsersDetailsComponent } from './users-details/users-details.component';
+import { UsersDetailsComponent } from './manager-components/users-details/users-details.component';
 import { UsersComponent } from './users/users.component';
 import { DietProgramComponent } from './diet-program/diet-program.component';
 import { UserMeasurmentComponent } from './user-measurment/user-measurment.component';
@@ -20,6 +20,7 @@ import { ManagerFoodEditingComponent } from './manager-components/manager-food-e
 import { UserLoginComponent } from './user-components/user-login/user-login.component';
 import { UserNewDietPlanComponent } from './user-components/user-new-diet-plan/user-new-diet-plan.component';
 import { LastDietPlanComponent } from './last-diet-plan/last-diet-plan.component';
+import { ZoomTestComponent } from './deprecated-components/zoom-test/zoom-test.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { LastDietPlanComponent } from './last-diet-plan/last-diet-plan.component
     ManagerFoodEditingComponent,
     UserLoginComponent,
     UserNewDietPlanComponent,
-    LastDietPlanComponent
+    LastDietPlanComponent,
+    ZoomTestComponent
   ],
   imports: [
     BrowserModule,

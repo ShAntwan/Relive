@@ -1,41 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Centered Text Example</title>
-    <style>
-        body {
-            margin: 0;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: Arial, sans-serif;
-        }
-        .content {
-            text-align: center;
-        }
-        
-        .flex{
-            color: #c7995d;
-        }
-
-        .btn{
-            color: #c7995d;
-        }
-
-    </style>
-</head>
-<body>
-    <div class="flex content w-full justify-center">
-        <div class="flex w-[90%]">
-            <div class="grid h-20 flex-grow card button btn btn-outline bg-base-300 rounded-box place-items-center" routerLink="/new-user">New User</div>
-            <div class="divider divider-horizontal">OR</div>
-            <div class="grid h-20 flex-grow card button btn btn-outline bg-base-300 rounded-box place-items-center" routerLink="/users-details">Existing User</div>
-          </div>
-    </div>
-</body>
-</html>
-
-
+<div class="grid grid-cols-1 gap-4 w-full min-h-screen h-full place-items-center">
+    <div class="flex w-[90%] h-20">
+        <div class="h-20 flex-grow button btn btn-outline bg-base-300 rounded-box place-items-center" routerLink="/new-user">New User</div>
+        <div class="divider divider-horizontal">OR</div>
+        <div class="h-20 flex-grow button btn btn-outline bg-base-300 rounded-box place-items-center" routerLink="/users-details">Existing User</div>
+      </div>
+</div>
