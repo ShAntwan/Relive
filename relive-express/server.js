@@ -597,7 +597,7 @@ app.get('/api/Meals/delete', (req, res) => {
 
 //************************ ProgramMeals ***********************//
 //create table
-app.get('api/ProgramMeals/createTable', (req, res) => {
+app.get('/api/ProgramMeals/createTable', (req, res) => {
   let sql ="CREATE TABLE IF NOT EXISTS ProgramMeals (autonumID int(32) UNSIGNED NOT NULL AUTO_INCREMENT, ProgramMealID int(32) UNSIGNED NOT NULL, " + 
   "ProgramID int(32) UNSIGNED NOT NULL, MealID int(32) UNSIGNED NOT NULL, PRIMARY KEY (ProgramMealID), " + 
   "KEY (autonumID), FOREIGN KEY (ProgramID) REFERENCES DietaryPrograms(ProgramID), FOREIGN KEY (MealID) REFERENCES Meals(MealID)) ENGINE = InnoDB;";
@@ -807,6 +807,13 @@ app.get('/api/CustomerMealHistory/addNew', (req, res) => {
 //find row
 //update row
 //delete row
+
+//************************ Custom Queries ***********************//
+// Query to Add User
+// app.post('/api/Users/addNew', (req, res) => {
+// //ha
+// })
+
 
 //************************ Basics ***********************//
 
