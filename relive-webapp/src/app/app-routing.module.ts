@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { FoodsComponent } from './foods/foods.component';
 import { DashboardComponent } from './deprecated-components/dashboard/dashboard.component';
 import { FoodDetailComponent } from './food-detail/food-detail.component';
-import { UsersDetailsComponent } from './users-details/users-details.component';
+import { UsersDetailsComponent } from './manager-components/users-details/users-details.component';
 import { UsersComponent } from './users/users.component';
 import { DietProgramComponent } from './diet-program/diet-program.component';
 import { SystemRecommendationComponent } from './system-recommendation/system-recommendation.component';
@@ -14,6 +14,7 @@ import { ManagerFoodEditingComponent } from './manager-components/manager-food-e
 import { UserDashboardComponent } from './user-components/user-dashboard/user-dashboard.component';
 import { UserLoginComponent } from './user-components/user-login/user-login.component';
 import { UserNewDietPlanComponent } from './user-components/user-new-diet-plan/user-new-diet-plan.component';
+import { ZoomTestComponent } from './deprecated-components/zoom-test/zoom-test.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/users', pathMatch: 'full' },
@@ -32,6 +33,7 @@ const routes: Routes = [
   { path: 'user-dashboard', component: UserDashboardComponent },
   { path: 'user-login', component: UserLoginComponent },
   { path: 'user-new-diet-plan', component: UserNewDietPlanComponent },
+  { path: 'test-page-zoom', component: ZoomTestComponent}
 ];
 
 @NgModule({

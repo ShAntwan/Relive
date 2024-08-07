@@ -30,7 +30,9 @@
   <div class="navbar-center">
     <a class="btn btn-ghost text-2xl">{{title}}</a>
   </div>
-  <div class="navbar-end"></div>
+  <div class="navbar-end">
+    <button class="btn" [style]="BackStyle" (click)="goBack()">Back</button>
+  </div>
 </div>
 <router-outlet></router-outlet>
 <app-messages></app-messages>
@@ -54,6 +56,8 @@
         <li><a routerLink="/user-dashboard">User Dashboard</a></li>
         <li><a routerLink="/user-login">User Login</a></li>
         <li><a routerLink="/user-new-diet-plan">User New Diet Plan</a></li>
+        <br>
+        <li class="test"><a routerLink="/test-page-zoom">TEST: Page zoom</a></li>
       </nav>
     </ul>
   </div>

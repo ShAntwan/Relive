@@ -9,6 +9,7 @@ import { Observable, of } from 'rxjs';
 export class UserDetailsServiceService {
 
   constructor() { }
+  
   getUsers(): Observable<User[]> {
     const users = of(USERS);
     return users;
