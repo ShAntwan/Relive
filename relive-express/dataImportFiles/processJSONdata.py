@@ -15,7 +15,7 @@ addCustomerURL = "CustomerDetails/addNew"
 # MeasurementDetails
 addNewMeasurementURL = 'MeasurementDetails/addNew'
 # DietaryPrograms
-addDietProgramURL = 'DietPrograms/addNew'
+addDietProgramURL = 'DietaryPrograms/addNew'
 # CustomerPrograms
 addCustomerProgram = 'CustomerPrograms/addNew'
 # ProgramMeals
@@ -85,7 +85,7 @@ def main():
     allfiles = os.listdir(basePath)
     print("Files to Import:\n", allfiles)
     jsonIDFoodIDDict, maxFoodIndex = addFoodItems()
-    customerIndex = 0 # used for customerID and loginID
+    customerIndex = 2 # used for customerID and loginID
     measureIndex = 0
     programIndex = 0
     customerProgramIndex = 0
@@ -104,8 +104,9 @@ def main():
                 # create loginDetail object
                 loginDetail = {
                     "LoginID": customerIndex,
-                    "PhoneNumber": str(customerItem['Phone']) if 'Phone' in customerItem else '',
-                    "CardID": str(customerItem['IdCard']) if 'IdCard' in customerItem else '',
+                    "UserName": str(customerItem['Phone']) if 'Phone' in customerItem else '',
+                    "Password": str(customerItem['IdCard']) if 'IdCard' in customerItem else '',
+                    "Role": "User"
                 }
 
                 join_date = safe_convert_to_datetime(abs(customerItem['JoinDate']['seconds']), "datetime")
@@ -117,6 +118,8 @@ def main():
                     "LoginID": customerIndex,
                     'FirstName': customerItem['FirstName'].replace("'","\\'") if 'FirstName' in customerItem else '',
                     'LastName': customerItem['LastName'].replace("'","\\'") if 'LastName' in customerItem else '',
+                    "PhoneNumber": str(customerItem['Phone']) if 'Phone' in customerItem else '',
+                    "CardID": str(customerItem['IdCard']) if 'IdCard' in customerItem else '',
                     'JoinDate': join_date,
                     'BirthdayDate': birth_date,
                     'Sex': customerItem['Gender'] if 'Gender' in customerItem else '',

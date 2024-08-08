@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 var cors = require('cors')
 const DBName = 'relive_database';
 const { spawn } = require('child_process')
-
+const session = require('express-session');
 
 // create connection
 const db = mysql.createConnection({
@@ -19,6 +19,11 @@ const app = express();
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cors());
+app.use(session({
+	secret: 'secret',
+	resave: true,
+	saveUninitialized: true
+}));
 app.use((req, res, next) => {
   res.setHeader('Content-Type', 'application/json; charset=utf-8');
   next();
@@ -28,6 +33,40 @@ app.use((req, res, next) => {
 app.get('/', (req, res) => {
   res.send('Hello World!!!!')
 })
+
+//************************ functionality ***********************//
+
+app.post('/api/loginauth', (req, res) => {
+  console.log("step 1")
+  let username = req.body.UserName;
+	let password = req.body.Password;
+  console.log("step 1")
+  if (username && password) {
+    console.log("step 1")
+    db.query('SELECT * FROM LoginDetails WHERE username = ? AND password = ?', [username, password], (err, results) => {
+      if (err) throw err;
+			// If the account exists
+			if (results.length > 0) {
+        // console.log(results, results[0].Role)
+				// Authenticate the user
+				req.session.loggedin = true;
+				req.session.username = username;
+        req.session.role = results[0].Role;
+				// Redirect to home page
+        res.json({message: 'Welcome!'});
+				// response.redirect('/home');
+			} else {
+				res.send('Incorrect Username and/or Password!');
+			}			
+			res.end();
+    });
+  } else {
+		res.json({message: 'Please enter Username and Password!'});
+		res.end();
+	}
+})
+
+//************************ functionality-over ***********************//
 
 // each table gets its own section
 
@@ -41,8 +80,10 @@ app.get('/api/LoginDetails/createTable', (req, res) => {
     if (result.length > 0) {
       res.send('LoginDetails table exists...');
     } else {
+      // let sql2 = "CREATE TABLE IF NOT EXISTS LoginDetails (autonumID int(32) UNSIGNED NOT NULL AUTO_INCREMENT, LoginID int(32) UNSIGNED NOT NULL, " + 
+      // "PhoneNumber VARCHAR(15) NOT NULL, CardID VARCHAR(15) NOT NULL, PRIMARY KEY (LoginID), KEY (autonumID)) ENGINE = InnoDB;";
       let sql2 = "CREATE TABLE IF NOT EXISTS LoginDetails (autonumID int(32) UNSIGNED NOT NULL AUTO_INCREMENT, LoginID int(32) UNSIGNED NOT NULL, " + 
-      "PhoneNumber VARCHAR(15) NOT NULL, CardID VARCHAR(15) NOT NULL, PRIMARY KEY (LoginID), KEY (autonumID)) ENGINE = InnoDB;";
+      "UserName VARCHAR(50) NOT NULL, Password VARCHAR(20), Role VARCHAR(10), PRIMARY KEY (LoginID), KEY (autonumID)) ENGINE = InnoDB;";
       db.query(sql2, (err1, result1) => {
           if(err1) throw err1;
           console.log(result1);
@@ -53,9 +94,9 @@ app.get('/api/LoginDetails/createTable', (req, res) => {
 })
 
 //insert
-app.get('/api/LoginDetails/addNew', (req, res) => {
+app.post('/api/LoginDetails/addNew', (req, res) => {
   console.log(req.body)
-  let sql = "INSERT INTO LoginDetails (LoginID, PhoneNumber, CardID) VALUES (" + req.body.LoginID + ", '" + req.body.PhoneNumber  + "', '" + req.body.CardID + "')"
+  let sql = "INSERT INTO LoginDetails (LoginID, UserName, Password, Role) VALUES (" + req.body.LoginID + ", '" + req.body.UserName  + "', '" + req.body.Password + "', '" + req.body.Role + "')"
   db.query(sql, (err, result) => {
     if(err) throw err;
     console.log(result);
@@ -127,8 +168,8 @@ app.get('/api/LoginDetails/delete', (req, res) => {
 //creat table
 app.get('/api/CustomerDetails/createTable', (req, res) => {
     let sql = "CREATE TABLE IF NOT EXISTS CustomerDetails (autonumID int(32) UNSIGNED NOT NULL AUTO_INCREMENT, CustomerID int(32) UNSIGNED NOT NULL, " + 
-    "LoginID int(32) UNSIGNED NOT NULL, FirstName VARCHAR(50) NOT NULL, LastName VARCHAR(50) NOT NULL, " + 
-    "JoinDate DATETIME, BirthdayDate DATE, Sex VARCHAR(10), Athlete BOOL, DefaultLang VARCHAR(5), " +
+    "LoginID int(32) UNSIGNED NOT NULL, FirstName VARCHAR(50) NOT NULL, LastName VARCHAR(50) NOT NULL, PhoneNumber VARCHAR(15), CardID VARCHAR(9), " + 
+    "JoinDate DATETIME, BirthdayDate DATE, Email VARCHAR(50), Sex VARCHAR(10), Athlete BOOL, DefaultLang VARCHAR(5), " +
     "PRIMARY KEY (CustomerID), KEY (autonumID), FOREIGN KEY (LoginID) REFERENCES LoginDetails(LoginID)) ENGINE = InnoDB;";
     db.query(sql, (err, result) => {
         if(err) throw err;
@@ -138,11 +179,11 @@ app.get('/api/CustomerDetails/createTable', (req, res) => {
 })
 
 //insert
-app.get('/api/CustomerDetails/addNew', (req, res) => {
-  let sql = "INSERT INTO CustomerDetails (CustomerID, LoginID, FirstName, LastName, JoinDate, " +
-  "BirthdayDate, Sex, Athlete, DefaultLang) VALUES (" + req.body.CustomerID + ", " +
-  req.body.LoginID + ", '" + req.body.FirstName + "', '" + req.body.LastName + "','" + 
-  req.body.JoinDate + "', '" + req.body.BirthdayDate + "' ,'" + 
+app.post('/api/CustomerDetails/addNew', (req, res) => {
+  let sql = "INSERT INTO CustomerDetails (CustomerID, LoginID, FirstName, LastName, PhoneNumber, CardID, JoinDate, " +
+  "BirthdayDate, Email, Sex, Athlete, DefaultLang) VALUES (" + req.body.CustomerID + ", " + req.body.LoginID + ", '" + 
+  req.body.FirstName + "', '" + req.body.LastName + "','" + req.body.PhoneNumber + "', '" + req.body.CardID + "', '" +
+  req.body.JoinDate + "', '" + req.body.BirthdayDate + "' ,'" + req.body.Email + "', '" +
   req.body.Sex + "', " + req.body.Athlete +  ", '" + req.body.DefaultLang + "')"
   db.query(sql, (err, result) => {
     if(err) throw err;
@@ -379,7 +420,7 @@ app.get('/api/DietaryPrograms/createTable', (req, res) => {
 })
 
 // get all rows of table
-app.get('/api/DietPrograms/getAll', (req, res) => {
+app.get('/api/DietaryPrograms/getAll', (req, res) => {
   let sql = "SELECT * FROM DietaryPrograms;"
   db.query(sql, (err, result) => {
     if(err) throw err;
@@ -399,7 +440,7 @@ app.get('/api/DietaryPrograms/dropTable', (req, res) => {
 })
 
 // add row to DietPrograms
-app.get('/api/DietProgram/addNew', (req, res) => {
+app.get('/api/DietaryPrograms/addNew', (req, res) => {
   let sql = "INSERT INTO DietaryPrograms (ProgramID, ProgramName, TasteProfile, Description) Values" + 
   "(" + req.body.ProgramID + ", '" + req.body.ProgramName + "', '" + req.body.TasteProfile + "', '" + req.body.Description + "')"
   db.query(sql, (err, result) => {
@@ -410,7 +451,7 @@ app.get('/api/DietProgram/addNew', (req, res) => {
 })
 
 // find row in DietPrograms
-app.get('/api/DietProgram/find', (req, res) => {
+app.get('/api/DietaryPrograms/find', (req, res) => {
   let sql = "SELECT * FROM DietaryPrograms WHERE ProgramID = " + req.body.AssignmentID + ";"
   db.query(sql, (err, result) => {
     if(err) throw err;
@@ -420,7 +461,7 @@ app.get('/api/DietProgram/find', (req, res) => {
 })
 
 // update row in DietPrograms
-app.get('/api/DietProgram/update', (req, res) => {
+app.get('/api/DietaryPrograms/update', (req, res) => {
   let sql = "UPDATE DietaryPrograms SET ProgramName = '" + req.body.ProgramName + "', TasteProfile = '" + req.body.TasteProfile + 
   "', Description = '" + req.body.Description + "' WHERE ProgramID = " + req.body.ProgramID + ";"
   db.query(sql, (err, result) => {
@@ -431,7 +472,7 @@ app.get('/api/DietProgram/update', (req, res) => {
 })
 
 //delete row
-app.get('/api/DietaryProgram/delete', (req, res) => {
+app.get('/api/DietaryPrograms/delete', (req, res) => {
   let sql = "DELETE FROM DietaryPrograms WHERE ProgramID = " + req.body.ProgramID + ";"
   db.query(sql, (err, result) => {
     if(err) throw err;
@@ -456,7 +497,7 @@ app.get('/api/CustomerPrograms/createTable', (req, res) => {
 })
 
 //insert 
-app.get('/api/CustomerProgram/addNew', (req, res) => {
+app.get('/api/CustomerPrograms/addNew', (req, res) => {
   let sql = "INSERT INTO CustomerPrograms (CustomerProgramID, CustomerID, ProgramID, ProgramStart, Notes) VALUES (" + req.body.CustomerProgramID + ", " +
   req.body.CustomerID + ", " + req.body.ProgramID + ", '" + req.body.ProgramStart + "', '" + req.body.Notes + "')"
   db.query(sql, (err, result) => {
@@ -487,7 +528,7 @@ app.get('/api/CustomerPrograms/dropTable', (req, res) => {
 })
 
 //find row
-app.get('/api/CustomerProgram/find', (req, res) => {
+app.get('/api/CustomerPrograms/find', (req, res) => {
   let sql = "SELECT * FROM CustomerPrograms WHERE CustomerProgramID = " + req.body.CustomerProgramID + ";"
   db.query(sql, (err, result) => {
     if(err) throw err;
@@ -497,7 +538,7 @@ app.get('/api/CustomerProgram/find', (req, res) => {
 })
 
 // update row
-app.get('/api/CustomerProgram/update', (req, res) => {
+app.get('/api/CustomerPrograms/update', (req, res) => {
   let sql = "UPDATE CustomerPrograms SET CustomerID = " + req.body.CustomerID + ", ProgramID = " + req.body.ProgramID + 
   ", ProgramStart = '" + new Date(req.body.ProgramStart) + ", ProgramEnd = '" + new Date(req.body.ProgramEnd) + 
   ", Notes = '" + req.body.Notes + "' WHERE CustomerProgramID = " + req.body.CustomerProgramID + ";"
@@ -509,7 +550,7 @@ app.get('/api/CustomerProgram/update', (req, res) => {
 })
 
 //delete row
-app.get('/api/CustomerProgram/delete', (req, res) => {
+app.get('/api/CustomerPrograms/delete', (req, res) => {
   let sql = "DELETE FROM CustomerPrograms WHERE CustomerProgramID = " + req.body.CustomerProgramID + ";"
   db.query(sql, (err, result) => {
     if(err) throw err;
@@ -843,11 +884,35 @@ app.get('/api/getDropAllTablesScript', (req, res) => {
 })
 
 app.get('/api/dropAllTables', (req, res) => {
-  let sql = "DROP TABLE IF EXISTS test;"
+  let sql = "SET FOREIGN_KEY_CHECKS = 0;" 
+  let sql1 = "drop table if exists roles;" 
+  let sql2 = "drop table if exists user_roles;" 
+  let sql3 = "drop table if exists users;" 
+  let sql4 = "SET FOREIGN_KEY_CHECKS = 1;"
   db.query(sql, (err, result) => {
     if(err) throw err;
     console.log(result);
-    res.send(result);
+    db.query(sql1, (err1, result1) => {
+      if(err1) throw err1;
+      console.log(result1);
+      db.query(sql2, (err2, result2) => {
+        if(err2) throw err2;
+        console.log(result2);
+        db.query(sql3, (err3, result3) => {
+          if(err3) throw err3;
+          console.log(result3);
+          db.query(sql4, (err4, result4) => {
+            if(err4) throw err4;
+            console.log(result4);
+            res.send(result4);
+          })
+          // res.send(result);
+        })
+        // res.send(result);
+      })
+      // res.send(result);
+    })
+    // res.send(result);
   })
 })
 
