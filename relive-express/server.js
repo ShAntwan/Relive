@@ -31,7 +31,39 @@ app.use((req, res, next) => {
   next();
 });
 
-const RSA_PRIVATE_KEY = fs.readFileSync('./demos/private.key');
+const RSA_PRIVATE_KEY = fs.readFileSync('./demos/jwtRS256.key');
+
+function loginRoute(req, res) {
+
+  const username = req.body.UserName, 
+        password = req.body.Password;
+
+  if (validateUserNameAndPassword()) {
+    const userId = findUserIdForUserName(username);
+
+    const jwtBearerToken = jwt.sign({}, RSA_PRIVATE_KEY, {
+            algorithm: 'RS256',
+            expiresIn: 120,
+            subject: userId
+        })
+
+        // send the JWT back to the user
+        // TODO - multiple options available
+
+        // set it in an HTTP Only + Secure Cookie
+        res.cookie("SESSIONID", jwtBearerToken, {httpOnly:true, secure:true});
+
+        // set it in the HTTP Response body
+        res.status(200).json({
+          idToken: jwtBearerToken, 
+          expiresIn: 16665
+        });
+  }
+  else {
+      // send status 401 Unauthorized
+      res.sendStatus(401); 
+  }
+}
 
 app.get('/', (req, res) => {
   res.send('Hello World!!!!')

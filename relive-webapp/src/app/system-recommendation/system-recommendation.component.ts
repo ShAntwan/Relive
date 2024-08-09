@@ -6,5 +6,6 @@ import { Component } from '@angular/core';
   styleUrl: './system-recommendation.component.css'
 })
 export class SystemRecommendationComponent {
+  weekdays: String[]=['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 
 }
