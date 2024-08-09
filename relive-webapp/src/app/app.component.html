@@ -1,40 +1,22 @@
-<!-- <h1>{{title}}</h1> -->
-<!-- <app-foods></app-foods> -->
-<!-- <nav>
-  <a class="btn btn-primary" routerLink="/dashboard">Dashboard</a>
-  <a class="btn btn-primary" routerLink="/foods">foods</a>
-</nav> -->
-<div class="navbar navbar bg-primary text-primary-content">
-  <div class="navbar-start">
-    <div class="drawer-content">
-      <!-- Page content here -->
-      <label for="my-drawer" class="btn btn-ghost btn-circle">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" /></svg>
-      </label>
+<div class="min-h-screen min-w-screen flex flex-col">
+  <div class="navbar navbar bg-primary text-primary-content">
+    <div class="navbar-start">
+      <div class="drawer-content">
+        <!-- Page content here -->
+        <label for="my-drawer" class="btn btn-ghost btn-circle">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" /></svg>
+        </label>
+      </div> 
     </div> 
-    <!-- <div class="dropdown">
-      <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" /></svg>
-      </div>
-      <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-        <nav>
-          <li><a routerLink="/dashboard">Dashboard</a></li>
-          <li><a routerLink="/foods">Foods</a></li>
-          <li><a>Feedback</a></li>
-          <li><a>Settings</a></li>
-          <li><a>About</a></li>
-        </nav>
-      </ul>
-    </div> -->
-  </div> 
-  <div class="navbar-center">
-    <a class="btn btn-ghost text-2xl">{{title}}</a>
+    <div class="navbar-center">
+      <a class="btn btn-ghost text-2xl">{{title}}</a>
+    </div>
+    <div class="navbar-end">
+      <button class="btn" [style]="BackStyle" (click)="goBack()">Back</button>
+    </div>
   </div>
-  <div class="navbar-end">
-    <button class="btn" [style]="BackStyle" (click)="goBack()">Back</button>
-  </div>
+  <router-outlet></router-outlet>
 </div>
-<router-outlet></router-outlet>
 <app-messages></app-messages>
 <div class="drawer">
   <input id="my-drawer" type="checkbox" class="drawer-toggle" />

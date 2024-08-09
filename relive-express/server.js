@@ -5,6 +5,8 @@ var cors = require('cors')
 const DBName = 'relive_database';
 const { spawn } = require('child_process')
 const session = require('express-session');
+const jwt = require('jsonwebtoken');
+const fs = require('fs');
 
 // create connection
 const db = mysql.createConnection({
@@ -29,6 +31,7 @@ app.use((req, res, next) => {
   next();
 });
 
+const RSA_PRIVATE_KEY = fs.readFileSync('./demos/private.key');
 
 app.get('/', (req, res) => {
   res.send('Hello World!!!!')

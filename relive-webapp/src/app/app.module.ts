@@ -21,6 +21,7 @@ import { UserLoginComponent } from './user-components/user-login/user-login.comp
 import { UserNewDietPlanComponent } from './user-components/user-new-diet-plan/user-new-diet-plan.component';
 import { LastDietPlanComponent } from './last-diet-plan/last-diet-plan.component';
 import { ZoomTestComponent } from './deprecated-components/zoom-test/zoom-test.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { ZoomTestComponent } from './deprecated-components/zoom-test/zoom-test.c
     UserLoginComponent,
     UserNewDietPlanComponent,
     LastDietPlanComponent,
-    ZoomTestComponent
+    ZoomTestComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

@@ -15,9 +15,11 @@ import { UserDashboardComponent } from './user-components/user-dashboard/user-da
 import { UserLoginComponent } from './user-components/user-login/user-login.component';
 import { UserNewDietPlanComponent } from './user-components/user-new-diet-plan/user-new-diet-plan.component';
 import { ZoomTestComponent } from './deprecated-components/zoom-test/zoom-test.component';
+import { LoginComponent } from './login/login.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/users', pathMatch: 'full' },
+  { path: '', redirectTo: '/login-screen', pathMatch: 'full' },
+  { path: 'login-screen', component: LoginComponent },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'detail/:id', component: FoodDetailComponent },
   { path: 'foods', component: FoodsComponent },
