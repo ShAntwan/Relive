@@ -3,4 +3,5 @@ export interface LoginUser {
     UserName : string;
     // Password: string;
     Role: string;
+    success_token: string;
   }

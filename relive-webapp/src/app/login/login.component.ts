@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
+import { AppComponent } from '../app.component';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -16,7 +18,8 @@ export class LoginComponent {
 
   constructor (
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private appComp: AppComponent,
   ){
 
   }
@@ -27,15 +30,33 @@ export class LoginComponent {
 
   loginServe() {
     const val = this.loginForm.value;
-
     if (val.UserName && val.Password) {
+        // console.log("fuck", )
         this.authService.login(val.UserName, val.Password)
-            .subscribe(
-                () => {
-                    console.log("User is logged in");
-                    this.router.navigateByUrl('/users-details');
-                }
-            );
+        .subscribe((res) => {
+              console.log("User is logged in", res);
+              localStorage.setItem("access_token", JSON.stringify(res.success_token));
+              this.router.navigateByUrl('/users-details');
+              this.appComp.LoginStyle='visibility: hidden;'
+              this.appComp.LogoutStyle='visibility: visible;'
+          }
+        );
+    //   this.authService.login(loginUrl, data)
+    //     .then((serverLoginResponse: any) => {
+    //         console.log('Request successful, check login results.');
+    //     })
+    //     .catch((serverLoginError: any) => {
+    //         console.error('error in subscribe err');
+    //         // I would first examine the error response
+    //         console.log(serverLoginError);
+    //     });
+    // });
     }
+  }
+
+  testAuth(){
+    this.authService.testAuth().subscribe((res)=>{
+      console.log("test results", res)
+    })
   }
 }

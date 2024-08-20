@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Location } from '@angular/common';
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -10,9 +11,12 @@ import { Location } from '@angular/common';
 export class AppComponent {
   title = 'Relive System';
   BackStyle = 'visibility: hidden;'
+  LogoutStyle = 'visibility: hidden;'
+  LoginStyle = 'visibility: visible;'
 
   constructor(
-    private location: Location
+    private location: Location,
+    private authService: AuthService
   ) {}
 
   goBack(): void {
@@ -29,4 +33,12 @@ export class AppComponent {
       this.BackStyle = 'visibility: hidden;'
     }
   }
+
+  logOut(){
+    console.log("out")
+    this.authService.logout()
+    this.LoginStyle = 'visibility: visible;'
+    this.LogoutStyle = 'visibility: hidden;'
+  }
+  
 }

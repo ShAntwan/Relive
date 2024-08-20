@@ -13,7 +13,8 @@ import { UsersDetailsComponent } from './manager-components/users-details/users-
 import { UsersComponent } from './users/users.component';
 import { DietProgramComponent } from './diet-program/diet-program.component';
 import { UserMeasurmentComponent } from './user-measurment/user-measurment.component';
-import { provideHttpClient, withFetch } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule, provideHttpClient, withFetch } from '@angular/common/http';
+import { JwtInterceptor } from './services/auth.service';
 // import { FoodEditingForManagerComponent } from './food-editing-for-manager/food-editing-for-manager.component';
 import { UserDashboardComponent } from './user-components/user-dashboard/user-dashboard.component';
 import { ManagerFoodEditingComponent } from './manager-components/manager-food-editing/manager-food-editing.component';
@@ -48,11 +49,16 @@ import { LoginComponent } from './login/login.component';
     FormsModule,
     ReactiveFormsModule,
     AppRoutingModule,
+    HttpClientModule,
     // FoodsComponent,
     // FoodDetailComponent
   ],
   providers: [
-    provideHttpClient(withFetch()),
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: JwtInterceptor,
+      multi: true,
+    }
   ],  
   bootstrap: [AppComponent]
 })
