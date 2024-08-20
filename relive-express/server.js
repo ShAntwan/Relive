@@ -7,8 +7,8 @@ const { spawn } = require('child_process')
 const session = require('express-session');
 // const jwt = require('jsonwebtoken');
 const { generateToken, validateToken } = require('./utils/jwt-utils');
-const fs = require('fs');
-const { EmptyResultError } = require("sequelize");
+// const fs = require('fs');
+// const { EmptyResultError } = require("sequelize");
 
 // create connection
 const db = mysql.createConnection({
@@ -133,7 +133,7 @@ app.get('/api/protected', validateToken, (req, res) => {
 
 //************************ functionality-over ***********************//
 
-//************************ createNewUser-over ***********************//
+//************************ createNewUser-start ***********************//
 
 app.post('/api/createNewUser', (req, res) => {
   if (req.body.LoginID == -1){
@@ -154,7 +154,11 @@ app.post('/api/createNewUser', (req, res) => {
               (err, res3) => {
                 if(err) throw err;
                 console.log(res3);
-                res.json(res3)
+                res.json({ 
+                  success: true,
+                  message: "successfully created New User",
+                  customerID: CustomerID,
+                });
                 res.end()
               })
           })
@@ -164,6 +168,44 @@ app.post('/api/createNewUser', (req, res) => {
 })
 
 //************************ createNewUser-over ***********************//
+//************************ PullDataQueries-start ***********************//
+
+// get all Recent Users, getAll already available
+app.get('/api/CustomerDetails/getLatest100', (req, res) => {
+  let sql = "SELECT * FROM CustomerDetails ORDER BY joinDate DESC LIMIT 200"
+  db.query(sql, (err, result) => {
+    if(err) throw err;
+    console.log(result)
+    res.json(result)
+    res.end()
+  })
+})
+
+// get measurements by user
+
+// get dietplan by user
+
+// get meals by dietplan
+
+// get foods by meal
+
+//************************ PullDataQueris-over ***********************//
+//************************ PushDataQueries-start ***********************//
+
+// add/edit new measurements
+
+// add/edit dietplan (and all that which it entails)
+
+// add customerhistory entry
+
+//************************ PushDataQueries-over ***********************//
+
+
+//************************ getSystemRecommendation-start ***********************//
+
+// run model and get dietplan
+
+//************************ getSystemRecommendation-over ***********************//
 // each table gets its own section
 
 //************************ LoginDetails ***********************//
@@ -330,7 +372,7 @@ app.get('/api/CustomerDetails/find', (req, res) => {
 })
 
 //delete row
-app.get('/api/CustomerDetails/delete', (req, res) => {
+app.delete('/api/CustomerDetails/delete', (req, res) => {
   let sql = "DELETE FROM CustomerDetails WHERE CustomerID = " + req.body.CustomerID + ";"
   db.query(sql, (err, result) => {
     if(err) throw err;
@@ -390,8 +432,9 @@ app.get('/api/MeasurementDetails/dropTable', (req, res) => {
 })
 
 //find row
-app.get('/api/MeasurementDetails/find', (req, res) => {
-  let sql = "SELECT * FROM MeasurementDetails WHERE MeasureID = " + req.body.MeasureID + ";"
+app.get('/api/MeasurementDetails/find/:id', (req, res) => {
+  const id = req.params.id
+  let sql = "SELECT * FROM MeasurementDetails WHERE MeasureID = " + id + ";"
   db.query(sql, (err, result) => {
     if(err) throw err;
     console.log(result);

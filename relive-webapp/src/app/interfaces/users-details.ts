@@ -1,14 +1,16 @@
 export interface User {
-    id: number;
-    loginID : string;
-    firstName: string;
-    lastName:string;
-    phoneNumber:string;
-    joinDate: Date;
-    startingWeight: number;
-    birthdayDate: Date;
-    height: number;
-    age: number;
-    sex:string;
-    athlete: boolean;
+    CustomerID: number;
+    LoginID : number;
+    FirstName: string;
+    LastName: string;
+    PhoneNumber: string;
+    CardID: string;
+    JoinDate: Date;
+    startingWeight: number; // not strictly needed
+    BirthdayDate: Date;
+    height: number; // not strictly needed
+    Email: string;
+    Sex: string;
+    Athlete: boolean;
+    DefaultLang: string
   }
