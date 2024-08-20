@@ -22,7 +22,13 @@ export class UsersDetailsComponent {
   }
 
   getUsers(): void {
-    this.userDetailsService.getUsers().subscribe(users => this.users = users);
+    this.userDetailsService.getUsersLimited().subscribe(data => { this.users = data; console.log(data) });
+    // this.foodService.getFoodsAPIhttpGet().subscribe(foods => this.foods = foods)
+    // this.userDetailsService.getUsersLimited().then((data: any) => { this.foods = data }).then(()=>{console.log("inner foods:", this.foods)})
+    console.log(this.users)
   }
 
+  calcAge(date: any){
+    return this.userDetailsService.calculateAge(date)
+  }
 }

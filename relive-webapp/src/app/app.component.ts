@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Location } from '@angular/common';
 import { AuthService } from './services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -16,7 +17,8 @@ export class AppComponent {
 
   constructor(
     private location: Location,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router,
   ) {}
 
   goBack(): void {
@@ -39,6 +41,7 @@ export class AppComponent {
     this.authService.logout()
     this.LoginStyle = 'visibility: visible;'
     this.LogoutStyle = 'visibility: hidden;'
+    this.router.navigateByUrl('/login-screen');
   }
   
 }

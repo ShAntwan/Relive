@@ -40,11 +40,11 @@ export const CATEGORIES: Category[] = [
     { id: 7, name: "Drinks",},
 ];
 
-export const USERS: User[] = [
-    { id: 1, loginID: 'cyganderton', firstName: 'Cy', lastName: 'Ganderton', phoneNumber: '123-456-7890', joinDate: new Date('2023-01-01'), startingWeight: 70, birthdayDate: new Date('1990-01-01'), height: 175, age: 33, sex: 'M', athlete: true },
-    { id: 2, loginID: 'harthagerty', firstName: 'Hart', lastName: 'Hagerty', phoneNumber: '098-765-4321', joinDate: new Date('2022-06-15'), startingWeight: 80, birthdayDate: new Date('1985-06-15'), height: 180, age: 38, sex: 'F', athlete: false },
-    { id: 3, loginID: 'briceswyre', firstName: 'Brice', lastName: 'Swyre', phoneNumber: '555-123-4567', joinDate: new Date('2021-03-20'), startingWeight: 85, birthdayDate: new Date('1995-03-20'), height: 170, age: 29, sex: 'M', athlete: true }
-];
+// export const USERS: User[] = [
+//     { id: 1, loginID: 'cyganderton', firstName: 'Cy', lastName: 'Ganderton', phoneNumber: '123-456-7890', joinDate: new Date('2023-01-01'), startingWeight: 70, birthdayDate: new Date('1990-01-01'), height: 175, age: 33, sex: 'M', athlete: true },
+//     { id: 2, loginID: 'harthagerty', firstName: 'Hart', lastName: 'Hagerty', phoneNumber: '098-765-4321', joinDate: new Date('2022-06-15'), startingWeight: 80, birthdayDate: new Date('1985-06-15'), height: 180, age: 38, sex: 'F', athlete: false },
+//     { id: 3, loginID: 'briceswyre', firstName: 'Brice', lastName: 'Swyre', phoneNumber: '555-123-4567', joinDate: new Date('2021-03-20'), startingWeight: 85, birthdayDate: new Date('1995-03-20'), height: 170, age: 29, sex: 'M', athlete: true }
+// ];
 
 export const DIETPROGRAMS: dietProgram[] = [
     {

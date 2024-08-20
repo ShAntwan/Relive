@@ -31,6 +31,16 @@ export class UserMeasurmentComponent {
 
   getUser(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.userService.getUser(id).subscribe(user => this.user = user)
+    this.userService.getUser(id).subscribe(data => { this.user = data[0], console.log("user", data)})
+  }
+
+  calcAge(date: any){
+    return this.userService.calculateAge(date)
+  }
+
+  formatDate(date: any, type: string): string {
+    if (type == "date")
+      return new Date(date).toLocaleDateString()
+    return new Date(date).toLocaleString()
   }
 }

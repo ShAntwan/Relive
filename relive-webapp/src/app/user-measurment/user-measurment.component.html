@@ -15,19 +15,19 @@
       </div>   -->
       <div class="card w-full bg-base-100 shadow-xl flex flex-row">
         <div class="card-body grow">
-          <h2 class="card-title"><th>{{user.firstName}} {{user.lastName}}</th></h2>
-          <p>Phone Number: {{ user.phoneNumber }}</p>
-          <p>ID: {{ user.id }}</p>
+          <h2 class="card-title"><th>{{user.FirstName}} {{user.LastName}}</th></h2>
+          <p>Phone Number: {{ user.PhoneNumber }}</p>
+          <p>ID: {{ user.CardID }}</p>
         </div>
         <div class="card-body grow">
-            <p>Join Date: {{ user.joinDate.toLocaleString() }}</p>
+            <p>Join Date: {{ formatDate(user.JoinDate, "datetime") }}</p>
             <p>Height: {{ user.height }} </p>
             <p>Starting Weight: {{ user.startingWeight }} </p>
         </div>
         <div class="card-body grow">
-          <p>Birthday: {{ user.birthdayDate.toLocaleString() }}</p>
-          <p>Age: {{ user.age }} </p>
-          <p>Sex: {{ user.sex }} </p>
+          <p>Birthday: {{  formatDate(user.BirthdayDate, "date") }}</p>
+          <p>Age: {{ calcAge(user.BirthdayDate) }} </p>
+          <p>Sex: {{ user.Sex }} </p>
         </div>
         <!-- <div class="card-body shrink">
           <div class="card-actions justify-end">
