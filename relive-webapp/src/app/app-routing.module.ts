@@ -16,6 +16,7 @@ import { UserLoginComponent } from './user-components/user-login/user-login.comp
 import { UserNewDietPlanComponent } from './user-components/user-new-diet-plan/user-new-diet-plan.component';
 import { ZoomTestComponent } from './deprecated-components/zoom-test/zoom-test.component';
 import { LoginComponent } from './login/login.component';
+import { AddMeasurmentsComponent } from './add-measurments/add-measurments.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login-screen', pathMatch: 'full' },
@@ -35,7 +36,9 @@ const routes: Routes = [
   { path: 'user-dashboard', component: UserDashboardComponent },
   { path: 'user-login', component: UserLoginComponent },
   { path: 'user-new-diet-plan', component: UserNewDietPlanComponent },
-  { path: 'test-page-zoom', component: ZoomTestComponent}
+  { path: 'test-page-zoom', component: ZoomTestComponent},
+  { path: 'add-measurments', component: AddMeasurmentsComponent}
+
 ];
 
 @NgModule({
