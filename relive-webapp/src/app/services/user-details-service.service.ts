@@ -2,13 +2,24 @@ import { Injectable } from '@angular/core';
 import { USERS } from '../mock-data';
 import { User } from '../interfaces/users-details';
 import { Observable, of } from 'rxjs';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { baseURL } from './baseURL';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserDetailsServiceService {
 
-  constructor() { }
+  addUser = 'createNewUser/'
+  
+  updateUserItem(userItem: User): Observable<Object> {
+    console.log(userItem)
+    return this.http.post(baseURL+this.addUser, userItem)
+  }
+
+  constructor(
+    private http: HttpClient
+  ) { }
   
   getUsers(): Observable<User[]> {
     const users = of(USERS);
