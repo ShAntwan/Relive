@@ -5,8 +5,10 @@ var cors = require('cors')
 const DBName = 'relive_database';
 const { spawn } = require('child_process')
 const session = require('express-session');
-const jwt = require('jsonwebtoken');
+// const jwt = require('jsonwebtoken');
+const { generateToken, validateToken } = require('./utils/jwt-utils');
 const fs = require('fs');
+const { EmptyResultError } = require("sequelize");
 
 // create connection
 const db = mysql.createConnection({
@@ -31,39 +33,39 @@ app.use((req, res, next) => {
   next();
 });
 
-const RSA_PRIVATE_KEY = fs.readFileSync('./demos/jwtRS256.key');
+// const RSA_PRIVATE_KEY = fs.readFileSync('./demos/jwtRS256.key');
 
-function loginRoute(req, res) {
+// function loginRoute(req, res) {
 
-  const username = req.body.UserName, 
-        password = req.body.Password;
+//   const username = req.body.UserName, 
+//         password = req.body.Password;
 
-  if (validateUserNameAndPassword()) {
-    const userId = findUserIdForUserName(username);
+//   if (validateUserNameAndPassword()) {
+//     const userId = findUserIdForUserName(username);
 
-    const jwtBearerToken = jwt.sign({}, RSA_PRIVATE_KEY, {
-            algorithm: 'RS256',
-            expiresIn: 120,
-            subject: userId
-        })
+//     const jwtBearerToken = jwt.sign({}, RSA_PRIVATE_KEY, {
+//             algorithm: 'RS256',
+//             expiresIn: 120,
+//             subject: userId
+//         })
 
-        // send the JWT back to the user
-        // TODO - multiple options available
+//         // send the JWT back to the user
+//         // TODO - multiple options available
 
-        // set it in an HTTP Only + Secure Cookie
-        res.cookie("SESSIONID", jwtBearerToken, {httpOnly:true, secure:true});
+//         // set it in an HTTP Only + Secure Cookie
+//         res.cookie("SESSIONID", jwtBearerToken, {httpOnly:true, secure:true});
 
-        // set it in the HTTP Response body
-        res.status(200).json({
-          idToken: jwtBearerToken, 
-          expiresIn: 16665
-        });
-  }
-  else {
-      // send status 401 Unauthorized
-      res.sendStatus(401); 
-  }
-}
+//         // set it in the HTTP Response body
+//         res.status(200).json({
+//           idToken: jwtBearerToken, 
+//           expiresIn: 16665
+//         });
+//   }
+//   else {
+//       // send status 401 Unauthorized
+//       res.sendStatus(401); 
+//   }
+// }
 
 app.get('/', (req, res) => {
   res.send('Hello World!!!!')
@@ -72,37 +74,96 @@ app.get('/', (req, res) => {
 //************************ functionality ***********************//
 
 app.post('/api/loginauth', (req, res) => {
-  console.log("step 1")
+  console.log("step 1", req.body)
   let username = req.body.UserName;
 	let password = req.body.Password;
-  console.log("step 1")
+  console.log("step 1", username, password)
   if (username && password) {
     console.log("step 1")
     db.query('SELECT * FROM LoginDetails WHERE username = ? AND password = ?', [username, password], (err, results) => {
       if (err) throw err;
 			// If the account exists
-			if (results.length > 0) {
+			if (results.length == 1) {
         // console.log(results, results[0].Role)
 				// Authenticate the user
-				req.session.loggedin = true;
-				req.session.username = username;
-        req.session.role = results[0].Role;
+				// req.session.loggedin = true;
+				// req.session.username = username;
+        // req.session.role = results[0].Role;
+        user = {
+          id: results[0].LoginID,
+          username: results[0].UserName,
+          password: results[0].Password,
+          role: results[0].Role
+        }
+        console.log(results[0], user)
+        const token = generateToken(user);
+        console.log("step 2")
 				// Redirect to home page
-        res.json({message: 'Welcome!'});
+        res.json({
+          success: true,
+          message: 'Welcome Back, ' + username,
+          success_token: token,
+        });
 				// response.redirect('/home');
 			} else {
-				res.send('Incorrect Username and/or Password!');
+				res.status(401).json({
+          success: false,
+          message: 'Incorrect Username and/or Password!',
+        });
 			}			
 			res.end();
     });
   } else {
-		res.json({message: 'Please enter Username and Password!'});
+		res.json({
+      success: false,
+      message: 'Please enter Username and Password!',
+    });
 		res.end();
 	}
 })
 
+// Protected Route
+app.get('/api/protected', validateToken, (req, res) => {
+  res.json({
+    success: true,
+    message: 'Welcome to the protected route!',
+    user: req.user,
+  });
+});
+
 //************************ functionality-over ***********************//
 
+//************************ createNewUser-over ***********************//
+
+app.post('/api/createNewUser', (req, res) => {
+  if (req.body.LoginID == -1){
+    let sql1 = "SELECT * FROM LoginDetails";
+    db.query(sql1, (err, result) => {
+      let LoginID = result.length
+      if(err) throw err;
+      db.query('INSERT INTO LoginDetails (LoginID, UserName, Password, Role) VALUES (?, ?, ?, ?)', 
+        [LoginID, req.body.UserName, req.body.Password, req.body.Role], (err, res1) =>{
+          if(err) throw err;
+          console.log(res1)
+          db.query('SELECT * FROM CustomerDetails', (err, res2) =>{
+            if (err) throw err;
+            let CustomerID = res2.length
+            db.query("INSERT INTO CustomerDetails (CustomerID, LoginID, FirstName, LastName, PhoneNumber, CardID, JoinDate, " +
+              "BirthdayDate, Email, Sex, Athlete, DefaultLang) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, "+ req.body.Athlete +", ?)", 
+              [CustomerID, LoginID, req.body.FirstName, req.body.LastName, req.body.PhoneNumber, req.body.CardID, req.body.JoinDate, req.body.BirthdayDate, req.body.Email, req.body.Sex, req.body.DefaultLang], 
+              (err, res3) => {
+                if(err) throw err;
+                console.log(res3);
+                res.json(res3)
+                res.end()
+              })
+          })
+      })
+    });
+  }
+})
+
+//************************ createNewUser-over ***********************//
 // each table gets its own section
 
 //************************ LoginDetails ***********************//
@@ -190,7 +251,7 @@ app.get('/api/LoginDetails/find', (req, res) => {
 })
 
 //delete row
-app.get('/api/LoginDetails/delete', (req, res) => {
+app.delete('/api/LoginDetails/delete', (req, res) => {
   let sql = "DELETE FROM LoginDetails WHERE LoginID = " + req.body.LoginID + ";"
   db.query(sql, (err, result) => {
     if(err) throw err;
@@ -203,7 +264,7 @@ app.get('/api/LoginDetails/delete', (req, res) => {
 //creat table
 app.get('/api/CustomerDetails/createTable', (req, res) => {
     let sql = "CREATE TABLE IF NOT EXISTS CustomerDetails (autonumID int(32) UNSIGNED NOT NULL AUTO_INCREMENT, CustomerID int(32) UNSIGNED NOT NULL, " + 
-    "LoginID int(32) UNSIGNED NOT NULL, FirstName VARCHAR(50) NOT NULL, LastName VARCHAR(50) NOT NULL, PhoneNumber VARCHAR(15), CardID VARCHAR(9), " + 
+    "LoginID int(32) UNSIGNED NOT NULL, FirstName VARCHAR(50) NOT NULL, LastName VARCHAR(50) NOT NULL, PhoneNumber VARCHAR(15), CardID VARCHAR(15), " + 
     "JoinDate DATETIME, BirthdayDate DATE, Email VARCHAR(50), Sex VARCHAR(10), Athlete BOOL, DefaultLang VARCHAR(5), " +
     "PRIMARY KEY (CustomerID), KEY (autonumID), FOREIGN KEY (LoginID) REFERENCES LoginDetails(LoginID)) ENGINE = InnoDB;";
     db.query(sql, (err, result) => {
@@ -295,12 +356,13 @@ app.get('/api/MeasurementDetails/createTable', (req, res) => {
 })
 
 //insert 
-app.get('/api/MeasurementDetails/addNew', (req, res) => {
+app.post('/api/MeasurementDetails/addNew', (req, res) => {
   let sql = "INSERT INTO MeasurementDetails (MeasureID, CustomerID, MeasureDate, TotalWeight, Height, BMI, BMR, "+
-  "AbdominalFatPercentage, FatPercentage, Muscles, Bones, Liquids, HipCircumference, HandCircumference, ThighCircumference, ChestCircumference) VALUES (" + req.body.MeasureID + ", " +
-  req.body.CustomerID + ", '" + req.body.MeasureDate + "', " + req.body.TotalWeight + ", " + req.body.Height + ", " + req.body.BMI + ", " + req.body.BMR + ", " + req.body.AbdominalFatPercentage + ", " + 
-  req.body.FatPercentage + ", " + req.body.Muscles + ", " + req.body.Bones + ", " + req.body.Liquids + ", " + 
-  req.body.HipCircumference + ", " + req.body.HandCircumference + ", " + req.body.ThighCircumference + ", " + req.body.ChestCircumference + ")"
+  "AbdominalFatPercentage, FatPercentage, Muscles, Bones, Liquids, HipCircumference, HandCircumference, ThighCircumference, ChestCircumference) VALUES (" + 
+  req.body.MeasureID + ", " + req.body.CustomerID + ", '" + req.body.MeasureDate + "', " + req.body.TotalWeight + ", " + req.body.Height + ", " + 
+  req.body.BMI + ", " + req.body.BMR + ", " + req.body.AbdominalFatPercentage + ", " + req.body.FatPercentage + ", " + req.body.Muscles + ", " + 
+  req.body.Bones + ", " + req.body.Liquids + ", " + req.body.HipCircumference + ", " + req.body.HandCircumference + ", " + req.body.ThighCircumference + ", " + 
+  req.body.ChestCircumference + ")"
   db.query(sql, (err, result) => {
     if(err) throw err;
     // console.log("NewMeasurement" + String(result));
@@ -475,7 +537,7 @@ app.get('/api/DietaryPrograms/dropTable', (req, res) => {
 })
 
 // add row to DietPrograms
-app.get('/api/DietaryPrograms/addNew', (req, res) => {
+app.post('/api/DietaryPrograms/addNew', (req, res) => {
   let sql = "INSERT INTO DietaryPrograms (ProgramID, ProgramName, TasteProfile, Description) Values" + 
   "(" + req.body.ProgramID + ", '" + req.body.ProgramName + "', '" + req.body.TasteProfile + "', '" + req.body.Description + "')"
   db.query(sql, (err, result) => {
@@ -532,7 +594,7 @@ app.get('/api/CustomerPrograms/createTable', (req, res) => {
 })
 
 //insert 
-app.get('/api/CustomerPrograms/addNew', (req, res) => {
+app.post('/api/CustomerPrograms/addNew', (req, res) => {
   let sql = "INSERT INTO CustomerPrograms (CustomerProgramID, CustomerID, ProgramID, ProgramStart, Notes) VALUES (" + req.body.CustomerProgramID + ", " +
   req.body.CustomerID + ", " + req.body.ProgramID + ", '" + req.body.ProgramStart + "', '" + req.body.Notes + "')"
   db.query(sql, (err, result) => {
@@ -609,7 +671,7 @@ app.get('/api/Meals/createTable', (req, res) => {
 })
 
 //insert
-app.get('/api/Meals/addNew', (req, res) => {
+app.post('/api/Meals/addNew', (req, res) => {
   let sql = "INSERT INTO Meals (MealID, MealDay, MealStartPeriod, MealEndPeriod) VALUES (" + req.body.MealID + ", " + 
   req.body.MealDay + ", '" + req.body.MealStartPeriod + "', '" + req.body.MealEndPeriod + "')"
   db.query(sql, (err, result) => {
@@ -685,7 +747,7 @@ app.get('/api/ProgramMeals/createTable', (req, res) => {
 })
 
 //insert
-app.get('/api/ProgramMeals/addNew', (req, res) => {
+app.post('/api/ProgramMeals/addNew', (req, res) => {
   let sql = "INSERT INTO ProgramMeals (ProgramMealID, ProgramID, MealID) VALUES (" + req.body.ProgramMealID + ", " +
   req.body.ProgramID + ", " + req.body.MealID + ")"
   db.query(sql, (err, result) => {
@@ -762,7 +824,7 @@ app.get('/api/MealFoodItems/createTable', (req, res) => {
 })
 
 //insert
-app.get('/api/MealFoodItems/addNew', (req, res) => {
+app.post('/api/MealFoodItems/addNew', (req, res) => {
   let sql = "INSERT INTO MealFoodItems (MealFoodItemID, MealID, FoodID, FoodPortion) VALUES (" + req.body.MealFoodItemID + ", " +
   req.body.MealID + ", " + req.body.FoodID + ", "+ req.body.FoodPortion + ")"
   db.query(sql, (err, result) => {
@@ -869,7 +931,7 @@ app.get('/api/CustomerMealHistory/dropTable', (req, res) => {
 })
 
 //add row
-app.get('/api/CustomerMealHistory/addNew', (req, res) => {
+app.post('/api/CustomerMealHistory/addNew', (req, res) => {
   // res.send(req.body)
   let sql = "INSERT INTO CustomerMealHistory (CustomerMealLogID, CustomerID, MealID, TimeLogged, CustomerNote) VALUES (" + req.body.CustomerMealLogID + ", " +
   req.body.CustomerID + ", " + req.body.MealID + ", '" + req.body.TimeLogged + "', '" + req.body.CustomerNote +  "')"

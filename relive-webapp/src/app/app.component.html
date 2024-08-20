@@ -13,6 +13,8 @@
     </div>
     <div class="navbar-end">
       <button class="btn" [style]="BackStyle" (click)="goBack()">Back</button>
+      <button class="btn" [style]="LogoutStyle" (click)="logOut()">Sign Out</button>
+      <button class="btn" [style]="LoginStyle" routerLink="/login-screen">Sign In</button>
     </div>
   </div>
   <router-outlet></router-outlet>
