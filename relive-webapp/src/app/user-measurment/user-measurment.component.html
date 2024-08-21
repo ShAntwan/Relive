@@ -15,19 +15,19 @@
       </div>   -->
       <div class="card w-full bg-base-100 shadow-xl flex flex-row">
         <div class="card-body grow">
-          <h2 class="card-title"><th>{{user.firstName}} {{user.lastName}}</th></h2>
-          <p>Phone Number: {{ user.phoneNumber }}</p>
-          <p>ID: {{ user.id }}</p>
+          <h2 class="card-title"><th>{{user.FirstName}} {{user.LastName}}</th></h2>
+          <p>Phone Number: {{ user.PhoneNumber }}</p>
+          <p>ID: {{ user.CardID }}</p>
         </div>
         <div class="card-body grow">
-            <p>Join Date: {{ user.joinDate.toLocaleString() }}</p>
+            <p>Join Date: {{ formatDate(user.JoinDate, "datetime") }}</p>
             <p>Height: {{ user.height }} </p>
             <p>Starting Weight: {{ user.startingWeight }} </p>
         </div>
         <div class="card-body grow">
-          <p>Birthday: {{ user.birthdayDate.toLocaleString() }}</p>
-          <p>Age: {{ user.age }} </p>
-          <p>Sex: {{ user.sex }} </p>
+          <p>Birthday: {{  formatDate(user.BirthdayDate, "date") }}</p>
+          <p>Age: {{ calcAge(user.BirthdayDate) }} </p>
+          <p>Sex: {{ user.Sex }} </p>
         </div>
         <!-- <div class="card-body shrink">
           <div class="card-actions justify-end">
@@ -38,147 +38,103 @@
     </div>
       <div class="flex justify-center">
       <ul class="timeline timeline-vertical p-5">
-        <li>
-          <div class="timeline-start timeline-box">
-            <div class="card w-96 bg-base-100">
-              <div class="card-body">
-                <h2 class="card-title">Progress Details</h2>
-                <div class="flex w-full mb-2"><h3>Date:</h3><div class="skeleton h-4 w-20 mt-1.5 ml-3"></div></div>
-                <div class="flex w-full gap-2">
-                  <div class="flex flex-col w-full gap-2">
-                    <div class="skeleton h-4 w-full"></div>
-                    <div class="skeleton h-4 w-full"></div>
-                    <div class="skeleton h-4 w-full"></div>
-                    <div class="skeleton h-4 w-full"></div>
-                  </div>
-                  <div class="flex flex-col w-full gap-2">
-                    <div class="skeleton h-4 w-full"></div>
-                    <div class="skeleton h-4 w-full"></div>
-                    <div class="skeleton h-4 w-full"></div>
-                    <div class="skeleton h-4 w-full"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="timeline-middle">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-10 h-10"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" /></svg>
-          </div>
-          <hr/>
-        </li>
-        <li>
-          <hr/>
-          <div class="timeline-middle">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-10 h-10"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" /></svg>
-          </div>
-          <div class="timeline-end timeline-box">
-            <div class="card w-96 bg-base-100">
-              <div class="card-body">
-                <h2 class="card-title">Progress Details</h2>
-                <div class="flex w-full mb-2"><h3>Date:</h3><div class="skeleton h-4 w-20 mt-1.5 ml-3"></div></div>
-                <div class="flex w-full gap-2">
-                  <div class="flex flex-col w-full gap-2">
-                    <div class="skeleton h-4 w-full"></div>
-                    <div class="skeleton h-4 w-full"></div>
-                    <div class="skeleton h-4 w-full"></div>
-                    <div class="skeleton h-4 w-full"></div>
-                  </div>
-                  <div class="flex flex-col w-full gap-2">
-                    <div class="skeleton h-4 w-full"></div>
-                    <div class="skeleton h-4 w-full"></div>
-                    <div class="skeleton h-4 w-full"></div>
-                    <div class="skeleton h-4 w-full"></div>
+        @for (measurement of measurements; track measurement; let idx = $index, e = $even){
+          <li>
+            @if (idx != 0){
+              <hr/>
+            }
+            @if (e) {
+              <div class="timeline-start timeline-box">
+                <div class="card w-full bg-base-100">
+                  <div class="card-body">
+                    <h2 class="card-title mb-2">Measurement Date: <div class="font-normal">{{ formatDate(measurement.MeasureDate, "date")}}</div></h2>
+                    <!-- <div class="flex w-full "><div class="font-bold mr-2">Date:</div><div>{{ formatDate(measurement.MeasureDate, "date")}}</div></div> -->
+                    <div class="grid grid-cols-4 w-full gap-2">
+                      <div class="font-medium text-center h-4 w-full">Weight:</div>
+                      <div class="kbd kbd-sm h-4 w-full">{{ measurement.TotalWeight }} kg</div>
+                      <div class="font-medium text-center h-4 w-full">Height:</div>
+                      <div class="kbd kbd-sm h-4 w-full">{{ measurement.Height }} cm</div>
+                      <div class="font-medium text-center h-4 w-full">BMR:</div>
+                      <div class="kbd kbd-sm h-4 w-full">{{ measurement.BMR }}</div>
+                      <div class="font-medium text-center h-4 w-full">BMI:</div>
+                      <div class="kbd kbd-sm h-4 w-full">{{ measurement.BMI }}</div>
+                      <div class="font-medium text-center h-4 w-full">Abdominal Fats:</div>
+                      <div class="kbd kbd-sm h-4 w-full">{{ measurement.AbdominalFatPercentage }}</div>
+                      <div class="font-medium text-center h-4 w-full">Fats:</div>
+                      <div class="kbd kbd-sm h-4 w-full">{{ measurement.FatPercentage }}</div>
+                      <div class="font-medium text-center h-4 w-full">Muscles:</div>
+                      <div class="kbd kbd-sm h-4 w-full">{{ measurement.Muscles }}</div>
+                      <div class="font-medium text-center h-4 w-full">Bones:</div>
+                      <div class="kbd kbd-sm h-4 w-full">{{ measurement.Bones }}</div>
+                      <div class="font-medium text-center h-4 w-full">Liquids:</div>
+                      <div class="kbd kbd-sm h-4 w-full">{{ measurement.Liquids }}</div>
+                      <div class="font-medium text-center h-4 w-full">Hip Circumference:</div>
+                      <div class="kbd kbd-sm h-4 w-full">{{ measurement.HipCircumference }}</div>
+                      <div class="font-medium text-center h-4 w-full">Hand Circumference:</div>
+                      <div class="kbd kbd-sm h-4 w-full">{{ measurement.HandCircumference }}</div>
+                      <div class="font-medium text-center h-4 w-full">Thigh Circumference:</div>
+                      <div class="kbd kbd-sm h-4 w-full">{{ measurement.ThighCircumference }}</div>
+                      <div class="font-medium text-center h-4 w-full">Chest Circumference:</div>
+                      <div class="kbd kbd-sm h-4 w-full">{{ measurement.ChestCircumference }}</div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-          <hr/>
-        </li>
-        <li>
-          <hr/>
-          <div class="timeline-start timeline-box">
-            <div class="card w-96 bg-base-100">
-              <div class="card-body">
-                <h2 class="card-title">Progress Details</h2>
-                <div class="flex w-full mb-2"><h3>Date:</h3><div class="skeleton h-4 w-20 mt-1.5 ml-3"></div></div>
-                <div class="flex w-full gap-2">
-                  <div class="flex flex-col w-full gap-2">
-                    <div class="skeleton h-4 w-full"></div>
-                    <div class="skeleton h-4 w-full"></div>
-                    <div class="skeleton h-4 w-full"></div>
-                    <div class="skeleton h-4 w-full"></div>
-                  </div>
-                  <div class="flex flex-col w-full gap-2">
-                    <div class="skeleton h-4 w-full"></div>
-                    <div class="skeleton h-4 w-full"></div>
-                    <div class="skeleton h-4 w-full"></div>
-                    <div class="skeleton h-4 w-full"></div>
+              <div class="timeline-middle">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-10 h-10"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" /></svg>
+              </div>
+              <hr/>
+            } @else {
+              <div class="timeline-end timeline-box">
+                <div class="card w-full bg-base-100">
+                  <div class="card-body">
+                    <h2 class="card-title mb-2">Measurement Date: <div class="font-normal">{{ formatDate(measurement.MeasureDate, "date")}}</div></h2>
+                    <!-- <div class="flex w-full "><div class="font-bold mr-2">Date:</div><div>{{ formatDate(measurement.MeasureDate, "date")}}</div></div> -->
+                    <div class="grid grid-cols-4 w-full gap-2">
+                      <div class="font-medium text-center h-4 w-full">Weight:</div>
+                      <div class="kbd kbd-sm h-4 w-full">{{ measurement.TotalWeight }} kg</div>
+                      <div class="font-medium text-center h-4 w-full">Height:</div>
+                      <div class="kbd kbd-sm h-4 w-full">{{ measurement.Height }} cm</div>
+                      <div class="font-medium text-center h-4 w-full">BMR:</div>
+                      <div class="kbd kbd-sm h-4 w-full">{{ measurement.BMR }}</div>
+                      <div class="font-medium text-center h-4 w-full">BMI:</div>
+                      <div class="kbd kbd-sm h-4 w-full">{{ measurement.BMI }}</div>
+                      <div class="font-medium text-center h-4 w-full">Abdominal Fats:</div>
+                      <div class="kbd kbd-sm h-4 w-full">{{ measurement.AbdominalFatPercentage }}</div>
+                      <div class="font-medium text-center h-4 w-full">Fats:</div>
+                      <div class="kbd kbd-sm h-4 w-full">{{ measurement.FatPercentage }}</div>
+                      <div class="font-medium text-center h-4 w-full">Muscles:</div>
+                      <div class="kbd kbd-sm h-4 w-full">{{ measurement.Muscles }}</div>
+                      <div class="font-medium text-center h-4 w-full">Bones:</div>
+                      <div class="kbd kbd-sm h-4 w-full">{{ measurement.Bones }}</div>
+                      <div class="font-medium text-center h-4 w-full">Liquids:</div>
+                      <div class="kbd kbd-sm h-4 w-full">{{ measurement.Liquids }}</div>
+                      <div class="font-medium text-center h-4 w-full">Hip Circumference:</div>
+                      <div class="kbd kbd-sm h-4 w-full">{{ measurement.HipCircumference }}</div>
+                      <div class="font-medium text-center h-4 w-full">Hand Circumference:</div>
+                      <div class="kbd kbd-sm h-4 w-full">{{ measurement.HandCircumference }}</div>
+                      <div class="font-medium text-center h-4 w-full">Thigh Circumference:</div>
+                      <div class="kbd kbd-sm h-4 w-full">{{ measurement.ThighCircumference }}</div>
+                      <div class="font-medium text-center h-4 w-full">Chest Circumference:</div>
+                      <div class="kbd kbd-sm h-4 w-full">{{ measurement.ChestCircumference }}</div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-          <div class="timeline-middle">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-10 h-10"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" /></svg>
-          </div>
-          <hr/>
-        </li>
+              <div class="timeline-middle">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-10 h-10"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" /></svg>
+              </div>
+              <hr/>
+            }
+          </li>
+        }
         <li>
           <hr/>
           <div class="timeline-middle">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-10 h-10"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" /></svg>
-          </div>
-          <div class="timeline-end timeline-box">
-            <div class="card w-96 bg-base-100">
-              <div class="card-body">
-                <h2 class="card-title">Progress Details</h2>
-                <div class="flex w-full mb-2"><h3>Date:</h3><div class="skeleton h-4 w-20 mt-1.5 ml-3"></div></div>
-                <div class="flex w-full gap-2">
-                  <div class="flex flex-col w-full gap-2">
-                    <div class="skeleton h-4 w-full"></div>
-                    <div class="skeleton h-4 w-full"></div>
-                    <div class="skeleton h-4 w-full"></div>
-                    <div class="skeleton h-4 w-full"></div>
-                  </div>
-                  <div class="flex flex-col w-full gap-2">
-                    <div class="skeleton h-4 w-full"></div>
-                    <div class="skeleton h-4 w-full"></div>
-                    <div class="skeleton h-4 w-full"></div>
-                    <div class="skeleton h-4 w-full"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <hr/>
-        </li>
-        <li>
-          <hr/>
-          <div class="timeline-start timeline-box">
-            <div class="card w-96 bg-base-100">
-              <div class="card-body">
-                <h2 class="card-title">Progress Details</h2>
-                <div class="flex w-full mb-2"><h3>Date:</h3><div class="skeleton h-4 w-20 mt-1.5 ml-3"></div></div>
-                <div class="flex w-full gap-2">
-                  <div class="flex flex-col w-full gap-2">
-                    <div class="skeleton h-4 w-full"></div>
-                    <div class="skeleton h-4 w-full"></div>
-                    <div class="skeleton h-4 w-full"></div>
-                    <div class="skeleton h-4 w-full"></div>
-                  </div>
-                  <div class="flex flex-col w-full gap-2">
-                    <div class="skeleton h-4 w-full"></div>
-                    <div class="skeleton h-4 w-full"></div>
-                    <div class="skeleton h-4 w-full"></div>
-                    <div class="skeleton h-4 w-full"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="timeline-middle">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-10 h-10"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" /></svg>
+            <!-- <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-10 h-10"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" /></svg> -->
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"  class="w-10 h-10">
+              <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 9a.75.75 0 0 0-1.5 0v2.25H9a.75.75 0 0 0 0 1.5h2.25V15a.75.75 0 0 0 1.5 0v-2.25H15a.75.75 0 0 0 0-1.5h-2.25V9Z" clip-rule="evenodd" />
+            </svg>            
           </div>
         </li>
       </ul>
