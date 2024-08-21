@@ -19,8 +19,6 @@ export class UserMeasurmentComponent {
   user: User | undefined;
   measurements: UserMeasurement[] | undefined
 
-  testArr = [1, 2, 3, 4]
-
   constructor(
     private route: ActivatedRoute,
     private userService: UserDetailsServiceService,

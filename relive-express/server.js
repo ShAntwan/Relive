@@ -103,6 +103,7 @@ app.post('/api/loginauth', (req, res) => {
           success: true,
           message: 'Welcome Back, ' + username,
           success_token: token,
+          LoginID: user.id,
         });
 				// response.redirect('/home');
 			} else {
@@ -194,8 +195,87 @@ app.get('/api/MeasurementDetails/getByCustomer/:id', (req, res) => {
 })
 
 // get dietplan by user
+app.get('/api/DietPlan/getByCustomer/:id', (req, res) =>{
+  const id = req.params.id
+  let sqlNowDate = Date.now()
+  sqlNowDate = sqlNowDate.toISOString
+  let sql1 = "SELECT * FROM CustomerPrograms WHERE CustomerID = " + id + " and (ProgramEnd >= '"+ sqlNowDate +"' or ProgramEnd IS NULL)"
+  // let sql2 = "SELECT * FROM DietaryPrograms WHERE ProgramID IN ("+sql1+")"
+  let sql3 = "SELECT * FROM ("+sql1+") AS SelectPrograms INNER JOIN DietaryPrograms ON SelectPrograms.ProgramID = DietaryPrograms.ProgramID"
+  db.query(sql3, (err, result1) => {
+    if(err) throw err
+    console.log(result1)
+    res.json(result1)
+    res.end()
+    // db.query(sql2, [result1], (err, result2)=>{
+    //   if(err) throw err
+    //   console.log(result2)
+    //   res.json(result2)
+    //   res.end()
+    // })
+  })
+})
 
-// get meals by dietplan
+// get meals by dietplan with nutrient summary
+// app.get('/api/MealsSum/getByPlan/:id', (req, res) =>{
+//   const id = req.params.id
+//   // let sqlNowDate = Date.now()
+//   // sqlNowDate = sqlNowDate.toISOString
+//   let sql1 = "SELECT ProgramMealID, ProgramID, MealID FROM ProgramMeals WHERE ProgramID = " + id;
+//   let sql2 = "SELECT SelectMeals.ProgramID, Meals.MealID, Meals.MealStartPeriod, Meals.MealEndPeriod " +
+//   "FROM ("+sql1+") AS SelectMeals INNER JOIN Meals ON SelectMeals.MealID = Meals.MealID";
+//   let sql3 = "SELECT SelectMeals.ProgramID, SelectMeals.MealID, SelectMeals.MealStartPeriod, SelectMeals.MealEndPeriod, MealFoodItems.FoodID, MealFoodItems.FoodPortion "+
+//   "FROM ("+sql2+") AS SelectMeals INNER JOIN MealFoodItems ON SelectMeals.MealID = MealFoodItems.MealID";
+//   let sql4 = "SELECT * FROM ("+sql3+") AS SelectMeals INNER JOIN FoodItems ON SelectMeals.FoodID = FoodItems.FoodID";
+//   db.query(sql4, (err, result1) => {
+//     if(err) throw err
+//     console.log(result1)
+//     res.json(result1)
+//     res.end()
+//     // db.query(sql2, [result1], (err, result2)=>{
+//     //   if(err) throw err
+//     //   console.log(result2)
+//     //   res.json(result2)
+//     //   res.end()
+//     // })
+//   })
+// })
+
+// get meals by dietplan with nutrient summary
+app.get('/api/MealsSum/getByPlan/:id', (req, res) =>{
+  const id = req.params.id
+  // let sqlNowDate = Date.now()
+  // sqlNowDate = sqlNowDate.toISOString
+  let sql1 = "SELECT ProgramMealID, ProgramID, MealID FROM ProgramMeals WHERE ProgramID = " + id;
+  let sql2 = "SELECT SelectMeals.ProgramID, Meals.MealID, Meals.MealStartPeriod, Meals.MealEndPeriod " +
+  "FROM ("+sql1+") AS SelectMeals INNER JOIN Meals ON SelectMeals.MealID = Meals.MealID";
+  let sql3 = "SELECT SelectMeals.ProgramID, SelectMeals.MealID, SelectMeals.MealStartPeriod, SelectMeals.MealEndPeriod, MealFoodItems.FoodID " +
+  "FROM ("+sql2+") AS SelectMeals INNER JOIN MealFoodItems ON SelectMeals.MealID = MealFoodItems.MealID";
+  let sql4 =  "SELECT SelectMeals.ProgramID, SelectMeals.MealID, SelectMeals.MealStartPeriod, SelectMeals.MealEndPeriod, " +
+  "SUM(FoodItems.Calories) AS TotalCalories, " +
+  "SUM(FoodItems.Proteins) AS TotalProteins, " +
+  "SUM(FoodItems.Fats) AS TotalFats, " +
+  "SUM(FoodItems.Carbohydrates) AS TotalCarbohydrates, " +
+  "SUM(FoodItems.Sugars) AS TotalSugars, " +
+  "SUM(FoodItems.Sodium) AS TotalSodium " +
+  "FROM ("+sql3+") AS SelectMeals " +
+  "INNER JOIN FoodItems ON SelectMeals.FoodID = FoodItems.FoodID " +
+  "GROUP BY SelectMeals.ProgramID, SelectMeals.MealID, SelectMeals.MealStartPeriod, SelectMeals.MealEndPeriod " +
+  "ORDER BY SelectMeals.MealID DESC";
+  db.query(sql4, (err, result1) => {
+    if(err) throw err
+    console.log(result1)
+    res.json(result1)
+    res.end()
+    // db.query(sql2, [result1], (err, result2)=>{
+    //   if(err) throw err
+    //   console.log(result2)
+    //   res.json(result2)
+    //   res.end()
+    // })
+  })
+})
+
 
 // get foods by meal
 
