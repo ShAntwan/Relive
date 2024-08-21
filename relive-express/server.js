@@ -183,8 +183,9 @@ app.get('/api/CustomerDetails/getLatest100', (req, res) => {
 
 // get measurements by user
 app.get('/api/MeasurementDetails/getByCustomer/:id', (req, res) => {
-  let sql = "SELECT * FROM CustomerDetails ORDER BY joinDate DESC LIMIT 200"
-  db.query(sql, (err, result) => {
+  const id = req.params.id
+  let sql = "SELECT * FROM MeasurementDetails WHERE CustomerID = ?"
+  db.query(sql, [id], (err, result) => {
     if(err) throw err;
     console.log(result)
     res.json(result)

@@ -3,10 +3,8 @@ import { Injectable } from '@angular/core';
 import { User } from '../interfaces/users-details';
 import { baseURL } from './baseURL';
 
-import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { baseURL } from './baseURL';
 
 @Injectable({
   providedIn: 'root'

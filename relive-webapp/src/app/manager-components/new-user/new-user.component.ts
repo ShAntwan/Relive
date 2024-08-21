@@ -16,35 +16,40 @@ export class NewUserComponent {
   users: User[] = [];
   userControlDetails = new FormGroup({
     
-    id: new FormControl(),
-    loginID: new FormControl(),
-    firstName: new FormControl(),
-    lastName: new FormControl(),
-    phoneNumber: new FormControl(),
-    joinDate: new FormControl(),
+    CardID: new FormControl(),
+    LoginID: new FormControl(),
+    FirstName: new FormControl(),
+    LastName: new FormControl(),
+    PhoneNumber: new FormControl(),
+    JoinDate: new FormControl(),
     startingWeight: new FormControl(),
-    birthdayDate: new FormControl(),
+    BirthdayDate: new FormControl(),
     height: new FormControl(),
-    age: new FormControl(),
-    sex: new FormControl(),
-    athlete: new FormControl(),
+    // age: new FormControl(),
+    Email: new FormControl(),
+    Sex: new FormControl(),
+    Athlete: new FormControl(),
+    DefaultLang: new FormControl(),
   });
 
   onSubmit() {
     console.log("submit new user")
     const userItem: User = {
-      id: this.userControlDetails.value.id,
-      loginID: this.userControlDetails.value.loginID,
-      firstName: this.userControlDetails.value.firstName,
-      lastName: this.userControlDetails.value.lastName,
-      phoneNumber: this.userControlDetails.value.phoneNumber,
-      joinDate: this.userControlDetails.value.joinDate,
+      CustomerID: -1,
+      CardID: this.userControlDetails.value.CardID,
+      LoginID: this.userControlDetails.value.LoginID,
+      FirstName: this.userControlDetails.value.FirstName,
+      LastName: this.userControlDetails.value.LastName,
+      PhoneNumber: this.userControlDetails.value.PhoneNumber,
+      JoinDate: this.userControlDetails.value.JoinDate,
       startingWeight: this.userControlDetails.value.startingWeight,
-      birthdayDate: this.userControlDetails.value.birthdayDate,
+      BirthdayDate: this.userControlDetails.value.BirthdayDate,
       height: this.userControlDetails.value.height,
-      age: this.userControlDetails.value.age,
-      sex: this.userControlDetails.value.sex,
-      athlete: this.userControlDetails.value.athlete,
+      // age: this.userControlDetails.value.age,
+      Email: this.userControlDetails.value.Email,
+      Sex: this.userControlDetails.value.Sex,
+      Athlete: this.userControlDetails.value.Athlete,
+      DefaultLang: this.userControlDetails.value.DefaultLang,
     };
     console.log("dauser", userItem)
     this.userService.updateUserItem(userItem).subscribe(() => {
