@@ -1,4 +1,4 @@
 .test {
-  visibility: visible;
-  /* visibility: hidden; */
+  /* visibility: visible; */
+  visibility: hidden;
 }

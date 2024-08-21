@@ -33,7 +33,7 @@
             <td>{{ user.Sex }}</td>
             <td>{{ user.Athlete ? 'Yes' : 'No' }}</td>
             <td><button class="btn btn-active btn-primary" routerLink="/user-measurment/{{user.CustomerID}}">Measurements</button></td>
-            <td><button class="btn btn-active btn-primary"routerLink="/diet-program">Dietary Plan</button></td>
+            <td><button class="btn btn-active btn-primary"routerLink="/diet-program/{{user.CustomerID}}">Dietary Plan</button></td>
         </tr>
     </tbody>
     </table>

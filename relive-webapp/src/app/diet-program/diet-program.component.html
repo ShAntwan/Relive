@@ -1,241 +1,42 @@
-<div class="grid grid-cols-1 gap-4 object-fill min-h-screen w-full h-full">
-  <div class="h-full">
-    <div class="carousel rounded-box h-full">
-      @for (day of weekdays; track day) {
-        <div class="carousel-item w-[50%] flex flex-col place-items-center">
-          <div class="timeline-box text-3xl font-bold mt-6">{{ day }}</div>
-          <div class="flex">
-            <div class="basis-8/12">
-              <ul class="timeline timeline-vertical m-5">
-                <li>
-                  <div class="timeline-start timeline-box text-2xl font-bold">
-                    Morning Meals
-                  </div>
-                  <div class="timeline-middle">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-10 h-10"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" /></svg>
-                  </div>
-                  <div class="timeline-end timeline-box">
-                    <div class="card w-96 bg-base-100">
-                      <div class="card-body">
-                        <table class="table">
-                          <thead>
-                            <tr>
-                              <th class="text-xl w-[50%]">Meals</th>
-                              <th class="text-xl w-[50%]">Time Range</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td><button class="btn hover:btn-accent w-full btn-xs">Option 1</button></td>
-                              <td><span class="countdown font-mono text-xl">
-                                <span style="--value:12;"></span>
-                                :
-                                <span class="mr-2" style="--value:00;"></span>
-                                -
-                                <span class="ml-2" style="--value:16;"></span>
-                                :
-                                <span style="--value:00;"></span>
-                              </span></td>
-                            </tr>
-                            <tr>
-                              <td><button class="btn hover:btn-accent w-full btn-xs">Option 2</button></td>
-                              <td><span class="countdown font-mono text-xl">
-                                <span style="--value:13;"></span>
-                                :
-                                <span class="mr-2" style="--value:00;"></span>
-                                -
-                                <span class="ml-2" style="--value:15;"></span>
-                                :
-                                <span style="--value:00;"></span>
-                              </span></td>
-                            </tr>
-                            <tr>
-                              <td><button class="btn hover:btn-accent w-full btn-xs">Option 3</button></td>
-                              <td><span class="countdown font-mono text-xl">
-                                <span style="--value:14;"></span>
-                                :
-                                <span class="mr-2" style="--value:00;"></span>
-                                -
-                                <span class="ml-2" style="--value:16;"></span>
-                                :
-                                <span style="--value:00;"></span>
-                              </span></td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
-                  <hr/>
-                </li>
-                <li>
-                  <hr/>
-                  <div class="timeline-start timeline-box text-2xl font-bold">
-                    Midday Meals
-                  </div>
-                  <div class="timeline-middle">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-10 h-10"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" /></svg>
-                  </div>
-                  <div class="timeline-end timeline-box">
-                    <div class="card w-96 bg-base-100">
-                      <div class="card-body">
-                        <table class="table">
-                          <thead>
-                            <tr>
-                              <th class="text-xl w-[50%]">Meals</th>
-                              <th class="text-xl w-[50%]">Time Range</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td><button class="btn hover:btn-accent w-full btn-xs">Option 1</button></td>
-                              <td><span class="countdown font-mono text-xl">
-                                <span style="--value:12;"></span>
-                                :
-                                <span class="mr-2" style="--value:00;"></span>
-                                -
-                                <span class="ml-2" style="--value:14;"></span>
-                                :
-                                <span style="--value:00;"></span>
-                              </span></td>
-                            </tr>
-                            <tr>
-                              <td><button class="btn hover:btn-accent w-full btn-xs">Option 2</button></td>
-                              <td><span class="countdown font-mono text-xl">
-                                <span style="--value:13;"></span>
-                                :
-                                <span class="mr-2" style="--value:00;"></span>
-                                -
-                                <span class="ml-2" style="--value:15;"></span>
-                                :
-                                <span style="--value:00;"></span>
-                              </span></td>
-                            </tr>
-                            <tr>
-                              <td><button class="btn hover:btn-accent w-full btn-xs">Option 3</button></td>
-                              <td><span class="countdown font-mono text-xl">
-                                <span style="--value:16;"></span>
-                                :
-                                <span class="mr-2" style="--value:00;"></span>
-                                -
-                                <span class="ml-2" style="--value:18;"></span>
-                                :
-                                <span style="--value:00;"></span>
-                              </span></td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
-                  <hr/>
-                </li>
-                <li>
-                  <hr/>
-                  <div class="timeline-start timeline-box text-2xl font-bold">
-                    Evening Meals
-                  </div>
-                  <div class="timeline-middle">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-10 h-10"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" /></svg>
-                  </div>
-                  <div class="timeline-end timeline-box">
-                    <div class="card w-96 bg-base-100">
-                      <div class="card-body">
-                        <table class="table">
-                          <thead>
-                            <tr>
-                              <th class="text-xl w-[50%]">Meals</th>
-                              <th class="text-xl w-[50%]">Time Range</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td><button class="btn hover:btn-accent w-full btn-xs">Option 1</button></td>
-                              <td><span class="countdown font-mono text-xl">
-                                <span style="--value:18;"></span>
-                                :
-                                <span class="mr-2" style="--value:00;"></span>
-                                -
-                                <span class="ml-2" style="--value:20;"></span>
-                                :
-                                <span style="--value:00;"></span>
-                              </span></td>
-                            </tr>
-                            <tr>
-                              <td><button class="btn hover:btn-accent w-full btn-xs">Option 2</button></td>
-                              <td><span class="countdown font-mono text-xl">
-                                <span style="--value:19;"></span>
-                                :
-                                <span class="mr-2" style="--value:00;"></span>
-                                -
-                                <span class="ml-2" style="--value:20;"></span>
-                                :
-                                <span style="--value:00;"></span>
-                              </span></td>
-                            </tr>
-                            <tr>
-                              <td><button class="btn hover:btn-accent w-full btn-xs">Option 3</button></td>
-                              <td><span class="countdown font-mono text-xl">
-                                <span style="--value:20;"></span>
-                                :
-                                <span class="mr-2" style="--value:00;"></span>
-                                -
-                                <span class="ml-2" style="--value:23;"></span>
-                                :
-                                <span style="--value:00;"></span>
-                              </span></td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-                <li>
-                  <div class="timeline-start timeline-box text-2xl font-bold">
-                    Untimed Meals
-                  </div>
-                  <div class="timeline-middle">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-10 h-10"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" /></svg>
-                  </div>
-                  <div class="timeline-end timeline-box">
-                    <div class="card w-96 bg-base-100">
-                      <div class="card-body">
-                        <table class="table">
-                          <thead>
-                            <tr>
-                              <th class="text-xl w-[50%]">Meals</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <div class="grid grid-cols-2 gap-2">
-                              <button class="btn hover:btn-accent w-full btn-xs">Option 1</button>
-                              <button class="btn hover:btn-accent w-full btn-xs">Option 2</button>
-                              <button class="btn hover:btn-accent w-full btn-xs">Option 3</button>
-                            </div>
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </div>
+<div *ngIf="dietprograms" class="grid grid-cols-1 w-full mt-2">
+  <div class="w-[95%] flex justify-center">
+  <!-- <div class="card w-96 bg-base-100 shadow-xl">
+      <div class="card-body ">
+        <h2 class="card-title">Card title!</h2>
+        <p>If a dog chews shoes whose shoes does he choose?</p>
+        <div class="card-actions justify-end">
         </div>
-      }
+      </div>
+    </div>   -->
+    <div class="card w-full bg-base-100 shadow-xl flex flex-row">
+      <div class="card-body grow">
+          <p>Description: {{ dietprograms[0].Description }} </p>
+      </div>
+      <div class="card-body grow">
+        <p>Notes: {{ dietprograms[0].Notes }} </p>
+        <p>End Time: {{ formatDate(dietprograms[0].ProgramEnd, "date") }} </p>
+      </div>
+      <div class="card-body grow">
+        <h2 class="card-title"><th>Name: {{dietprograms[0].ProgramName}}</th></h2>
+        <p>Start Time: {{ formatDate(dietprograms[0].ProgramStart, "date") }} </p>
+      </div>
+      <!-- <div class="card-body shrink">
+        <div class="card-actions justify-end">
+          <button class="btn btn-secondary" (click)="goBack()">back</button>
+        </div>
+      </div> -->
     </div>
   </div>
 </div>
 
 
-<div class="hero min-h-screen bg-base-200">
-  <div class="hero-content flex-col lg:flex-row">
-    <img src="https://www.kateskitchenkc.com/wp-content/uploads/2023/10/traditional-full-american-breakfast-eggs-pancakes-with-bacon-and-toast.jpg_s1024x1024wisk20cz03ui5Oqyz8Ys_pG0bVWsgoz_v_E5Oct4x-0C-sAjME.jpg" class="max-w-sm rounded-lg shadow-2xl" />
+<div class="hero w-full min-h-screen bg-base-200">
+  <div class="hero-content w-full flex-col lg:flex-row">
+    <img class="max-w-lg rounded-lg shadow-2xl" src="https://www.kateskitchenkc.com/wp-content/uploads/2023/10/traditional-full-american-breakfast-eggs-pancakes-with-bacon-and-toast.jpg_s1024x1024wisk20cz03ui5Oqyz8Ys_pG0bVWsgoz_v_E5Oct4x-0C-sAjME.jpg" />
     <div>
       <h3 class="text-5xl font-bold">Breakfast</h3>
           <div class="overflow-x-auto">
-              <table class="table">
+              <table class="table table-lg">
                 <!-- head -->
                 <thead>
                   <tr>
@@ -246,17 +47,21 @@
                     <th>Proteins</th>
                     <th>Fats</th>
                     <th>Sugars</th>
+                    <th>Sodium</th>
                   
                   </tr>
                 </thead>
                 <tbody>
-                  <tr class="hover" *ngFor="let meal of dietprograms; let i = index">
-                      <td>{{ meal.Meal }}</td>
-                      <td>{{ meal.Calorie }}</td>
-                      <td>{{ meal.Carbohydrates }}</td>
-                      <td>{{ meal.Proteins }}</td>
-                      <td>{{ meal.Fats }}</td>
-                      <td>{{ meal.Sugars }}</td>
+                  <tr class="hover" *ngFor="let meal of dietProgramMeals; let i = index">
+                    @if ( 11 >= convertToNum(meal.MealStartPeriod.slice(0, 2))){
+                      <td>{{ meal.MealID }}</td>
+                      <td>{{ meal.TotalCalories }}</td>
+                      <td>{{ meal.TotalCarbohydrates }}</td>
+                      <td>{{ meal.TotalProteins }}</td>
+                      <td>{{ meal.TotalFats }}</td>
+                      <td>{{ meal.TotalSugars }}</td>
+                      <td>{{ meal.TotalSodium }}</td>
+                    }
                 </tbody>
               </table>
             </div>
@@ -267,11 +72,11 @@
 
 <div class="hero min-h-screen bg-base-200">
   <div class="hero-content flex-col lg:flex-row">
-    <img src="https://img.freepik.com/free-photo/top-view-composition-tasty-breakfast-goodies_23-2148829547.jpg?t=st=1718645724~exp=1718649324~hmac=90d6ba78036843b5db897c06ded866551bb3606e9a4f641d5e3e274bb9b86281&w=1380" class="max-w-sm rounded-lg shadow-2xl" />
+    <img class="max-w-lg rounded-lg shadow-2xl" src="https://img.freepik.com/free-photo/top-view-composition-tasty-breakfast-goodies_23-2148829547.jpg?t=st=1718645724~exp=1718649324~hmac=90d6ba78036843b5db897c06ded866551bb3606e9a4f641d5e3e274bb9b86281&w=1380" />
     <div>
       <h3 class="text-5xl font-bold">Brunch</h3>
           <div class="overflow-x-auto">
-              <table class="table">
+              <table class="table table-lg">
                 <!-- head -->
                 <thead>
                   <tr>
@@ -285,14 +90,16 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr class="hover" *ngFor="let meal of dietprograms; let i = index">
-                      <td>{{ meal.Meal }}</td>
-                      <td>{{ meal.Calorie }}</td>
-                      <td>{{ meal.Carbohydrates }}</td>
-                      <td>{{ meal.Proteins }}</td>
-                      <td>{{ meal.Fats }}</td>
-                      <td>{{ meal.Sugars }}</td>
-                  </tr>
+                  <tr class="hover" *ngFor="let meal of dietProgramMeals; let i = index">
+                    @if ( 15 >= convertToNum(meal.MealStartPeriod.slice(0, 2)) && convertToNum(meal.MealStartPeriod.slice(0, 2)) > 11 ){
+                      <td>{{ meal.MealID }}</td>
+                      <td>{{ meal.TotalCalories }}</td>
+                      <td>{{ meal.TotalCarbohydrates }}</td>
+                      <td>{{ meal.TotalProteins }}</td>
+                      <td>{{ meal.TotalFats }}</td>
+                      <td>{{ meal.TotalSugars }}</td>
+                      <td>{{ meal.TotalSodium }}</td>
+                    }
                 </tbody>
               </table>
             </div>
@@ -303,11 +110,11 @@
 
 <div class="hero min-h-screen bg-base-200">
   <div class="hero-content flex-col lg:flex-row">
-    <img src="https://img.freepik.com/free-photo/grilled-pork-served-with-sauce-korean-style_1150-42937.jpg?t=st=1718645636~exp=1718649236~hmac=7276c5b3feafa11003d1c4e6de2ee2d8db9c7f5df5ccec6df1c5bec9c554e793&w=1060" class="max-w-sm rounded-lg shadow-2xl" />
+    <img class="max-w-lg rounded-lg shadow-2xl" src="https://img.freepik.com/free-photo/grilled-pork-served-with-sauce-korean-style_1150-42937.jpg?t=st=1718645636~exp=1718649236~hmac=7276c5b3feafa11003d1c4e6de2ee2d8db9c7f5df5ccec6df1c5bec9c554e793&w=1060" />
     <div>
       <h3 class="text-5xl font-bold">Lunch</h3>
           <div class="overflow-x-auto">
-              <table class="table">
+              <table class="table table-lg">
                 <!-- head -->
                 <thead>
                   <tr>
@@ -321,14 +128,16 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr class="hover" *ngFor="let meal of dietprograms; let i = index">
-                      <td>{{ meal.Meal }}</td>
-                      <td>{{ meal.Calorie }}</td>
-                      <td>{{ meal.Carbohydrates }}</td>
-                      <td>{{ meal.Proteins }}</td>
-                      <td>{{ meal.Fats }}</td>
-                      <td>{{ meal.Sugars }}</td>
-                  </tr>
+                  <tr class="hover" *ngFor="let meal of dietProgramMeals; let i = index">
+                    @if ( 20 >= convertToNum(meal.MealStartPeriod.slice(0, 2)) && convertToNum(meal.MealStartPeriod.slice(0, 2)) > 15 ){
+                      <td>{{ meal.MealID }}</td>
+                      <td>{{ meal.TotalCalories }}</td>
+                      <td>{{ meal.TotalCarbohydrates }}</td>
+                      <td>{{ meal.TotalProteins }}</td>
+                      <td>{{ meal.TotalFats }}</td>
+                      <td>{{ meal.TotalSugars }}</td>
+                      <td>{{ meal.TotalSodium }}</td>
+                    }
                 </tbody>
               </table>
             </div>
@@ -339,11 +148,11 @@
 
 <div class="hero min-h-screen bg-base-200">
   <div class="hero-content flex-col lg:flex-row">
-    <img src="https://img.freepik.com/free-photo/delicious-meat-table_23-2150857796.jpg?t=st=1718645912~exp=1718649512~hmac=06d632f87ee5bd1bbed31e4fd8e39db29fafbc5c147cb47b7a602f2c4a129489&w=1380" class="max-w-sm rounded-lg shadow-2xl" />
+    <img class="max-w-lg rounded-lg shadow-2xl" src="https://img.freepik.com/free-photo/delicious-meat-table_23-2150857796.jpg?t=st=1718645912~exp=1718649512~hmac=06d632f87ee5bd1bbed31e4fd8e39db29fafbc5c147cb47b7a602f2c4a129489&w=1380" />
     <div>
       <h3 class="text-5xl font-bold">Dinner</h3>
           <div class="overflow-x-auto">
-              <table class="table">
+              <table class="table table-lg">
                 <!-- head -->
                 <thead>
                   <tr>
@@ -357,14 +166,16 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr class="hover" *ngFor="let meal of dietprograms; let i = index">
-                      <td>{{ meal.Meal }}</td>
-                      <td>{{ meal.Calorie }}</td>
-                      <td>{{ meal.Carbohydrates }}</td>
-                      <td>{{ meal.Proteins }}</td>
-                      <td>{{ meal.Fats }}</td>
-                      <td>{{ meal.Sugars }}</td>
-                  
+                  <tr class="hover" *ngFor="let meal of dietProgramMeals; let i = index">
+                    @if ( 24 >= convertToNum(meal.MealStartPeriod.slice(0, 2)) && convertToNum(meal.MealStartPeriod.slice(0, 2)) > 20 ){
+                      <td>{{ meal.MealID }}</td>
+                      <td>{{ meal.TotalCalories }}</td>
+                      <td>{{ meal.TotalCarbohydrates }}</td>
+                      <td>{{ meal.TotalProteins }}</td>
+                      <td>{{ meal.TotalFats }}</td>
+                      <td>{{ meal.TotalSugars }}</td>
+                      <td>{{ meal.TotalSodium }}</td>
+                    }
                 </tbody>
               </table>
             </div>

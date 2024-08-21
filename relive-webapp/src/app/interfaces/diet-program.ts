@@ -1,9 +1,9 @@
 export interface dietProgram {
-
-    Meal: string;
-    Calorie: number;
-    Carbohydrates: number;
-    Proteins: number;
-    Fats: number;
-    Sugars: number;
-  }
+  CustomerID: number;
+  ProgramID: number;
+  ProgramName: string;
+  ProgramStart: Date;
+  ProgramEnd: Date;
+  Notes: string;
+  Description: number;
+}

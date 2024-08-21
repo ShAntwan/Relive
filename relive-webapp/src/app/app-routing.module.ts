@@ -17,6 +17,7 @@ import { UserNewDietPlanComponent } from './user-components/user-new-diet-plan/u
 import { ZoomTestComponent } from './deprecated-components/zoom-test/zoom-test.component';
 import { LoginComponent } from './login/login.component';
 import { AddMeasurmentsComponent } from './add-measurments/add-measurments.component';
+import { MealEditorComponent } from './meal-editor/meal-editor.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login-screen', pathMatch: 'full' },
@@ -27,18 +28,18 @@ const routes: Routes = [
   { path: 'users-details', component: UsersDetailsComponent},
   { path: 'new-user', component: NewUserComponent},
   { path: 'users', component: UsersComponent },
-  { path: 'diet-program', component: DietProgramComponent },
+  { path: 'diet-program/:id', component: DietProgramComponent },
   { path: 'SR', component: SystemRecommendationComponent },
   // { path: 'user-measurment', component: UserMeasurmentComponent },
   { path: 'user-measurment/:id', component: UserMeasurmentComponent },
-  { path: 'last-diet-plan', component: LastDietPlanComponent },
+  { path: 'last-diet-plan/:id', component: LastDietPlanComponent },
   { path: 'manager-food-editing', component: ManagerFoodEditingComponent },
   { path: 'user-dashboard', component: UserDashboardComponent },
   { path: 'user-login', component: UserLoginComponent },
   { path: 'user-new-diet-plan', component: UserNewDietPlanComponent },
   { path: 'test-page-zoom', component: ZoomTestComponent},
-  { path: 'add-measurments', component: AddMeasurmentsComponent}
-
+  { path: 'add-measurments', component: AddMeasurmentsComponent},
+  { path: 'meal-edit/:id', component: MealEditorComponent},
 ];
 
 @NgModule({

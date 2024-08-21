@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { DietProgramService } from '../services/diet-program.service';
 import { dietProgram } from '../interfaces/diet-program';
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -10,12 +11,19 @@ import { dietProgram } from '../interfaces/diet-program';
 })
 export class LastDietPlanComponent {
   dietprograms: dietProgram[]=[];
-  constructor(private DietProgramService: DietProgramService) {}
+  
+  constructor(
+    private DietProgramService: DietProgramService,
+    private route: ActivatedRoute,
+  ) {}
+  
   ngOnInit(): void{
-    this.getmeals();
+    this.getPrograms();
   }
-  getmeals():void {
-    this.DietProgramService.getDietPrograms().subscribe(dietprograms => this.dietprograms = dietprograms)
+
+  getPrograms(): void{
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+    this.DietProgramService.getUserDietPrograms(id).subscribe(data => { this.dietprograms = data; console.log("programs", data)})
   }
   
 

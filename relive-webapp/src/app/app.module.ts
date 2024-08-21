@@ -24,6 +24,7 @@ import { LastDietPlanComponent } from './last-diet-plan/last-diet-plan.component
 import { ZoomTestComponent } from './deprecated-components/zoom-test/zoom-test.component';
 import { LoginComponent } from './login/login.component';
 import { AddMeasurmentsComponent } from './add-measurments/add-measurments.component';
+import { MealEditorComponent } from './meal-editor/meal-editor.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { AddMeasurmentsComponent } from './add-measurments/add-measurments.compo
     LastDietPlanComponent,
     ZoomTestComponent,
     LoginComponent,
-    AddMeasurmentsComponent
+    AddMeasurmentsComponent,
+    MealEditorComponent
   ],
   imports: [
     BrowserModule,

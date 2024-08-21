@@ -46,37 +46,37 @@ export const CATEGORIES: Category[] = [
 //     { id: 3, loginID: 'briceswyre', firstName: 'Brice', lastName: 'Swyre', phoneNumber: '555-123-4567', joinDate: new Date('2021-03-20'), startingWeight: 85, birthdayDate: new Date('1995-03-20'), height: 170, age: 29, sex: 'M', athlete: true }
 // ];
 
-export const DIETPROGRAMS: dietProgram[] = [
-    {
-        Meal: 'Cereal',
-        Calorie: 350,
-        Carbohydrates: 45,
-        Proteins: 20,
-        Fats: 10,
-        Sugars: 15
-    },
-    {
-        Meal: 'Tomato',
-        Calorie: 600,
-        Carbohydrates: 80,
-        Proteins: 30,
-        Fats: 20,
-        Sugars: 8
-    },
-    {
-        Meal: 'Steak',
-        Calorie: 500,
-        Carbohydrates: 60,
-        Proteins: 25,
-        Fats: 18,
-        Sugars: 10
-    },
-    {
-        Meal: 'icecream',
-        Calorie: 200,
-        Carbohydrates: 30,
-        Proteins: 5,
-        Fats: 7,
-        Sugars: 12
-    }
-];
+// export const DIETPROGRAMS: dietProgram[] = [
+//     {
+//         Meal: 'Cereal',
+//         Calorie: 350,
+//         Carbohydrates: 45,
+//         Proteins: 20,
+//         Fats: 10,
+//         Sugars: 15
+//     },
+//     {
+//         Meal: 'Tomato',
+//         Calorie: 600,
+//         Carbohydrates: 80,
+//         Proteins: 30,
+//         Fats: 20,
+//         Sugars: 8
+//     },
+//     {
+//         Meal: 'Steak',
+//         Calorie: 500,
+//         Carbohydrates: 60,
+//         Proteins: 25,
+//         Fats: 18,
+//         Sugars: 10
+//     },
+//     {
+//         Meal: 'icecream',
+//         Calorie: 200,
+//         Carbohydrates: 30,
+//         Proteins: 5,
+//         Fats: 7,
+//         Sugars: 12
+//     }
+// ];
