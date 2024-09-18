@@ -29,7 +29,7 @@ const routes: Routes = [
   { path: 'new-user', component: NewUserComponent},
   { path: 'users', component: UsersComponent },
   { path: 'diet-program/:id', component: DietProgramComponent },
-  { path: 'SR', component: SystemRecommendationComponent },
+  { path: 'SR/:id', component: SystemRecommendationComponent },
   // { path: 'user-measurment', component: UserMeasurmentComponent },
   { path: 'user-measurment/:id', component: UserMeasurmentComponent },
   { path: 'last-diet-plan/:id', component: LastDietPlanComponent },
@@ -38,8 +38,9 @@ const routes: Routes = [
   { path: 'user-login', component: UserLoginComponent },
   { path: 'user-new-diet-plan', component: UserNewDietPlanComponent },
   { path: 'test-page-zoom', component: ZoomTestComponent},
-  { path: 'add-measurments', component: AddMeasurmentsComponent},
-  { path: 'meal-edit/:id', component: MealEditorComponent},
+  { path: 'add-measurments/:custID', component: AddMeasurmentsComponent},
+  { path: 'add-measurments/:custID/:measureID', component: AddMeasurmentsComponent},
+  { path: 'meal-editor/:id', component: MealEditorComponent},
 ];
 
 @NgModule({

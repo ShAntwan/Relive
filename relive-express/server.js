@@ -4,11 +4,7 @@ const bodyParser = require('body-parser');
 var cors = require('cors')
 const DBName = 'relive_database';
 const { spawn } = require('child_process')
-const session = require('express-session');
-// const jwt = require('jsonwebtoken');
 const { generateToken, validateToken } = require('./utils/jwt-utils');
-// const fs = require('fs');
-// const { EmptyResultError } = require("sequelize");
 
 // create connection
 const db = mysql.createConnection({
@@ -23,52 +19,13 @@ const app = express();
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cors());
-app.use(session({
-	secret: 'secret',
-	resave: true,
-	saveUninitialized: true
-}));
 app.use((req, res, next) => {
   res.setHeader('Content-Type', 'application/json; charset=utf-8');
   next();
 });
 
-// const RSA_PRIVATE_KEY = fs.readFileSync('./demos/jwtRS256.key');
-
-// function loginRoute(req, res) {
-
-//   const username = req.body.UserName, 
-//         password = req.body.Password;
-
-//   if (validateUserNameAndPassword()) {
-//     const userId = findUserIdForUserName(username);
-
-//     const jwtBearerToken = jwt.sign({}, RSA_PRIVATE_KEY, {
-//             algorithm: 'RS256',
-//             expiresIn: 120,
-//             subject: userId
-//         })
-
-//         // send the JWT back to the user
-//         // TODO - multiple options available
-
-//         // set it in an HTTP Only + Secure Cookie
-//         res.cookie("SESSIONID", jwtBearerToken, {httpOnly:true, secure:true});
-
-//         // set it in the HTTP Response body
-//         res.status(200).json({
-//           idToken: jwtBearerToken, 
-//           expiresIn: 16665
-//         });
-//   }
-//   else {
-//       // send status 401 Unauthorized
-//       res.sendStatus(401); 
-//   }
-// }
-
 app.get('/', (req, res) => {
-  res.send('Hello World!!!!')
+  res.send('Relive Webapp Backend is running')
 })
 
 //************************ functionality ***********************//
@@ -153,7 +110,14 @@ app.post('/api/createNewUser', (req, res) => {
               "BirthdayDate, Email, Sex, Athlete, DefaultLang) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, "+ req.body.Athlete +", ?)", 
               [CustomerID, LoginID, req.body.FirstName, req.body.LastName, req.body.PhoneNumber, req.body.CardID, req.body.JoinDate, req.body.BirthdayDate, req.body.Email, req.body.Sex, req.body.DefaultLang], 
               (err, res3) => {
-                if(err) throw err;
+                if(err) {
+                  db.query("DELETE FROM LoginDetails WHERE LoginID = ?;", [LoginID], (err2, result) => {
+                    if(err2) throw err2;
+                    console.log(result);
+                    // res.send(result);
+                  })
+                  throw err;
+                }
                 console.log(res3);
                 res.json({ 
                   success: true,
@@ -207,39 +171,8 @@ app.get('/api/DietPlan/getByCustomer/:id', (req, res) =>{
     console.log(result1)
     res.json(result1)
     res.end()
-    // db.query(sql2, [result1], (err, result2)=>{
-    //   if(err) throw err
-    //   console.log(result2)
-    //   res.json(result2)
-    //   res.end()
-    // })
   })
 })
-
-// get meals by dietplan with nutrient summary
-// app.get('/api/MealsSum/getByPlan/:id', (req, res) =>{
-//   const id = req.params.id
-//   // let sqlNowDate = Date.now()
-//   // sqlNowDate = sqlNowDate.toISOString
-//   let sql1 = "SELECT ProgramMealID, ProgramID, MealID FROM ProgramMeals WHERE ProgramID = " + id;
-//   let sql2 = "SELECT SelectMeals.ProgramID, Meals.MealID, Meals.MealStartPeriod, Meals.MealEndPeriod " +
-//   "FROM ("+sql1+") AS SelectMeals INNER JOIN Meals ON SelectMeals.MealID = Meals.MealID";
-//   let sql3 = "SELECT SelectMeals.ProgramID, SelectMeals.MealID, SelectMeals.MealStartPeriod, SelectMeals.MealEndPeriod, MealFoodItems.FoodID, MealFoodItems.FoodPortion "+
-//   "FROM ("+sql2+") AS SelectMeals INNER JOIN MealFoodItems ON SelectMeals.MealID = MealFoodItems.MealID";
-//   let sql4 = "SELECT * FROM ("+sql3+") AS SelectMeals INNER JOIN FoodItems ON SelectMeals.FoodID = FoodItems.FoodID";
-//   db.query(sql4, (err, result1) => {
-//     if(err) throw err
-//     console.log(result1)
-//     res.json(result1)
-//     res.end()
-//     // db.query(sql2, [result1], (err, result2)=>{
-//     //   if(err) throw err
-//     //   console.log(result2)
-//     //   res.json(result2)
-//     //   res.end()
-//     // })
-//   })
-// })
 
 // get meals by dietplan with nutrient summary
 app.get('/api/MealsSum/getByPlan/:id', (req, res) =>{
@@ -267,22 +200,27 @@ app.get('/api/MealsSum/getByPlan/:id', (req, res) =>{
     console.log(result1)
     res.json(result1)
     res.end()
-    // db.query(sql2, [result1], (err, result2)=>{
-    //   if(err) throw err
-    //   console.log(result2)
-    //   res.json(result2)
-    //   res.end()
-    // })
   })
 })
 
 
 // get foods by meal
+app.get('/api/MealFoods/getByMeal/:id', (req, res) =>{
+  const MealID = req.params.id
+  let sql1 = "SELECT * FROM MealFoodItems WHERE MealID = " + MealID;
+  // let sql2 = "SELECT * FROM DietaryPrograms WHERE ProgramID IN ("+sql1+")"
+  let sql3 = "SELECT * FROM ("+sql1+") AS MealFoods INNER JOIN FoodItems ON MealFoods.FoodID = FoodItems.FoodID"
+  db.query(sql3, (err, result1) => {
+    if(err) throw err
+    console.log(result1)
+    res.json(result1)
+    res.end()
+  })
+})
+
 
 //************************ PullDataQueris-over ***********************//
 //************************ PushDataQueries-start ***********************//
-
-// add/edit new measurements
 
 // add/edit dietplan (and all that which it entails)
 
@@ -290,13 +228,114 @@ app.get('/api/MealsSum/getByPlan/:id', (req, res) =>{
 
 //************************ PushDataQueries-over ***********************//
 
-
 //************************ getSystemRecommendation-start ***********************//
 
-// run model and get dietplan
+// run model and get dietplans
+app.get('/api/SystemRecommendation/getPlans/:id', (req, res) => {
+  const customerID = req.params.id
+  //Get Newest Only
+  // ['Height', 'Liquids', 'AbdominalFatPercentage', 'BMR', 'BMI', 'TotalWeight', 'FatPercentage', 'Bones', 'Muscles', 'Age']
+  let sql1 = "SELECT CustomerID, BirthdayDate FROM CustomerDetails WHERE CustomerID = " + customerID;  
+  let sql3 = "SELECT CustomerDetail.CustomerID, CustomerDetail.BirthdayDate, MeasurementDetails.MeasureID, MeasurementDetails.Height, MeasurementDetails.Liquids, MeasurementDetails.AbdominalFatPercentage, " + 
+  "MeasurementDetails.BMR, MeasurementDetails.BMI, MeasurementDetails.TotalWeight, MeasurementDetails.FatPercentage, MeasurementDetails.Bones, MeasurementDetails.Muscles " + 
+  "FROM ("+sql1+") AS CustomerDetail INNER JOIN MeasurementDetails ON CustomerDetail.CustomerID = MeasurementDetails.CustomerID ORDER BY MeasureID DESC LIMIT 1"
+
+  db.query(sql3, (err, result) => {
+    // console.log(result);
+
+    // if (err) {
+    //   console.error('Error executing query:', err);
+    //   return;
+    // }
+
+    // // Convert the query results to JSON
+    // const data = JSON.stringify(result);
+
+    // // Spawn a Python process
+    // const pythonProcess = spawn('python', ['model/runPredModel.py']);
+
+    // // Send the data to the Python script
+    // pythonProcess.stdin.write(data);
+    // pythonProcess.stdin.end();
+
+    // // Handle data returned from the Python script
+    // pythonProcess.stdout.on('data', (data) => {
+    //   console.log('Data from Python:', data.toString());
+    //   res.send(data.toString());
+    //   res.end()
+    // });
+
+    // // Handle errors from the Python script
+    // // pythonProcess.stderr.on('data', (data) => {
+    // //   console.error('Error from Python:', data.toString());
+    // //   res.send('Error from Python script');
+    // // });
+
+    // // Handle process exit
+    // pythonProcess.on('close', (code) => {
+    //   console.log(`Python process exited with code ${code}`);
+    // });
+    if (err) {
+      console.error('Error executing query:', err);
+      res.status(500).send('Database query error');
+      return; // Ensure we stop further execution
+    }
+
+    // If no results were found
+    if (result.length === 0) {
+      res.status(404).send('No data found for the given customer ID');
+      return; // Ensure we stop further execution
+    }
+
+    // Convert the query results to JSON
+    const data = JSON.stringify(result);
+
+    // Spawn a Python process
+    const pythonProcess = spawn('python', ['model/runPredModel.py']);
+
+    // Send the data to the Python script
+    pythonProcess.stdin.write(data);
+    pythonProcess.stdin.end();
+
+    // Collect the data from Python
+    let pythonData = '';
+
+    // Handle data returned from the Python script
+    pythonProcess.stdout.on('data', (data) => {
+      pythonData += data.toString();
+    });
+
+    // Handle errors from the Python script
+    pythonProcess.stderr.on('data', (data) => {
+      console.error('Error from Python:', data.toString());
+      if (!res.headersSent) { // Ensure we only send one response
+        res.status(500).send('Error from Python script');
+      }
+    });
+
+    // Handle process exit
+    pythonProcess.on('close', (code) => {
+      console.log('Python process exited with code ${code}');
+      if (code !== 0) {
+        // If the Python process exited with an error
+        if (!res.headersSent) {
+          res.status(500).send('Python script exited with an error');
+        }
+      } else {
+        // Send the collected Python data if not already sent
+        if (!res.headersSent) {
+          res.send(pythonData);
+        }
+      }
+  })
+})
+  
+})
+
 
 //************************ getSystemRecommendation-over ***********************//
 // each table gets its own section
+
 
 //************************ LoginDetails ***********************//
 //create table
@@ -331,26 +370,6 @@ app.post('/api/LoginDetails/addNew', (req, res) => {
     res.send('row added to LoginDetails Table: ' + JSON.stringify(req.body));
   })
 })
-
-// this version doesnt rely on sending the getting a correct ID
-// app.get('/addNewLoginDetail', (req, res) => {
-//   let sqlCount = "SELECT * FROM LoginDetails"
-//   db.query(sqlCount, (err, result) => {
-//     if(err) throw err;
-//     console.log(result.length);
-//     LoginID = result.length+1
-//     if (req.body.Phonenumber == undefined)
-//       res.send({error: "invalid parameters"});
-//     else {
-//       let sql = "INSERT INTO LoginDetails (LoginID, Phonenumber) VALUES (" + LoginID + ", '" + req.body.Phonenumber + "')"
-//       db.query(sql, (err, result) => {
-//         if(err) throw err;
-//         console.log(result);
-//         res.send(req.body);
-//       })
-//     }
-//   })
-// })
 
 //select all
 app.get('/api/LoginDetails/getAll', (req, res) => {
@@ -489,17 +508,47 @@ app.get('/api/MeasurementDetails/createTable', (req, res) => {
 
 //insert 
 app.post('/api/MeasurementDetails/addNew', (req, res) => {
-  let sql = "INSERT INTO MeasurementDetails (MeasureID, CustomerID, MeasureDate, TotalWeight, Height, BMI, BMR, "+
-  "AbdominalFatPercentage, FatPercentage, Muscles, Bones, Liquids, HipCircumference, HandCircumference, ThighCircumference, ChestCircumference) VALUES (" + 
-  req.body.MeasureID + ", " + req.body.CustomerID + ", '" + req.body.MeasureDate + "', " + req.body.TotalWeight + ", " + req.body.Height + ", " + 
-  req.body.BMI + ", " + req.body.BMR + ", " + req.body.AbdominalFatPercentage + ", " + req.body.FatPercentage + ", " + req.body.Muscles + ", " + 
-  req.body.Bones + ", " + req.body.Liquids + ", " + req.body.HipCircumference + ", " + req.body.HandCircumference + ", " + req.body.ThighCircumference + ", " + 
-  req.body.ChestCircumference + ")"
-  db.query(sql, (err, result) => {
-    if(err) throw err;
-    // console.log("NewMeasurement" + String(result));
-    res.send('row added to MeasurementDetails Table: ' + JSON.stringify(req.body));
-  })
+  console.log("hello?", req.body)
+  if (req.body.CustomerID == -1){
+    let sql1 = "SELECT * FROM MeasurementDetails";
+    db.query(sql1, (err, result) => {
+      let MeasureID = result.length
+      if(err) throw err;
+      db.query("INSERT INTO MeasurementDetails (MeasureID, CustomerID, MeasureDate, TotalWeight, Height, BMI, BMR, " + 
+        "AbdominalFatPercentage, FatPercentage, Muscles, Bones, Liquids, HipCircumference, HandCircumference, ThighCircumference, ChestCircumference) VALUES " + 
+        "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        [MeasureID, req.body.CustomerID, req.body.MeasureDate, req.body.TotalWeight, req.body.Height, req.body.BMI, req.body.BMR, req.body.AbdominalFatPercentage, 
+          req.body.FatPercentage, req.body.Muscles, req.body.Bones, req.body.Liquids, req.body.HipCircumference, req.body.HandCircumference, req.body.ThighCircumference, req.body.ChestCircumference], 
+        (err, res3) => {
+          if(err) {
+            db.query("DELETE FROM LoginDetails WHERE LoginID = ?;", [LoginID], (err2, result) => {
+              if(err2) throw err2;
+              console.log(result);
+              // res.send(result);
+            })
+            throw err;
+          }
+          console.log(res3);
+          res.json({ 
+            success: true,
+            message: "Successfully Added Measurement Detail",
+            customerID: CustomerID,
+          });
+          res.end()
+        })
+    });
+  }
+  // let sql = "INSERT INTO MeasurementDetails (MeasureID, CustomerID, MeasureDate, TotalWeight, Height, BMI, BMR, "+
+  // "AbdominalFatPercentage, FatPercentage, Muscles, Bones, Liquids, HipCircumference, HandCircumference, ThighCircumference, ChestCircumference) VALUES (" + 
+  // req.body.MeasureID + ", " + req.body.CustomerID + ", '" + req.body.MeasureDate + "', " + req.body.TotalWeight + ", " + req.body.Height + ", " + 
+  // req.body.BMI + ", " + req.body.BMR + ", " + req.body.AbdominalFatPercentage + ", " + req.body.FatPercentage + ", " + req.body.Muscles + ", " + 
+  // req.body.Bones + ", " + req.body.Liquids + ", " + req.body.HipCircumference + ", " + req.body.HandCircumference + ", " + req.body.ThighCircumference + ", " + 
+  // req.body.ChestCircumference + ")"
+  // db.query(sql, (err, result) => {
+  //   if(err) throw err;
+  //   // console.log("NewMeasurement" + String(result));
+  //   res.send('row added to MeasurementDetails Table: ' + JSON.stringify(req.body));
+  // })
 })
 
 //select all
@@ -511,6 +560,17 @@ app.get('/api/MeasurementDetails/getAll', (req, res) => {
     res.send(result);
   })
 })
+
+app.post('/api/MeasurementDetails/update', (req, res) => {
+  db.query("UPDATE MeasurementDetails SET MeasureDate = ?, TotalWeight = ?, Height = ?, BMI = ?, BMR = ?, AbdominalFatPercentage = ?, FatPercentage = ?, Muscles = ?, Bones = ?, Liquids = ?, HipCircumference = ?, HandCircumference = ?, "+ 
+    "ThighCircumference = ?, ChestCircumference = ? WHERE MeasureID = ?", [req.body.MeasureDate, req.body.TotalWeight, req.body.Height, req.body.BMI, req.body.BMR, req.body.AbdominalFatPercentage, 
+    req.body.FatPercentage, req.body.Muscles, req.body.Bones, req.body.Liquids, req.body.HipCircumference, req.body.HandCircumference, req.body.ThighCircumference, req.body.ChestCircumference, MeasureID], (err, result) => {
+    if(err) throw err;
+    console.log(result);
+    res.send(result);
+  })
+})
+
 //drop table
 app.get('/api/MeasurementDetails/dropTable', (req, res) => {
   let sql = "DROP TABLE MeasurementDetails"
@@ -528,7 +588,7 @@ app.get('/api/MeasurementDetails/find/:id', (req, res) => {
   db.query(sql, (err, result) => {
     if(err) throw err;
     console.log(result);
-    res.send(result);
+    res.json(result);
   })
 })
 //delete row
@@ -1162,51 +1222,6 @@ app.get('/api/testPythonChildProcess', (req, res) => {
   });
 })
 
-app.get('/api/exportLoginDetails', (req, res) => {
-  let sql = "SELECT * FROM LoginDetails;"
-  let temp_res = ''
-  db.query(sql, (err, result) => {
-    if(err) throw err;
-    console.log(result);
-    // res.send('LoginDetails Table: ' + JSON.stringify(result));
-    // temp_res += JSON.stringify(result)
-    // Query the database
-// connection.query('SELECT * FROM your_table', (error, results) => {
-  if (err) {
-    console.error('Error executing query:', err);
-    return;
-  }
-
-  // Convert the query results to JSON
-  const data = JSON.stringify(result);
-
-  // Spawn a Python process
-  const pythonProcess = spawn('python', ['loginanalysis.py']);
-
-  // Send the data to the Python script
-  pythonProcess.stdin.write(data);
-  pythonProcess.stdin.end();
-
-  // Handle data returned from the Python script
-  pythonProcess.stdout.on('data', (data) => {
-    console.log('Data from Python:', data.toString());
-    res.send(data.toString());
-  });
-
-  // Handle errors from the Python script
-  pythonProcess.stderr.on('data', (data) => {
-    console.error('Error from Python:', data.toString());
-    res.send('Error from Python script');
-  });
-
-  // Handle process exit
-  pythonProcess.on('close', (code) => {
-    console.log(`Python process exited with code ${code}`);
-  });
-// });
-  })
-  
-})
 
 // app.post('/addfooditem', (req, res) => {
 //   let sql = "INSERT INTO FoodItems (FoodID, FoodName, Category, Calories, Proteins, Fats, Carbohydrates, Sugars, ImagePath) Values" + 

@@ -1,38 +1,159 @@
-<div class="grid grid-cols-1 mb-8 gap-4 object-fill min-h-[90vh] w-full h-full">
-    <div class="flex flex-col place-items-center">
-      <div class="avatar p-4 m-4">
+<div class="w-[95%] flex justify-center mt-4">
+    <form class="flex flex-col place-items-center space-y-4 w-full max-w-lg mx-auto" [formGroup]="measurementForm" (ngSubmit)="handleSubmit()">
+        @if (measureDetail) {
+            <div class="label-text w-fit font-semibold text-xl hover:text-info">Update Measurement</div>
+            <label for="CustomerID" class="input input-bordered flex items-center gap-2 hidden">
+                <input type="number" [(ngModel)]="measureDetail.CustomerID" class="grow w-full p-2" formControlName="CustomerID" placeholder="CustomerID" value="{{ customerID }}" />
+            </label>
+            <label for="MeasureID" class="input input-bordered flex items-center gap-2 hidden">
+                <input type="number" [(ngModel)]="measureDetail.MeasureID" class="grow w-full p-2" formControlName="MeasureID" placeholder="MeasureID" value="{{ measureID }}" />
+            </label>
+            <div class="grid grid-cols-10 gap-4 w-full">
+                <label class="label col-span-4">
+                    <div class="label-text w-fit font-semibold text-xl hover:text-info">Current Weight:</div>
+                </label>
+                <input type="number" [(ngModel)]="measureDetail.TotalWeight" class="col-span-6 input input-bordered hover:input-info w-full max-w-xs hover:text-info" formControlName="TotalWeight" placeholder="Weight in kg"/>
+    
+                <label class="label col-span-4">
+                    <div class="label-text w-fit font-semibold text-xl hover:text-info">Current Height:</div>
+                </label>
+                <input type="number" [(ngModel)]="measureDetail.Height" class="col-span-6 input input-bordered hover:input-info w-full max-w-xs hover:text-info" formControlName="Height" placeholder="Height in cm"/>
+    
+                <label class="label col-span-4">
+                    <div class="label-text w-fit font-semibold text-xl hover:text-info">BMI:</div>
+                </label>
+                <input type="number" [(ngModel)]="measureDetail.BMI" class="col-span-6 input input-bordered hover:input-info w-full max-w-xs hover:text-info" formControlName="BMI" placeholder="BMI"/>
+                
+                <label class="label col-span-4">
+                    <div class="label-text w-fit font-semibold text-xl hover:text-info">BMR:</div>
+                </label>
+                <input type="number" [(ngModel)]="measureDetail.BMR" class="col-span-6 input input-bordered hover:input-info w-full max-w-xs hover:text-info" formControlName="BMR" placeholder="BMR"/>
+                
+                <label class="label col-span-4">
+                    <div class="label-text w-fit font-semibold text-xl hover:text-info">Abdominal Fat Percentage:</div>
+                </label>
+                <input type="number" [(ngModel)]="measureDetail.AbdominalFatPercentage" class="col-span-6 input input-bordered hover:input-info w-full max-w-xs hover:text-info" formControlName="AbdominalFatPercentage" placeholder="Abdominal Fat Percentage"/>
+            
+                <label class="label col-span-4">
+                    <div class="label-text w-fit font-semibold text-xl hover:text-info">Fat Percentage:</div>
+                </label>
+                <input type="number" [(ngModel)]="measureDetail.FatPercentage" class="col-span-6 input input-bordered hover:input-info w-full max-w-xs hover:text-info" formControlName="FatPercentage" placeholder="Fat Percentage"/>
+            
+                <label class="label col-span-4">
+                    <div class="label-text w-fit font-semibold text-xl hover:text-info">Muscle Mass:</div>
+                </label>
+                <input type="number" [(ngModel)]="measureDetail.Muscles" class="col-span-6 input input-bordered hover:input-info w-full max-w-xs hover:text-info" formControlName="Muscles" placeholder="Muscles"/>
+            
+                <label class="label col-span-4">
+                    <div class="label-text w-fit font-semibold text-xl hover:text-info">Bone Mass:</div>
+                </label>
+                <input type="number" [(ngModel)]="measureDetail.Bones" class="col-span-6 input input-bordered hover:input-info w-full max-w-xs hover:text-info" formControlName="Bones" placeholder="Bones"/>
+            
+                <label class="label col-span-4">
+                    <div class="label-text w-fit font-semibold text-xl hover:text-info">Liquid Mass:</div>
+                </label>
+                <input type="number" [(ngModel)]="measureDetail.Liquids" class="col-span-6 input input-bordered hover:input-info w-full max-w-xs hover:text-info" formControlName="Liquids" placeholder="Liquids"/>
+         
+                <label class="label col-span-4">
+                    <div class="label-text w-fit font-semibold text-xl hover:text-info">Hip Circumference:</div>
+                </label>
+                <input type="number" [(ngModel)]="measureDetail.HipCircumference" class="col-span-6 input input-bordered hover:input-info w-full max-w-xs hover:text-info" formControlName="HipCircumference" placeholder="Hip Circumference"/>
+           
+                <label class="label col-span-4">
+                    <div class="label-text w-fit font-semibold text-xl hover:text-info">Hand Circumference:</div>
+                </label>
+                <input type="number" [(ngModel)]="measureDetail.HandCircumference" class="col-span-6 input input-bordered hover:input-info w-full max-w-xs hover:text-info" formControlName="HandCircumference" placeholder="Hand Circumference"/>
+           
+                <label class="label col-span-4">
+                    <div class="label-text w-fit font-semibold text-xl hover:text-info">Thigh Circumference:</div>
+                </label>
+                <input type="number" [(ngModel)]="measureDetail.ThighCircumference" class="col-span-6 input input-bordered hover:input-info w-full max-w-xs hover:text-info" formControlName="ThighCircumference" placeholder="Thigh Circumference"/>
+            
+                <label class="label col-span-4">
+                    <div class="label-text w-fit font-semibold text-xl hover:text-info">Chest Circumference:</div>
+                </label>
+                <input type="number" [(ngModel)]="measureDetail.ChestCircumference" class="col-span-6 input input-bordered hover:input-info w-full max-w-xs hover:text-info" formControlName="ChestCircumference" placeholder="Chest Circumference"/>
+                
+                <button type="submit" class="btn btn-success w-full col-span-5">Submit</button>
+                <button class="btn btn-error w-full col-span-5" routerLink="../../../user-measurment/{{customerID}}">Back</button>
+            </div>
+        } @else {
+            <div class="label-text w-fit font-semibold text-xl hover:text-info">New Measurement</div>
+        <label for="CustomerID" class="input input-bordered flex items-center gap-2 hidden">
+            <input type="text" class="grow w-full p-2" formControlName="CustomerID" placeholder="CustomerID" value="{{ customerID }}" />
+        </label>
+        <label for="MeasureID" class="input input-bordered flex items-center gap-2 hidden">
+            <input type="text" class="grow w-full p-2" formControlName="MeasureID" placeholder="MeasureID" value="-1" />
+        </label>
+        <div class="grid grid-cols-10 gap-4 w-full">
+            <label class="label col-span-4">
+                <div class="label-text w-fit font-semibold text-xl hover:text-info">Current Weight:</div>
+            </label>
+            <input type="number" class="col-span-6 input input-bordered hover:input-info w-full max-w-xs hover:text-info" formControlName="TotalWeight" placeholder="Weight in kg"/>
 
-      </div>
-      <div class="prose p-6">
-        <h2>Add Measurments</h2>
-      </div>
-  
-  <div class="flex flex-col place-items-center space-y-4 max-w-md mx-auto">
-<!-- <div class="grid grid-cols-2 place-items-center space-y-4 max-w-md mx-auto"> -->
+            <label class="label col-span-4">
+                <div class="label-text w-fit font-semibold text-xl hover:text-info">Current Height:</div>
+            </label>
+            <input type="number" class="col-span-6 input input-bordered hover:input-info w-full max-w-xs hover:text-info" formControlName="Height" placeholder="Height in cm"/>
 
-    <label class="input input-bordered flex items-center gap-2">
-      <input type="text" class="grow w-full p-2" placeholder="Muscle" />
-    </label>
-    <label class="input input-bordered flex items-center gap-2">
-
-        <input type="text" class="grow w-full p-2" placeholder="Bones" />
-    </label>
-    <label class="input input-bordered flex items-center gap-2">
-        <input type="text" class="grow w-full p-2" placeholder="Liquids" />
-    </label>
-    <label class="input input-bordered flex items-center gap-2">
-        <input type="text" class="grow w-full p-2" placeholder="Hip Circumference" />
-    </label>
-    <label class="input input-bordered flex items-center gap-2">
-        <input type="text" class="grow w-full p-2" placeholder="Hand Circumference" />
-    </label>
-    <label class="input input-bordered flex items-center gap-2">
-        <input type="text" class="grow w-full p-2" placeholder="Thigh Circumference" />
-    </label>
-    <label class="input input-bordered flex items-center gap-2">
-        <input type="text" class="grow w-full p-2" placeholder="Chest Circumference" />
-    </label>
-    <button class="btn btn-primary hover:btn-accent w-[90%]"> Add </button>
-  </div>
-  </div>
-  </div>  
+            <label class="label col-span-4">
+                <div class="label-text w-fit font-semibold text-xl hover:text-info">BMI:</div>
+            </label>
+            <input type="number" class="col-span-6 input input-bordered hover:input-info w-full max-w-xs hover:text-info" formControlName="BMI" placeholder="BMI"/>
+            
+            <label class="label col-span-4">
+                <div class="label-text w-fit font-semibold text-xl hover:text-info">BMR:</div>
+            </label>
+            <input type="number" class="col-span-6 input input-bordered hover:input-info w-full max-w-xs hover:text-info" formControlName="BMR" placeholder="BMR"/>
+            
+            <label class="label col-span-4">
+                <div class="label-text w-fit font-semibold text-xl hover:text-info">Abdominal Fat Percentage:</div>
+            </label>
+            <input type="number" class="col-span-6 input input-bordered hover:input-info w-full max-w-xs hover:text-info" formControlName="AbdominalFatPercentage" placeholder="Abdominal Fat Percentage"/>
+        
+            <label class="label col-span-4">
+                <div class="label-text w-fit font-semibold text-xl hover:text-info">Fat Percentage:</div>
+            </label>
+            <input type="number" class="col-span-6 input input-bordered hover:input-info w-full max-w-xs hover:text-info" formControlName="FatPercentage" placeholder="Fat Percentage"/>
+        
+            <label class="label col-span-4">
+                <div class="label-text w-fit font-semibold text-xl hover:text-info">Muscle Mass:</div>
+            </label>
+            <input type="number" class="col-span-6 input input-bordered hover:input-info w-full max-w-xs hover:text-info" formControlName="Muscles" placeholder="Muscles"/>
+        
+            <label class="label col-span-4">
+                <div class="label-text w-fit font-semibold text-xl hover:text-info">Bone Mass:</div>
+            </label>
+            <input type="number" class="col-span-6 input input-bordered hover:input-info w-full max-w-xs hover:text-info" formControlName="Bones" placeholder="Bones"/>
+        
+            <label class="label col-span-4">
+                <div class="label-text w-fit font-semibold text-xl hover:text-info">Liquid Mass:</div>
+            </label>
+            <input type="number" class="col-span-6 input input-bordered hover:input-info w-full max-w-xs hover:text-info" formControlName="Liquids" placeholder="Liquids"/>
+     
+            <label class="label col-span-4">
+                <div class="label-text w-fit font-semibold text-xl hover:text-info">Hip Circumference:</div>
+            </label>
+            <input type="number" class="col-span-6 input input-bordered hover:input-info w-full max-w-xs hover:text-info" formControlName="HipCircumference" placeholder="Hip Circumference"/>
+       
+            <label class="label col-span-4">
+                <div class="label-text w-fit font-semibold text-xl hover:text-info">Hand Circumference:</div>
+            </label>
+            <input type="number" class="col-span-6 input input-bordered hover:input-info w-full max-w-xs hover:text-info" formControlName="HandCircumference" placeholder="Hand Circumference"/>
+       
+            <label class="label col-span-4">
+                <div class="label-text w-fit font-semibold text-xl hover:text-info">Thigh Circumference:</div>
+            </label>
+            <input type="number" class="col-span-6 input input-bordered hover:input-info w-full max-w-xs hover:text-info" formControlName="ThighCircumference" placeholder="Thigh Circumference"/>
+        
+            <label class="label col-span-4">
+                <div class="label-text w-fit font-semibold text-xl hover:text-info">Chest Circumference:</div>
+            </label>
+            <input type="number" class="col-span-6 input input-bordered hover:input-info w-full max-w-xs hover:text-info" formControlName="ChestCircumference" placeholder="Chest Circumference"/>
+            
+            <button type="submit" class="btn btn-success w-full col-span-5">Submit</button>
+            <button class="btn btn-error w-full col-span-5" routerLink="../../user-measurment/{{customerID}}">Back</button>
+        </div>
+    }
+    </form>
+</div>
