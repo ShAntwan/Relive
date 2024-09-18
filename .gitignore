@@ -2,3 +2,4 @@ newDockerDBAndExpress/
 relive-db/sql/
 relive-db/sql/data/
 filesToIgnore/
+relive-express/model/random_forest_model.pkl

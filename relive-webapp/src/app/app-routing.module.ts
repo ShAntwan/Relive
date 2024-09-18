@@ -29,7 +29,7 @@ const routes: Routes = [
   { path: 'new-user', component: NewUserComponent},
   { path: 'users', component: UsersComponent },
   { path: 'diet-program/:id', component: DietProgramComponent },
-  { path: 'SR', component: SystemRecommendationComponent },
+  { path: 'SR/:id', component: SystemRecommendationComponent },
   // { path: 'user-measurment', component: UserMeasurmentComponent },
   { path: 'user-measurment/:id', component: UserMeasurmentComponent },
   { path: 'last-diet-plan/:id', component: LastDietPlanComponent },
