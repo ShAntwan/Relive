@@ -68,7 +68,7 @@ app.use((req, res, next) => {
 // }
 
 app.get('/', (req, res) => {
-  res.send('Hello World!!!!')
+  res.send('Relive Webapp Backend is running')
 })
 
 //************************ functionality ***********************//
@@ -153,7 +153,14 @@ app.post('/api/createNewUser', (req, res) => {
               "BirthdayDate, Email, Sex, Athlete, DefaultLang) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, "+ req.body.Athlete +", ?)", 
               [CustomerID, LoginID, req.body.FirstName, req.body.LastName, req.body.PhoneNumber, req.body.CardID, req.body.JoinDate, req.body.BirthdayDate, req.body.Email, req.body.Sex, req.body.DefaultLang], 
               (err, res3) => {
-                if(err) throw err;
+                if(err) {
+                  db.query("DELETE FROM LoginDetails WHERE LoginID = ?;", [LoginID], (err2, result) => {
+                    if(err2) throw err2;
+                    console.log(result);
+                    // res.send(result);
+                  })
+                  throw err;
+                }
                 console.log(res3);
                 res.json({ 
                   success: true,
@@ -207,39 +214,8 @@ app.get('/api/DietPlan/getByCustomer/:id', (req, res) =>{
     console.log(result1)
     res.json(result1)
     res.end()
-    // db.query(sql2, [result1], (err, result2)=>{
-    //   if(err) throw err
-    //   console.log(result2)
-    //   res.json(result2)
-    //   res.end()
-    // })
   })
 })
-
-// get meals by dietplan with nutrient summary
-// app.get('/api/MealsSum/getByPlan/:id', (req, res) =>{
-//   const id = req.params.id
-//   // let sqlNowDate = Date.now()
-//   // sqlNowDate = sqlNowDate.toISOString
-//   let sql1 = "SELECT ProgramMealID, ProgramID, MealID FROM ProgramMeals WHERE ProgramID = " + id;
-//   let sql2 = "SELECT SelectMeals.ProgramID, Meals.MealID, Meals.MealStartPeriod, Meals.MealEndPeriod " +
-//   "FROM ("+sql1+") AS SelectMeals INNER JOIN Meals ON SelectMeals.MealID = Meals.MealID";
-//   let sql3 = "SELECT SelectMeals.ProgramID, SelectMeals.MealID, SelectMeals.MealStartPeriod, SelectMeals.MealEndPeriod, MealFoodItems.FoodID, MealFoodItems.FoodPortion "+
-//   "FROM ("+sql2+") AS SelectMeals INNER JOIN MealFoodItems ON SelectMeals.MealID = MealFoodItems.MealID";
-//   let sql4 = "SELECT * FROM ("+sql3+") AS SelectMeals INNER JOIN FoodItems ON SelectMeals.FoodID = FoodItems.FoodID";
-//   db.query(sql4, (err, result1) => {
-//     if(err) throw err
-//     console.log(result1)
-//     res.json(result1)
-//     res.end()
-//     // db.query(sql2, [result1], (err, result2)=>{
-//     //   if(err) throw err
-//     //   console.log(result2)
-//     //   res.json(result2)
-//     //   res.end()
-//     // })
-//   })
-// })
 
 // get meals by dietplan with nutrient summary
 app.get('/api/MealsSum/getByPlan/:id', (req, res) =>{
@@ -278,11 +254,27 @@ app.get('/api/MealsSum/getByPlan/:id', (req, res) =>{
 
 
 // get foods by meal
+app.get('/api/MealFoods/getByMeal/:id', (req, res) =>{
+  const MealID = req.params.id
+  let sql1 = "SELECT * FROM MealFoodItems WHERE MealID = " + MealID;
+  // let sql2 = "SELECT * FROM DietaryPrograms WHERE ProgramID IN ("+sql1+")"
+  let sql3 = "SELECT * FROM ("+sql1+") AS MealFoods INNER JOIN FoodItems ON MealFoods.FoodID = FoodItems.FoodID"
+  db.query(sql3, (err, result1) => {
+    if(err) throw err
+    console.log(result1)
+    res.json(result1)
+    res.end()
+  })
+})
+
 
 //************************ PullDataQueris-over ***********************//
 //************************ PushDataQueries-start ***********************//
 
-// add/edit new measurements
+// add new measurements
+// app.post('/api/AddNewMeasurements', (req, res) => {
+ 
+// })
 
 // add/edit dietplan (and all that which it entails)
 
@@ -297,6 +289,7 @@ app.get('/api/MealsSum/getByPlan/:id', (req, res) =>{
 
 //************************ getSystemRecommendation-over ***********************//
 // each table gets its own section
+
 
 //************************ LoginDetails ***********************//
 //create table
@@ -489,17 +482,47 @@ app.get('/api/MeasurementDetails/createTable', (req, res) => {
 
 //insert 
 app.post('/api/MeasurementDetails/addNew', (req, res) => {
-  let sql = "INSERT INTO MeasurementDetails (MeasureID, CustomerID, MeasureDate, TotalWeight, Height, BMI, BMR, "+
-  "AbdominalFatPercentage, FatPercentage, Muscles, Bones, Liquids, HipCircumference, HandCircumference, ThighCircumference, ChestCircumference) VALUES (" + 
-  req.body.MeasureID + ", " + req.body.CustomerID + ", '" + req.body.MeasureDate + "', " + req.body.TotalWeight + ", " + req.body.Height + ", " + 
-  req.body.BMI + ", " + req.body.BMR + ", " + req.body.AbdominalFatPercentage + ", " + req.body.FatPercentage + ", " + req.body.Muscles + ", " + 
-  req.body.Bones + ", " + req.body.Liquids + ", " + req.body.HipCircumference + ", " + req.body.HandCircumference + ", " + req.body.ThighCircumference + ", " + 
-  req.body.ChestCircumference + ")"
-  db.query(sql, (err, result) => {
-    if(err) throw err;
-    // console.log("NewMeasurement" + String(result));
-    res.send('row added to MeasurementDetails Table: ' + JSON.stringify(req.body));
-  })
+  console.log("hello?", req.body)
+  if (req.body.CustomerID == -1){
+    let sql1 = "SELECT * FROM MeasurementDetails";
+    db.query(sql1, (err, result) => {
+      let MeasureID = result.length
+      if(err) throw err;
+      db.query("INSERT INTO MeasurementDetails (MeasureID, CustomerID, MeasureDate, TotalWeight, Height, BMI, BMR, " + 
+        "AbdominalFatPercentage, FatPercentage, Muscles, Bones, Liquids, HipCircumference, HandCircumference, ThighCircumference, ChestCircumference) VALUES " + 
+        "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        [MeasureID, req.body.CustomerID, req.body.MeasureDate, req.body.TotalWeight, req.body.Height, req.body.BMI, req.body.BMR, req.body.AbdominalFatPercentage, 
+          req.body.FatPercentage, req.body.Muscles, req.body.Bones, req.body.Liquids, req.body.HipCircumference, req.body.HandCircumference, req.body.ThighCircumference, req.body.ChestCircumference], 
+        (err, res3) => {
+          if(err) {
+            db.query("DELETE FROM LoginDetails WHERE LoginID = ?;", [LoginID], (err2, result) => {
+              if(err2) throw err2;
+              console.log(result);
+              // res.send(result);
+            })
+            throw err;
+          }
+          console.log(res3);
+          res.json({ 
+            success: true,
+            message: "Successfully Added Measurement Detail",
+            customerID: CustomerID,
+          });
+          res.end()
+        })
+    });
+  }
+  // let sql = "INSERT INTO MeasurementDetails (MeasureID, CustomerID, MeasureDate, TotalWeight, Height, BMI, BMR, "+
+  // "AbdominalFatPercentage, FatPercentage, Muscles, Bones, Liquids, HipCircumference, HandCircumference, ThighCircumference, ChestCircumference) VALUES (" + 
+  // req.body.MeasureID + ", " + req.body.CustomerID + ", '" + req.body.MeasureDate + "', " + req.body.TotalWeight + ", " + req.body.Height + ", " + 
+  // req.body.BMI + ", " + req.body.BMR + ", " + req.body.AbdominalFatPercentage + ", " + req.body.FatPercentage + ", " + req.body.Muscles + ", " + 
+  // req.body.Bones + ", " + req.body.Liquids + ", " + req.body.HipCircumference + ", " + req.body.HandCircumference + ", " + req.body.ThighCircumference + ", " + 
+  // req.body.ChestCircumference + ")"
+  // db.query(sql, (err, result) => {
+  //   if(err) throw err;
+  //   // console.log("NewMeasurement" + String(result));
+  //   res.send('row added to MeasurementDetails Table: ' + JSON.stringify(req.body));
+  // })
 })
 
 //select all
@@ -511,6 +534,17 @@ app.get('/api/MeasurementDetails/getAll', (req, res) => {
     res.send(result);
   })
 })
+
+app.post('/api/MeasurementDetails/update', (req, res) => {
+  db.query("UPDATE MeasurementDetails SET MeasureDate = ?, TotalWeight = ?, Height = ?, BMI = ?, BMR = ?, AbdominalFatPercentage = ?, FatPercentage = ?, Muscles = ?, Bones = ?, Liquids = ?, HipCircumference = ?, HandCircumference = ?, "+ 
+    "ThighCircumference = ?, ChestCircumference = ? WHERE MeasureID = ?", [req.body.MeasureDate, req.body.TotalWeight, req.body.Height, req.body.BMI, req.body.BMR, req.body.AbdominalFatPercentage, 
+    req.body.FatPercentage, req.body.Muscles, req.body.Bones, req.body.Liquids, req.body.HipCircumference, req.body.HandCircumference, req.body.ThighCircumference, req.body.ChestCircumference, MeasureID], (err, result) => {
+    if(err) throw err;
+    console.log(result);
+    res.send(result);
+  })
+})
+
 //drop table
 app.get('/api/MeasurementDetails/dropTable', (req, res) => {
   let sql = "DROP TABLE MeasurementDetails"
@@ -528,7 +562,7 @@ app.get('/api/MeasurementDetails/find/:id', (req, res) => {
   db.query(sql, (err, result) => {
     if(err) throw err;
     console.log(result);
-    res.send(result);
+    res.json(result);
   })
 })
 //delete row

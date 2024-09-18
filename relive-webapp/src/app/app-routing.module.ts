@@ -38,8 +38,9 @@ const routes: Routes = [
   { path: 'user-login', component: UserLoginComponent },
   { path: 'user-new-diet-plan', component: UserNewDietPlanComponent },
   { path: 'test-page-zoom', component: ZoomTestComponent},
-  { path: 'add-measurments', component: AddMeasurmentsComponent},
-  { path: 'meal-edit/:id', component: MealEditorComponent},
+  { path: 'add-measurments/:custID', component: AddMeasurmentsComponent},
+  { path: 'add-measurments/:custID/:measureID', component: AddMeasurmentsComponent},
+  { path: 'meal-editor/:id', component: MealEditorComponent},
 ];
 
 @NgModule({

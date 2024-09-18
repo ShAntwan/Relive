@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Food } from '../interfaces/food';
-// import { FOODS } from './mock-data';
+import { MealFood } from '../interfaces/meal-food';
 import { Observable, of } from 'rxjs';
 import { baseURL } from './baseURL';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
@@ -10,33 +10,13 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 })
 export class FoodService {
   getAll = 'FoodItems/getAll/';
-  // getAllItems = "FoodItems/getAll/"
   getSpecific = 'FoodItems/get/';
   updateFood = 'FoodItems/update/'
+  getFoodsByMeal = 'MealFoods/getByMeal/'
 
   constructor(
     private http: HttpClient,
-    // private messageService: MessageService
   ) { }
-
-  private foodsUrl = 'api/foods';
-  // private log(message: string) {
-    // this.messageService.add(`FoodService: ${message}`);
-  // }
-
-  // getFoods(): Observable<Food[]> {
-  //   const foods = of(FOODS);
-  //   this.messageService.add('FoodService: fetched foods');
-  //   return foods;
-  // }
-
-  // getFood(FoodID: number): Observable<Food> {
-  //   // For now, assume that a food with the specified `id` always exists.
-  //   // Error handling will be added in the next step of the tutorial.
-  //   const food = FOODS.find(f => f.FoodID === FoodID)!;
-  //   this.messageService.add(`FoodService: fetched food id=${FoodID}`);
-  //   return of(food);
-  // }
 
   async getFoodsAPI(): Promise<Food[]> {
     // gets all food items
@@ -60,4 +40,8 @@ export class FoodService {
     return this.http.post(baseURL+this.updateFood, foodItem)
   }
 
+  getFoodItemsByMeal(mealID: number): Observable<MealFood[]> {
+    return this.http.get<MealFood[]>(baseURL+this.getFoodsByMeal+String(mealID))
+    // return this.http.get<Food[]>(baseURL+this.getAllItems)
+  }
 }

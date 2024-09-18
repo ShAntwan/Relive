@@ -61,6 +61,9 @@
                       <td>{{ meal.TotalFats }}</td>
                       <td>{{ meal.TotalSugars }}</td>
                       <td>{{ meal.TotalSodium }}</td>
+                      <td>
+                        <div routerLink="/meal-editor/{{meal.MealID}}" class="btn btn-primary transition duration-150 ease-in-out hover:scale-110 btn-sm">Edit</div>
+                      </td>
                     }
                 </tbody>
               </table>

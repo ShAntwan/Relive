@@ -1,1 +1,40 @@
-<p>meal-editor works!</p>
+<!-- <div class="grid grid-cols-1 gap-4 object-fill min-h-[90vh] w-full h-full">
+    <div class="stack">
+        <div class="bg-primary text-primary-content grid h-20 w-32 place-content-center rounded text-center">
+            Meal Item 1
+        </div>
+        <div class="bg-accent text-accent-content grid h-20 w-32 place-content-center rounded text-center">
+            Meal Item 2
+        </div>
+        <div class="bg-secondary text-secondary-content grid h-20 w-32 place-content-center rounded text-center">
+            Meal Item 3
+        </div>
+      </div>
+</div> -->
+<div class="flex justify-center mt-4">
+    <div class="grid grid-cols-2 gap-20">
+        <div class="card mt-3 mb-3 h-96 w-96 bg-base-300" *ngFor="let food of mealFoods">
+            <figure><img class="w-full" src="../assets/{{food.ImagePath}}" alt="Album"/></figure>
+            <div class="card-body">
+                <h2 class="card-title">{{food.FoodName}}</h2>
+                <div class="grid grid-cols-5 w-full">
+                    <div class="col-span-3 flex flex-col mx-1">
+                        <div class="badge badge-accent my-1">Carbohydrates: {{food.Carbohydrates}}mg</div>
+                        <div class="badge badge-accent my-1">Proteins: {{food.Proteins}}mg</div>
+                        <div class="badge badge-accent my-1">Sodium: {{food.Sodium}}mg</div>
+                    </div>
+                    <div class="col-span-2 flex flex-col mx-1">
+                        <div class="badge badge-accent my-1">Fats: {{food.Fats}}mg</div>
+                        <div class="badge badge-accent my-1">Sugars: {{food.Sugars}}mg</div>
+                    </div>
+                    <div class="col-span-5 flex flex-col mt-4 mx-1">
+                        <div class="badge badge-primary my-1">Portion: {{food.FoodPortion}}mg</div>
+                    </div>
+                </div>
+                <div class="card-actions justify-between mt-4">
+                    <button class="btn btn-error" routerLink="/detail/{{food.FoodID}}">Edit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
